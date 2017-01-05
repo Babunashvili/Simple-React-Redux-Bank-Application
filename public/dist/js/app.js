@@ -21580,13 +21580,13 @@
 
 		_createClass(App, [{
 			key: 'createTransaction',
-			value: function createTransaction(amount, desc) {
+			value: function createTransaction(amount, desc, mark) {
 
 				var date = dateFormat(new Date(), "d-mm-yyyy h:MM:ss TT");
 
 				var obj = {
 					date: date.toString(),
-					amount: '' + amount,
+					amount: '' + mark + amount,
 					description: desc
 				};
 
@@ -21598,7 +21598,7 @@
 				if (permission === true) {
 
 					this.props.onDeposit(amount);
-					this.createTransaction(amount, "Deposit into account");
+					this.createTransaction(amount, "Deposit into account", "+");
 				}
 			}
 		}, {
@@ -21608,7 +21608,7 @@
 				if (permission === true) {
 
 					this.props.onWithdraw(amount);
-					this.createTransaction(amount, "Withdraw from account");
+					this.createTransaction(amount, "Withdraw from account", "-");
 				}
 			}
 		}, {

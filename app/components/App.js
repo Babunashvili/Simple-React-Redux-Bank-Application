@@ -24,14 +24,14 @@ class App extends Component {
 		this.handleWithdraw =this.handleWithdraw.bind(this)
 	}
 
-	createTransaction(amount, desc) {
+	createTransaction(amount, desc, mark) {
 		
 		var date = dateFormat(new Date(), "d-mm-yyyy h:MM:ss TT")
 		
 
 		let obj = {
 			date: date.toString(),
-			amount: `${amount}`,
+			amount: `${mark}${amount}`,
 			description: desc
 		}
 		
@@ -43,7 +43,7 @@ class App extends Component {
 		if(permission === true){
 			
 			this.props.onDeposit(amount)
-			this.createTransaction(amount, "Deposit into account") 
+			this.createTransaction(amount, "Deposit into account", "+") 
 			
 		}
 		
@@ -53,7 +53,7 @@ class App extends Component {
 		if(permission === true){
 			
 			this.props.onWithdraw(amount)
-			this.createTransaction(amount, "Withdraw from account")
+			this.createTransaction(amount, "Withdraw from account", "-")
 		}
 	}
 	
