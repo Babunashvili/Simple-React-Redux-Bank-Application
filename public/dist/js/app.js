@@ -21507,11 +21507,15 @@
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _Col = __webpack_require__(316);
+	var _History = __webpack_require__(320);
+
+	var _History2 = _interopRequireDefault(_History);
+
+	var _Col = __webpack_require__(318);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(317);
+	var _Row = __webpack_require__(319);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
@@ -21563,6 +21567,11 @@
 																	_Col2.default,
 																	{ lg: 6, md: 6, sm: 12 },
 																	_react2.default.createElement(_Deposit2.default, null)
+															),
+															_react2.default.createElement(
+																	_Col2.default,
+																	{ lg: 12, md: 12, sm: 12 },
+																	_react2.default.createElement(_History2.default, null)
 															)
 													)
 											)
@@ -23966,10 +23975,11 @@
 					'div',
 					{ className: 'well' },
 					_react2.default.createElement(
-						'h1',
+						'h3',
 						{ className: 'text-center' },
 						'Withdraw'
 					),
+					_react2.default.createElement('hr', null),
 					_react2.default.createElement(
 						'form',
 						null,
@@ -24980,10 +24990,11 @@
 					'div',
 					{ className: 'well' },
 					_react2.default.createElement(
-						'h1',
+						'h3',
 						{ className: 'text-center' },
 						'Deposit'
 					),
+					_react2.default.createElement('hr', null),
 					_react2.default.createElement(
 						'form',
 						null,
@@ -27790,7 +27801,114 @@
 	}
 
 /***/ },
-/* 316 */
+/* 316 */,
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends3 = __webpack_require__(216);
+
+	var _extends4 = _interopRequireDefault(_extends3);
+
+	var _objectWithoutProperties2 = __webpack_require__(215);
+
+	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+	var _classCallCheck2 = __webpack_require__(223);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(224);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(260);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _classnames = __webpack_require__(268);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _bootstrapUtils = __webpack_require__(271);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var propTypes = {
+	  striped: _react2['default'].PropTypes.bool,
+	  bordered: _react2['default'].PropTypes.bool,
+	  condensed: _react2['default'].PropTypes.bool,
+	  hover: _react2['default'].PropTypes.bool,
+	  responsive: _react2['default'].PropTypes.bool
+	};
+
+	var defaultProps = {
+	  bordered: false,
+	  condensed: false,
+	  hover: false,
+	  responsive: false,
+	  striped: false
+	};
+
+	var Table = function (_React$Component) {
+	  (0, _inherits3['default'])(Table, _React$Component);
+
+	  function Table() {
+	    (0, _classCallCheck3['default'])(this, Table);
+	    return (0, _possibleConstructorReturn3['default'])(this, _React$Component.apply(this, arguments));
+	  }
+
+	  Table.prototype.render = function render() {
+	    var _extends2;
+
+	    var _props = this.props,
+	        striped = _props.striped,
+	        bordered = _props.bordered,
+	        condensed = _props.condensed,
+	        hover = _props.hover,
+	        responsive = _props.responsive,
+	        className = _props.className,
+	        props = (0, _objectWithoutProperties3['default'])(_props, ['striped', 'bordered', 'condensed', 'hover', 'responsive', 'className']);
+
+	    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
+	        bsProps = _splitBsProps[0],
+	        elementProps = _splitBsProps[1];
+
+	    var classes = (0, _extends4['default'])({}, (0, _bootstrapUtils.getClassSet)(bsProps), (_extends2 = {}, _extends2[(0, _bootstrapUtils.prefix)(bsProps, 'striped')] = striped, _extends2[(0, _bootstrapUtils.prefix)(bsProps, 'bordered')] = bordered, _extends2[(0, _bootstrapUtils.prefix)(bsProps, 'condensed')] = condensed, _extends2[(0, _bootstrapUtils.prefix)(bsProps, 'hover')] = hover, _extends2));
+
+	    var table = _react2['default'].createElement('table', (0, _extends4['default'])({}, elementProps, {
+	      className: (0, _classnames2['default'])(className, classes)
+	    }));
+
+	    if (responsive) {
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: (0, _bootstrapUtils.prefix)(bsProps, 'responsive') },
+	        table
+	      );
+	    }
+
+	    return table;
+	  };
+
+	  return Table;
+	}(_react2['default'].Component);
+
+	Table.propTypes = propTypes;
+	Table.defaultProps = defaultProps;
+
+	exports['default'] = (0, _bootstrapUtils.bsClass)('table', Table);
+	module.exports = exports['default'];
+
+/***/ },
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28063,7 +28181,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28147,6 +28265,114 @@
 
 	exports['default'] = (0, _bootstrapUtils.bsClass)('row', Row);
 	module.exports = exports['default'];
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Table = __webpack_require__(317);
+
+	var _Table2 = _interopRequireDefault(_Table);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var History = function (_Component) {
+		_inherits(History, _Component);
+
+		function History() {
+			_classCallCheck(this, History);
+
+			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).apply(this, arguments));
+		}
+
+		_createClass(History, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					{ className: "well" },
+					_react2.default.createElement(
+						"h3",
+						{ className: "text-center" },
+						"Transactions History"
+					),
+					_react2.default.createElement("hr", null),
+					_react2.default.createElement(
+						_Table2.default,
+						{ responsive: true },
+						_react2.default.createElement(
+							"thead",
+							null,
+							_react2.default.createElement(
+								"tr",
+								null,
+								_react2.default.createElement(
+									"th",
+									null,
+									"Date"
+								),
+								_react2.default.createElement(
+									"th",
+									null,
+									"Description"
+								),
+								_react2.default.createElement(
+									"th",
+									null,
+									"Amount"
+								)
+							)
+						),
+						_react2.default.createElement(
+							"tbody",
+							null,
+							_react2.default.createElement(
+								"tr",
+								null,
+								_react2.default.createElement(
+									"td",
+									null,
+									"rame"
+								),
+								_react2.default.createElement(
+									"td",
+									null,
+									"rame"
+								),
+								_react2.default.createElement(
+									"td",
+									null,
+									"rame"
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return History;
+	}(_react.Component);
+
+	exports.default = History;
 
 /***/ }
 /******/ ]);

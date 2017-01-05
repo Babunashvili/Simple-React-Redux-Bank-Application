@@ -11,8 +11,8 @@ class Deposit extends Component {
 
 			<div className="well">
 
-				<h1 className="text-center">Deposit</h1>
-
+				<h3 className="text-center">Deposit</h3>
+				<hr/>
 				<form>
 					<FormGroup>
 

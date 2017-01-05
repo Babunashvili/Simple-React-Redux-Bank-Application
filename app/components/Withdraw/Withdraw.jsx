@@ -11,8 +11,8 @@ class Withdraw extends Component {
 
 			<div className="well">
 
-				<h1 className="text-center">Withdraw</h1>
-
+				<h3 className="text-center">Withdraw</h3>
+				<hr/>
 				<form>
 					<FormGroup>
 
