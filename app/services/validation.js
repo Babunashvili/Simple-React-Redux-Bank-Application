@@ -1,5 +1,5 @@
-export const checkBalance = (amount) => {
-    if (amount <= this.props.balance)
+export const checkBalance = (amount,balance) => {
+    if (amount <= balance)
         return true
     return false
 }

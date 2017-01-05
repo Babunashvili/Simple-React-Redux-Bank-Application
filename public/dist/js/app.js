@@ -24047,7 +24047,7 @@
 				e.preventDefault();
 				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
-						if ((0, _validation.checkBalance)(this.state.value)) {
+						if ((0, _validation.checkBalance)(this.state.value, this.props.balance)) {
 							this.props.handleWithdraw(this.state.value, this.state.permission);
 							this.setState({
 								value: ''
@@ -29878,8 +29878,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var checkBalance = exports.checkBalance = function checkBalance(amount) {
-	    if (amount <= undefined.props.balance) return true;
+	var checkBalance = exports.checkBalance = function checkBalance(amount, balance) {
+	    if (amount <= balance) return true;
 	    return false;
 	};
 
