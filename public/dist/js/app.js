@@ -24007,7 +24007,12 @@
 		function Withdraw(props) {
 			_classCallCheck(this, Withdraw);
 
-			return _possibleConstructorReturn(this, (Withdraw.__proto__ || Object.getPrototypeOf(Withdraw)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Withdraw.__proto__ || Object.getPrototypeOf(Withdraw)).call(this, props));
+
+			_this.state = {
+				value: ''
+			};
+			return _this;
 		}
 
 		_createClass(Withdraw, [{
@@ -24021,6 +24026,9 @@
 			value: function getAmount(e) {
 				e.preventDefault();
 				this.props.handleWithdraw(this.state.value, this.state.permission);
+				this.setState({
+					value: ''
+				});
 			}
 		}, {
 			key: 'render',
@@ -24049,6 +24057,7 @@
 
 								type: 'number',
 								placeholder: 'Enter amount',
+								value: this.state.value,
 								onChange: this.onChangeHandle.bind(this)
 
 							})
@@ -25035,7 +25044,12 @@
 		function Deposit(props) {
 			_classCallCheck(this, Deposit);
 
-			return _possibleConstructorReturn(this, (Deposit.__proto__ || Object.getPrototypeOf(Deposit)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Deposit.__proto__ || Object.getPrototypeOf(Deposit)).call(this, props));
+
+			_this.state = {
+				value: ''
+			};
+			return _this;
 		}
 
 		_createClass(Deposit, [{
@@ -25049,6 +25063,9 @@
 			value: function getAmount(e) {
 				e.preventDefault();
 				this.props.handleDeposit(this.state.value, this.state.permission);
+				this.setState({
+					value: ''
+				});
 			}
 		}, {
 			key: 'render',
@@ -25077,6 +25094,7 @@
 
 								type: 'number',
 								placeholder: 'Enter amount',
+								value: this.state.value,
 								onChange: this.onChangeHandle.bind(this)
 
 							})
@@ -25177,7 +25195,7 @@
 							null,
 							this.props.balance
 						),
-						' $'
+						'$'
 					)
 				);
 			}

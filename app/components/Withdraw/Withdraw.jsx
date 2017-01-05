@@ -9,7 +9,9 @@ class Withdraw extends Component {
 
 	constructor(props) {
 		super(props)
-		
+		this.state = {
+			value: ''
+		}
 	}
 	onChangeHandle(e){
 		
@@ -19,6 +21,9 @@ class Withdraw extends Component {
 	getAmount(e){
 		e.preventDefault()
 		this.props.handleWithdraw(this.state.value, this.state.permission)
+		this.setState({
+			value: ''
+		})
 	}
 
 	render() {
@@ -36,6 +41,7 @@ class Withdraw extends Component {
 
 							type="number"
 							placeholder="Enter amount"
+							value={this.state.value}
 							onChange={this.onChangeHandle.bind(this)}
 
 						/>

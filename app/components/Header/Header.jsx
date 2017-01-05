@@ -16,7 +16,7 @@ class Header extends Component {
 					</Navbar.Brand>
 				</Navbar.Header>
 				<Navbar.Text pullRight>
-					Balance <span>{this.props.balance}</span> $
+					Balance <span>{this.props.balance}</span>$
 				</Navbar.Text>
 				
 			</Navbar>
