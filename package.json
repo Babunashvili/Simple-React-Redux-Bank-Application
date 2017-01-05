@@ -58,6 +58,7 @@
     "pug": "^2.0.0-beta6",
     "react": "^15.3.2",
     "react-addons": "^0.9.1-deprecated",
+    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.3.2",
     "react-mixin": "^3.0.5",
     "react-redux": "^4.4.5",
