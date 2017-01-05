@@ -55,7 +55,7 @@ class App extends Component {
 	        	<Grid>
 		        	<Row>
 			        	<Col lg={6} md={6} sm={12}>
-			        		<Widthdraw handleWithdraw={this.handleWithdraw} />
+			        		<Widthdraw handleWithdraw={this.handleWithdraw} balance={this.props.balance} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
 			        		<Deposit handleDeposit={this.handleDeposit} />

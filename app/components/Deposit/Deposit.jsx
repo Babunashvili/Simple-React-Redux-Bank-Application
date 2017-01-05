@@ -5,6 +5,10 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 
+
+import { checkEmptyAmount } from '../../services/validation'
+import { checkAmountQty } from '../../services/validation'
+
 class Deposit extends Component {
 	constructor(props) {
 		super(props)
@@ -15,12 +19,21 @@ class Deposit extends Component {
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
+
 	getAmount(e){
 		e.preventDefault()
-		this.props.handleDeposit(this.state.value, this.state.permission)
-		this.setState({
-			value: ''
-		})
+		if(checkEmptyAmount(this.state.value)){
+			if(checkAmountQty(this.state.value)){
+                this.props.handleDeposit(this.state.value, this.state.permission)
+				this.setState({
+					value: ''
+				}) 
+			}else{
+				console.log('Withdrow amount must be > 0')
+			}
+		}else{
+			console.log('Deposit Amount is required!') 
+		}
 	}
 
 	render() {

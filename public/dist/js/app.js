@@ -21622,7 +21622,7 @@
 								_react2.default.createElement(
 									_Col2.default,
 									{ lg: 6, md: 6, sm: 12 },
-									_react2.default.createElement(_Withdraw2.default, { handleWithdraw: this.handleWithdraw })
+									_react2.default.createElement(_Withdraw2.default, { handleWithdraw: this.handleWithdraw, balance: this.props.balance })
 								),
 								_react2.default.createElement(
 									_Col2.default,
@@ -24012,6 +24012,8 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
+	var _validation = __webpack_require__(345);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24043,10 +24045,22 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				this.props.handleWithdraw(this.state.value, this.state.permission);
-				this.setState({
-					value: ''
-				});
+				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+					if ((0, _validation.checkAmountQty)(this.state.value)) {
+						if ((0, _validation.checkBalance)(this.state.value)) {
+							this.props.handleWithdraw(this.state.value, this.state.permission);
+							this.setState({
+								value: ''
+							});
+						} else {
+							console.log('You dont have enough money for withdraw!');
+						}
+					} else {
+						console.log('Withdrow amount must be > 0');
+					}
+				} else {
+					console.log('Withdrow Amount is required!');
+				}
 			}
 		}, {
 			key: 'render',
@@ -25050,6 +25064,8 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
+	var _validation = __webpack_require__(345);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25081,10 +25097,18 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				this.props.handleDeposit(this.state.value, this.state.permission);
-				this.setState({
-					value: ''
-				});
+				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+					if ((0, _validation.checkAmountQty)(this.state.value)) {
+						this.props.handleDeposit(this.state.value, this.state.permission);
+						this.setState({
+							value: ''
+						});
+					} else {
+						console.log('Withdrow amount must be > 0');
+					}
+				} else {
+					console.log('Deposit Amount is required!');
+				}
 			}
 		}, {
 			key: 'render',
@@ -29843,6 +29867,30 @@
 		WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
 		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
 		ON_TRANSACTION: 'ON_TRANSACTION'
+	};
+
+/***/ },
+/* 345 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var checkBalance = exports.checkBalance = function checkBalance(amount) {
+	    if (amount <= undefined.props.balance) return true;
+	    return false;
+	};
+
+	var checkEmptyAmount = exports.checkEmptyAmount = function checkEmptyAmount(amount) {
+	    if (amount !== '') return true;
+	    return false;
+	};
+
+	var checkAmountQty = exports.checkAmountQty = function checkAmountQty(amount) {
+	    if (amount > 0) return true;
+	    return false;
 	};
 
 /***/ }

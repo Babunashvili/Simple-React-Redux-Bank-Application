@@ -6,7 +6,7 @@ const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('default', ['sass', 'watch'])
 
-var sassPath = './app/scss/*.scss';
+var sassPath = './assets/scss/*.scss';
 
 gulp.task('sass', function() {
     return gulp.src(sassPath)

@@ -5,6 +5,10 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 
+import { checkBalance } from '../../services/validation'
+import { checkEmptyAmount } from '../../services/validation'
+import { checkAmountQty } from '../../services/validation'
+
 class Withdraw extends Component {
 
 	constructor(props) {
@@ -16,12 +20,27 @@ class Withdraw extends Component {
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
+
+
 	getAmount(e){
 		e.preventDefault()
-		this.props.handleWithdraw(this.state.value, this.state.permission)
-		this.setState({
-			value: ''
-		})
+		if(checkEmptyAmount(this.state.value)){
+			if(checkAmountQty(this.state.value)){
+                if(checkBalance(this.state.value)){
+	                this.props.handleWithdraw(this.state.value, this.state.permission)
+					this.setState({
+						value: ''
+					})
+			    }else{
+				  console.log('You dont have enough money for withdraw!')
+		     	}
+			}else{
+				console.log('Withdrow amount must be > 0')
+			}
+		}else{
+			console.log('Withdrow Amount is required!') 
+		}
+		 
 	}
 
 	render() {
