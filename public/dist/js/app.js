@@ -24095,6 +24095,10 @@
 		return Withdraw;
 	}(_react.Component);
 
+	Withdraw.propTypes = {
+		handleWithdraw: _react2.default.PropTypes.func
+	};
+
 	exports.default = Withdraw;
 
 /***/ },
@@ -25106,7 +25110,6 @@
 								' Deposit Amount: '
 							),
 							_react2.default.createElement(_FormControl2.default, {
-
 								type: 'number',
 								placeholder: 'Enter amount',
 								value: this.state.value,
@@ -25129,6 +25132,10 @@
 
 		return Deposit;
 	}(_react.Component);
+
+	Deposit.propTypes = {
+		handleDeposit: _react2.default.PropTypes.func
+	};
 
 	exports.default = Deposit;
 
@@ -25218,6 +25225,9 @@
 		return Header;
 	}(_react.Component);
 
+	Header.propTypes = {
+		balance: _react2.default.PropTypes.number
+	};
 	exports.default = Header;
 
 /***/ },
@@ -28008,6 +28018,13 @@
 		return History;
 	}(_react.Component);
 
+	History.propTypes = {
+		trans: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
+			date: _react2.default.PropTypes.string,
+			amount: _react2.default.PropTypes.string,
+			description: _react2.default.PropTypes.string
+		}))
+	};
 	exports.default = History;
 
 /***/ },

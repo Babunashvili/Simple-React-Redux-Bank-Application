@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, PropTypes } from "react"
 
 import Table from 'react-bootstrap/lib/Table'
 
@@ -34,4 +34,11 @@ class History extends Component {
 	}
 }
 
+History.propTypes = {
+	trans: React.PropTypes.arrayOf(React.PropTypes.shape({
+     date: React.PropTypes.string,
+     amount: React.PropTypes.string,
+     description: React.PropTypes.string  
+   }))
+}
 export default History

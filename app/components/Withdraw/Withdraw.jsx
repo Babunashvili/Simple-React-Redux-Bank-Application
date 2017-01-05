@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, PropTypes } from "react"
 
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
@@ -48,5 +48,8 @@ class Withdraw extends Component {
 	}
 }
 
+Withdraw.propTypes = {
+	handleWithdraw: React.PropTypes.func
+}
 
 export default Withdraw

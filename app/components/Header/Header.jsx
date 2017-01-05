@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, PropTypes } from "react"
 
 import Navbar from 'react-bootstrap/lib/Navbar'
 import Nav from 'react-bootstrap/lib/Nav'
@@ -22,5 +22,7 @@ class Header extends Component {
 	}
 }
 
-
+Header.propTypes = {
+	balance: React.PropTypes.number
+}
 export default Header

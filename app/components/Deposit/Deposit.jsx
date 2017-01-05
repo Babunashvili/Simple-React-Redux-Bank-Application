@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, PropTypes } from "react"
 
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
@@ -6,7 +6,6 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 
 class Deposit extends Component {
-
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -31,10 +30,8 @@ class Deposit extends Component {
 				<hr/>
 				<form>
 					<FormGroup>
-
 						<ControlLabel> Deposit Amount: </ControlLabel>
 						<FormControl
-
 							type="number"
 							placeholder="Enter amount"
 							value={this.state.value}
@@ -50,5 +47,8 @@ class Deposit extends Component {
 	}
 }
 
+Deposit.propTypes = {
+	handleDeposit: React.PropTypes.func
+}
 
 export default Deposit
