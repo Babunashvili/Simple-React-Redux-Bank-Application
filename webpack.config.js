@@ -3,8 +3,8 @@ var config = {
     context: path.join(__dirname, "./"),
     entry: './app/index.js',
     output: {
-        path: './public',
-        filename: 'bundle.js'
+        path: './public/dist/js',
+        filename: 'app.js'
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
