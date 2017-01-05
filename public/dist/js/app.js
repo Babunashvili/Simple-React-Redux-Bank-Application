@@ -21653,6 +21653,10 @@
 		return App;
 	}(_react.Component);
 
+	App.propTypes = {
+		balance: _react2.default.PropTypes.number,
+		transactions: _react2.default.PropTypes.array
+	};
 	exports.default = App;
 
 /***/ },
@@ -24005,6 +24009,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _constants = __webpack_require__(347);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
 	var _FormGroup = __webpack_require__(279);
 
 	var _FormGroup2 = _interopRequireDefault(_FormGroup);
@@ -24065,15 +24073,15 @@
 							this.setState({
 								value: ''
 							});
-							this.props.handleAlert('Your withdraw request has been successfully submited.', 'success');
+							this.props.handleAlert(_constants2.default.ALERT.SUCCESS_WITHDRAW_MSG, 'success');
 						} else {
-							this.props.handleAlert('You dont have enough money for withdraw!', 'danger');
+							this.props.handleAlert(_constants2.default.ALERT.NOT_ENOUGH_WITHDRAW_MSG, 'danger');
 						}
 					} else {
-						this.props.handleAlert('Withdrow amount must be > 0', 'danger');
+						this.props.handleAlert(_constants2.default.ALERT.NULL_WITHDRAW_MSG, 'danger');
 					}
 				} else {
-					this.props.handleAlert('Withdrow Amount is required!', 'danger');
+					this.props.handleAlert(_constants2.default.ALERT.EMPTY_WITHDRAW_MSG, 'danger');
 				}
 			}
 		}, {
@@ -24122,7 +24130,8 @@
 	}(_react.Component);
 
 	Withdraw.propTypes = {
-		handleWithdraw: _react2.default.PropTypes.func
+		handleWithdraw: _react2.default.PropTypes.func,
+		handleAlert: _react2.default.PropTypes.func
 	};
 
 	exports.default = Withdraw;
@@ -26317,6 +26326,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _constants = __webpack_require__(347);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
 	var _FormGroup = __webpack_require__(279);
 
 	var _FormGroup2 = _interopRequireDefault(_FormGroup);
@@ -26376,12 +26389,12 @@
 						this.setState({
 							value: ''
 						});
-						this.props.handleAlert('Your deposit request has been successfully submited.', 'success');
+						this.props.handleAlert(_constants2.default.ALERT.SUCCESS_DEPOSIT_MSG, 'success');
 					} else {
-						this.props.handleAlert('Deposit amount must be > 0', 'danger');
+						this.props.handleAlert(_constants2.default.ALERT.NULL_DEPOSIT_MSG, 'danger');
 					}
 				} else {
-					this.props.handleAlert('Deposit Amount is required!', 'danger');
+					this.props.handleAlert(_constants2.default.ALERT.EMPTY_DEPOSIT_MSG, 'danger');
 				}
 			}
 		}, {
@@ -26430,7 +26443,8 @@
 	}(_react.Component);
 
 	Deposit.propTypes = {
-		handleDeposit: _react2.default.PropTypes.func
+		handleDeposit: _react2.default.PropTypes.func,
+		handleAlert: _react2.default.PropTypes.func
 	};
 
 	exports.default = Deposit;
@@ -30240,7 +30254,16 @@
 	exports.default = {
 		WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
 		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
-		ON_TRANSACTION: 'ON_TRANSACTION'
+		ON_TRANSACTION: 'ON_TRANSACTION',
+		ALERT: {
+			SUCCESS_DEPOSIT_MSG: 'Your deposit request has been successfully submited.',
+			NULL_DEPOSIT_MSG: 'Deposit amount must be > 0.',
+			EMPTY_DEPOSIT_MSG: 'Deposit Amount is required!',
+			SUCCESS_WITHDRAW_MSG: 'Your withdraw request has been successfully submited.',
+			NULL_WITHDRAW_MSG: 'Withdraw amount must be > 0.',
+			EMPTY_WITHDRAW_MSG: 'Withdraw Amount is required!',
+			NOT_ENOUGH_WITHDRAW_MSG: 'You dont have enough money for withdraw!'
+		}
 	};
 
 /***/ },
@@ -30411,6 +30434,9 @@
 		return EmptyHistory;
 	}(_react.Component);
 
+	EmptyHistory.propTypes = {
+		message: _react2.default.PropTypes.string
+	};
 	exports.default = EmptyHistory;
 
 /***/ },
@@ -30438,15 +30464,13 @@
 	   var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 	   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
-	   if (msg.length > 0) {
-	      return _react2.default.createElement(
-	         _Alert2.default,
-	         { bsStyle: type },
-	         msg
-	      );
-	   } else {
-	      return "";
-	   }
+	   if (msg.length > 0) return _react2.default.createElement(
+	      _Alert2.default,
+	      { bsStyle: type },
+	      " ",
+	      msg,
+	      " "
+	   );else return "";
 	};
 
 /***/ },

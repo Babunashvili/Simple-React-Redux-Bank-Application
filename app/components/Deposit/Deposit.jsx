@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-
+import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
@@ -20,7 +20,6 @@ class Deposit extends Component {
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
-
 	getAmount(e){
 		e.preventDefault()
 		if(checkEmptyAmount(this.state.value)){
@@ -29,12 +28,12 @@ class Deposit extends Component {
 				this.setState({
 					value: ''
 				}) 
-				this.props.handleAlert('Your deposit request has been successfully submited.','success')
+				this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
 			}else{
-				this.props.handleAlert('Deposit amount must be > 0','danger')
+				this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
 			}
 		}else{
-			this.props.handleAlert('Deposit Amount is required!','danger') 
+			this.props.handleAlert(constants.ALERT.EMPTY_DEPOSIT_MSG,'danger') 
 		}
 	}
 
@@ -63,7 +62,8 @@ class Deposit extends Component {
 }
 
 Deposit.propTypes = {
-	handleDeposit: React.PropTypes.func
+	handleDeposit: React.PropTypes.func,
+	handleAlert: React.PropTypes.func
 }
 
 export default Deposit

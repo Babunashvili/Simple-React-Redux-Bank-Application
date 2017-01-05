@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-
+import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
@@ -21,8 +21,6 @@ class Withdraw extends Component {
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
-
-
 	getAmount(e){
 		e.preventDefault()
 		if(checkEmptyAmount(this.state.value)){
@@ -32,15 +30,15 @@ class Withdraw extends Component {
 					this.setState({
 						value: ''
 					})
-					this.props.handleAlert('Your withdraw request has been successfully submited.','success')
+					this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
 			    }else{
-			    	this.props.handleAlert('You dont have enough money for withdraw!','danger')
+			    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
 		     	}
 			}else{
-				this.props.handleAlert('Withdrow amount must be > 0','danger')
+				this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
 			}
 		}else{
-			this.props.handleAlert('Withdrow Amount is required!','danger') 
+			this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 		}
 		 
 	}
@@ -70,7 +68,8 @@ class Withdraw extends Component {
 }
 
 Withdraw.propTypes = {
-	handleWithdraw: React.PropTypes.func
+	handleWithdraw: React.PropTypes.func,
+	handleAlert: React.PropTypes.func
 }
 
 export default Withdraw

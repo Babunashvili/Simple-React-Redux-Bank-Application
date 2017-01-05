@@ -76,5 +76,8 @@ class App extends Component {
     )
   }
 }
-
+App.propTypes = {
+	balance: React.PropTypes.number,
+	transactions: React.PropTypes.array,
+}
 export default App;
