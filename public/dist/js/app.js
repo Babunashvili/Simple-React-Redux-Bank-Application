@@ -30309,12 +30309,12 @@
 
 		_createClass(HistoryTable, [{
 			key: 'rotate',
-			value: function rotate(a) {
-				var inc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-				for (var l = a.length, inc = (Math.abs(inc) >= l && (inc %= l), inc < 0 && (inc += l), inc), i, x; inc; inc = (Math.ceil(l / inc) - 1) * inc - l + (l = inc)) {
-					for (i = l; i > inc; x = a[--i], a[i] = a[i - inc], a[i - inc] = x) {}
-				}return a;
+			value: function rotate(array) {
+				var temp = [];
+				for (var i = array.length - 1; i >= 0; i--) {
+					temp.push(array[i]);
+				}
+				return temp;
 			}
 		}, {
 			key: 'render',
@@ -30348,7 +30348,7 @@
 					_react2.default.createElement(
 						'tbody',
 						null,
-						this.rotate(this.props.trans.slice()).map(function (value, key) {
+						this.rotate(this.props.trans).map(function (value, key) {
 							return _react2.default.createElement(
 								'tr',
 								{ key: key },

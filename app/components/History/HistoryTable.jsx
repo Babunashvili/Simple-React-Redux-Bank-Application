@@ -6,10 +6,12 @@ class HistoryTable extends Component {
 	constructor(props) {
 		super(props)
 	}
-    rotate(a,inc = 1){
-	      for (var l = a.length, inc = (Math.abs(inc) >= l && (inc %= l), inc < 0 && (inc += l), inc), i, x; inc; inc = (Math.ceil(l / inc) - 1) * inc - l + (l = inc))
-          for (i = l; i > inc; x = a[--i], a[i] = a[i - inc], a[i - inc] = x);
-        return a;
+    rotate(array){
+	   let temp = []
+		   for (var i = array.length - 1; i >= 0; i--) {
+		   	 temp.push(array[i])
+		   }
+	   return temp
     }
 	render() {
 		return (
@@ -22,7 +24,7 @@ class HistoryTable extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{this.rotate(this.props.trans.slice()).map((value, key) => {
+						{this.rotate(this.props.trans).map((value, key) => {
 							return <tr key={key}>
 								<td>{value.date}</td>
 								<td>{value.description}</td>
