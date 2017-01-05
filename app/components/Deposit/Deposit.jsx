@@ -1,14 +1,11 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component, PropTypes } from 'react'
 import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 import Panel from 'react-bootstrap/lib/Panel'
-
-
-import { checkEmptyAmount } from '../../services/validation'
-import { checkAmountQty } from '../../services/validation'
+import { checkEmptyAmount, checkAmountQty } from '../../services/validation'
 
 class Deposit extends Component {
 	constructor(props) {

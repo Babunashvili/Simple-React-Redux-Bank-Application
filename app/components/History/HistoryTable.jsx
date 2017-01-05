@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component, PropTypes } from 'react'
 import Table from 'react-bootstrap/lib/Table'
 import Panel from 'react-bootstrap/lib/Panel'
 

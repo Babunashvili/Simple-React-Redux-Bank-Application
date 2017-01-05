@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Button from 'react-bootstrap/lib/Button'
 import Widthdraw from './Withdraw/Withdraw'
 import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 import History from './History/History'
 import { alertMessage } from '../services/alerts'
-
-var dateFormat = require('dateformat')
-
-// bootstrap components
+import dateFormat from 'dateformat'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'

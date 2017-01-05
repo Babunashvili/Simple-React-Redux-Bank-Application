@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from "react"
-
+import React, { Component, PropTypes } from 'react'
 import Navbar from 'react-bootstrap/lib/Navbar'
 import Nav from 'react-bootstrap/lib/Nav'
 import FormControl from 'react-bootstrap/lib/FormControl'
