@@ -21610,7 +21610,6 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				console.log(this.props.transactions);
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -21637,7 +21636,7 @@
 								_react2.default.createElement(
 									_Col2.default,
 									{ lg: 12, md: 12, sm: 12 },
-									_react2.default.createElement(_History2.default, { transactions: this.props.transactions })
+									_react2.default.createElement(_History2.default, { trans: this.props.transactions })
 								)
 							)
 						)
@@ -27950,7 +27949,7 @@
 		_createClass(History, [{
 			key: "render",
 			value: function render() {
-
+				console.log(this.props.trans);
 				return _react2.default.createElement(
 					"div",
 					{ className: "well" },
@@ -27989,9 +27988,9 @@
 						_react2.default.createElement(
 							"tbody",
 							null,
-							this.props.transactions.map(function (value, key) {
+							this.props.trans.map(function (value, key) {
 
-								_react2.default.createElement(
+								return _react2.default.createElement(
 									"tr",
 									{ key: key },
 									_react2.default.createElement(

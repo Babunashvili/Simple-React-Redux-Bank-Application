@@ -55,7 +55,6 @@ class App extends Component {
 	}
 	
   render() {
-  	console.log(this.props.transactions)
     return (
     	<div>
     		<Header balance={this.props.balance} />
@@ -69,7 +68,7 @@ class App extends Component {
 			        		<Deposit handleDeposit={this.handleDeposit} />
 			        	</Col>
 			        	<Col lg={12} md={12} sm={12}>
-			        		<History transactions={this.props.transactions} />
+			        		<History trans={this.props.transactions} />
 			        	</Col>
 			        </Row>
 			    </Grid>	

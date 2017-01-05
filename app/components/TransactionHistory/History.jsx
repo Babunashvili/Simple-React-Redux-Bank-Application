@@ -9,7 +9,7 @@ class History extends Component {
 		
 	}
 	render() {
-
+		console.log(this.props.trans)
 		return (
 			<div className="well">
 				<h3 className="text-center">Transactions History</h3>
@@ -23,9 +23,9 @@ class History extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{this.props.transactions.map((value, key) => {
+						{this.props.trans.map((value, key) => {
 
-							<tr key={key}>
+							return <tr key={key}>
 								<td>{value.date}</td>
 								<td>{value.description}</td>
 								<td>{value.amount}</td>
