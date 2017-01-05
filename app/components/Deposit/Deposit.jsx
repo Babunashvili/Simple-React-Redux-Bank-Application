@@ -4,6 +4,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
+import Panel from 'react-bootstrap/lib/Panel'
 
 
 import { checkEmptyAmount } from '../../services/validation'
@@ -38,10 +39,9 @@ class Deposit extends Component {
 
 	render() {
 		return (
-			<div className="well">
-				<h3 className="text-center">Deposit</h3>
-				<hr/>
-				<form>
+			<div>
+				<Panel header="Deposit into your Balance">
+			      <form>
 					<FormGroup>
 						<ControlLabel> Deposit Amount: </ControlLabel>
 						<FormControl
@@ -52,9 +52,10 @@ class Deposit extends Component {
 						/>
 					</FormGroup>
 					<FormGroup>
-						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="primary">Submit</Button>
+						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="default">Submit</Button>
 					</FormGroup>
-				</form>
+				 </form>
+			    </Panel>
 			</div>
 		)
 	}

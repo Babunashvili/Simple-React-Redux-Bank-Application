@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/lib/Navbar'
 import Nav from 'react-bootstrap/lib/Nav'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
+import Label from 'react-bootstrap/lib/Label'
 
 class Header extends Component {
 	render() {
@@ -11,11 +12,11 @@ class Header extends Component {
 			<Navbar>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<a href="#">Bank App</a>
+						<a href="#">&nbsp;&nbsp; Simple Bank Application</a>
 					</Navbar.Brand>
 				</Navbar.Header>
 				<Navbar.Text pullRight>
-					Balance <span>{this.props.balance}</span>$
+					Your balance is <Label bsStyle="primary">{this.props.balance} USD</Label>
 				</Navbar.Text>
 			</Navbar>
 		)

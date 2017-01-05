@@ -4,6 +4,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
+import Panel from 'react-bootstrap/lib/Panel'
 
 import { checkBalance } from '../../services/validation'
 import { checkEmptyAmount } from '../../services/validation'
@@ -45,23 +46,23 @@ class Withdraw extends Component {
 
 	render() {
 		return (
-			<div className="well">
-				<h3 className="text-center">Withdraw</h3>
-				<hr/>
-				<form>
-					<FormGroup>
-						<ControlLabel> Withdraw Amount: </ControlLabel>
-						<FormControl
-							type="number"
-							placeholder="Enter amount"
-							value={this.state.value}
-							onChange={this.onChangeHandle.bind(this)}
-						/>
-					</FormGroup>
-					<FormGroup>
-						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="primary">Submit</Button>
-					</FormGroup>
-				</form>
+			<div>
+			    <Panel header="Withdraw From Your Balance">
+			      <form>
+						<FormGroup>
+							<ControlLabel> Withdraw Amount: </ControlLabel>
+							<FormControl
+								type="number"
+								placeholder="Enter amount"
+								value={this.state.value}
+								onChange={this.onChangeHandle.bind(this)}
+							/>
+						</FormGroup>
+						<FormGroup>
+							<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="default">Submit</Button>
+						</FormGroup>
+					</form>
+			    </Panel>
 			</div>
 		)
 	}

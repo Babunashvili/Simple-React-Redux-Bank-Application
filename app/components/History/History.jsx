@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react"
-
 import Table from 'react-bootstrap/lib/Table'
+import Panel from 'react-bootstrap/lib/Panel'
 
 class History extends Component {
 	constructor(props) {
@@ -8,10 +8,9 @@ class History extends Component {
 	}
 	render() {
 		return (
-			<div className="well">
-				<h3 className="text-center">Transactions History</h3>
-				<hr/>
-				<Table responsive>
+			<div>
+				<Panel header="Your Transactions History">
+			      <Table responsive>
 					<thead>
 						<tr>
 							<th>Date</th>
@@ -24,11 +23,12 @@ class History extends Component {
 							return <tr key={key}>
 								<td>{value.date}</td>
 								<td>{value.description}</td>
-								<td>{value.amount}</td>
+								<td>{value.amount} USD</td>
 							</tr>
 						})}
 					</tbody>
 				</Table>
+			    </Panel>
 			</div>
 		)
 	}
