@@ -8,7 +8,6 @@ import Button from 'react-bootstrap/lib/Button'
 class Header extends Component {
 	render() {
 		return (
-
 			<Navbar>
 				<Navbar.Header>
 					<Navbar.Brand>
@@ -18,9 +17,7 @@ class Header extends Component {
 				<Navbar.Text pullRight>
 					Balance <span>{this.props.balance}</span>$
 				</Navbar.Text>
-				
 			</Navbar>
-			
 		)
 	}
 }

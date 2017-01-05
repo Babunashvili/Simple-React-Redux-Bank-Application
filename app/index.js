@@ -6,7 +6,6 @@ import BankStore from './Store/BankStore'
 import constants from './constants'
 
 const render = () => {
-
 	ReactDOM.render(
 	  <App
 	   balance={BankStore.getState().balance}
@@ -18,7 +17,5 @@ const render = () => {
 	  document.getElementById('root')
 	)
 }
-
 BankStore.subscribe(render)
-
 render()

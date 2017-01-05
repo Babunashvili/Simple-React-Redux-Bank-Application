@@ -69,7 +69,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var render = function render() {
-
 		_reactDom2.default.render(_react2.default.createElement(_App2.default, {
 			balance: _BankStore2.default.getState().balance,
 			transactions: _BankStore2.default.getState().transactions,
@@ -84,9 +83,7 @@
 			}
 		}), document.getElementById('root'));
 	};
-
 	_BankStore2.default.subscribe(render);
-
 	render();
 
 /***/ },
@@ -21581,9 +21578,7 @@
 		_createClass(App, [{
 			key: 'createTransaction',
 			value: function createTransaction(amount, desc, mark) {
-
-				var date = dateFormat(new Date(), "d-mm-yyyy h:MM:ss TT");
-
+				var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT");
 				var obj = {
 					date: date.toString(),
 					amount: '' + mark + amount,
@@ -21596,7 +21591,6 @@
 			key: 'handleDeposit',
 			value: function handleDeposit(amount, permission) {
 				if (permission === true) {
-
 					this.props.onDeposit(amount);
 					this.createTransaction(amount, "Deposit into account", "+");
 				}
@@ -21604,9 +21598,7 @@
 		}, {
 			key: 'handleWithdraw',
 			value: function handleWithdraw(amount, permission) {
-
 				if (permission === true) {
-
 					this.props.onWithdraw(amount);
 					this.createTransaction(amount, "Withdraw from account", "-");
 				}
@@ -24045,7 +24037,6 @@
 		_createClass(Withdraw, [{
 			key: 'onChangeHandle',
 			value: function onChangeHandle(e) {
-
 				this.setState({ value: e.target.value, permission: true });
 			}
 		}, {
@@ -24081,12 +24072,10 @@
 								' Withdraw Amount: '
 							),
 							_react2.default.createElement(_FormControl2.default, {
-
 								type: 'number',
 								placeholder: 'Enter amount',
 								value: this.state.value,
 								onChange: this.onChangeHandle.bind(this)
-
 							})
 						),
 						_react2.default.createElement(
@@ -25082,7 +25071,6 @@
 		_createClass(Deposit, [{
 			key: 'onChangeHandle',
 			value: function onChangeHandle(e) {
-
 				this.setState({ value: e.target.value, permission: true });
 			}
 		}, {
@@ -25123,7 +25111,6 @@
 								placeholder: 'Enter amount',
 								value: this.state.value,
 								onChange: this.onChangeHandle.bind(this)
-
 							})
 						),
 						_react2.default.createElement(
@@ -27992,7 +27979,6 @@
 							"tbody",
 							null,
 							this.props.trans.map(function (value, key) {
-
 								return _react2.default.createElement(
 									"tr",
 									{ key: key },

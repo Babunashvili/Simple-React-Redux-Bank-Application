@@ -8,11 +8,9 @@ import History from './TransactionHistory/History'
 var dateFormat = require('dateformat')
 
 // bootstrap components
-
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
-
 
 class App extends Component {
 	constructor(props){
@@ -25,10 +23,7 @@ class App extends Component {
 	}
 
 	createTransaction(amount, desc, mark) {
-		
-		var date = dateFormat(new Date(), "d-mm-yyyy h:MM:ss TT")
-		
-
+		var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT")
 		let obj = {
 			date: date.toString(),
 			amount: `${mark}${amount}`,
@@ -41,17 +36,12 @@ class App extends Component {
 
 	handleDeposit(amount, permission){
 		if(permission === true){
-			
 			this.props.onDeposit(amount)
-			this.createTransaction(amount, "Deposit into account", "+") 
-			
+			this.createTransaction(amount, "Deposit into account", "+") 	
 		}
-		
 	}
 	handleWithdraw(amount, permission){
-		
 		if(permission === true){
-			
 			this.props.onWithdraw(amount)
 			this.createTransaction(amount, "Withdraw from account", "-")
 		}

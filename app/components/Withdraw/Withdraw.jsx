@@ -14,9 +14,7 @@ class Withdraw extends Component {
 		}
 	}
 	onChangeHandle(e){
-		
 		this.setState({value: e.target.value, permission: true})
-
 	}
 	getAmount(e){
 		e.preventDefault()
@@ -28,32 +26,24 @@ class Withdraw extends Component {
 
 	render() {
 		return (
-
 			<div className="well">
-
 				<h3 className="text-center">Withdraw</h3>
 				<hr/>
 				<form>
 					<FormGroup>
-
 						<ControlLabel> Withdraw Amount: </ControlLabel>
 						<FormControl
-
 							type="number"
 							placeholder="Enter amount"
 							value={this.state.value}
 							onChange={this.onChangeHandle.bind(this)}
-
 						/>
-
 					</FormGroup>
-
 					<FormGroup>
 						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="primary">Submit</Button>
 					</FormGroup>
 				</form>
 			</div>
-
 		)
 	}
 }
