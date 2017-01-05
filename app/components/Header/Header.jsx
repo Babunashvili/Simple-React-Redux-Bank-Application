@@ -12,11 +12,11 @@ class Header extends Component {
 			<Navbar>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<a href="#">&nbsp;&nbsp; Simple Bank Application</a>
+						<a href="#">Simple Bank Application</a>
 					</Navbar.Brand>
 				</Navbar.Header>
 				<Navbar.Text pullRight>
-					Your balance is <Label bsStyle="primary">{this.props.balance} USD</Label>
+					Your balance is <Label bsStyle="primary">{this.props.balance} USD</Label> &nbsp;&nbsp;&nbsp;
 				</Navbar.Text>
 			</Navbar>
 		)

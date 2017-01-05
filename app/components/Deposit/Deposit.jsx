@@ -29,11 +29,12 @@ class Deposit extends Component {
 				this.setState({
 					value: ''
 				}) 
+				this.props.handleAlert('Your deposit request has been successfully submited.','success')
 			}else{
-				console.log('Withdrow amount must be > 0')
+				this.props.handleAlert('Deposit amount must be > 0','danger')
 			}
 		}else{
-			console.log('Deposit Amount is required!') 
+			this.props.handleAlert('Deposit Amount is required!','danger') 
 		}
 	}
 

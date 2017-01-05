@@ -21535,6 +21535,8 @@
 
 	var _History2 = _interopRequireDefault(_History);
 
+	var _alerts = __webpack_require__(350);
+
 	var _Col = __webpack_require__(321);
 
 	var _Col2 = _interopRequireDefault(_Col);
@@ -21548,6 +21550,8 @@
 	var _Grid2 = _interopRequireDefault(_Grid);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -21568,10 +21572,12 @@
 			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 			_this.state = {
-				transaction: {}
+				transaction: {},
+				alert: []
 			};
 			_this.handleDeposit = _this.handleDeposit.bind(_this);
 			_this.handleWithdraw = _this.handleWithdraw.bind(_this);
+			_this.handleAlert = _this.handleAlert.bind(_this);
 			return _this;
 		}
 
@@ -21584,7 +21590,6 @@
 					amount: '' + mark + amount,
 					description: desc
 				};
-
 				this.props.onTransaction(obj);
 			}
 		}, {
@@ -21604,6 +21609,13 @@
 				}
 			}
 		}, {
+			key: 'handleAlert',
+			value: function handleAlert(msg, type) {
+				this.setState({
+					alert: [msg, type]
+				});
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -21613,27 +21625,24 @@
 					_react2.default.createElement(
 						'div',
 						{ className: 'container' },
+						_alerts.alertMessage.apply(undefined, _toConsumableArray(this.state.alert)),
 						_react2.default.createElement(
-							_Grid2.default,
+							_Row2.default,
 							null,
 							_react2.default.createElement(
-								_Row2.default,
-								null,
-								_react2.default.createElement(
-									_Col2.default,
-									{ lg: 6, md: 6, sm: 12 },
-									_react2.default.createElement(_Withdraw2.default, { handleWithdraw: this.handleWithdraw, balance: this.props.balance })
-								),
-								_react2.default.createElement(
-									_Col2.default,
-									{ lg: 6, md: 6, sm: 12 },
-									_react2.default.createElement(_Deposit2.default, { handleDeposit: this.handleDeposit })
-								),
-								_react2.default.createElement(
-									_Col2.default,
-									{ lg: 12, md: 12, sm: 12 },
-									_react2.default.createElement(_History2.default, { trans: this.props.transactions })
-								)
+								_Col2.default,
+								{ lg: 6, md: 6, sm: 12 },
+								_react2.default.createElement(_Withdraw2.default, { handleAlert: this.handleAlert, handleWithdraw: this.handleWithdraw, balance: this.props.balance })
+							),
+							_react2.default.createElement(
+								_Col2.default,
+								{ lg: 6, md: 6, sm: 12 },
+								_react2.default.createElement(_Deposit2.default, { handleAlert: this.handleAlert, handleDeposit: this.handleDeposit })
+							),
+							_react2.default.createElement(
+								_Col2.default,
+								{ lg: 12, md: 12, sm: 12 },
+								_react2.default.createElement(_History2.default, { trans: this.props.transactions })
 							)
 						)
 					)
@@ -24056,14 +24065,15 @@
 							this.setState({
 								value: ''
 							});
+							this.props.handleAlert('Your withdraw request has been successfully submited.', 'success');
 						} else {
-							console.log('You dont have enough money for withdraw!');
+							this.props.handleAlert('You dont have enough money for withdraw!', 'danger');
 						}
 					} else {
-						console.log('Withdrow amount must be > 0');
+						this.props.handleAlert('Withdrow amount must be > 0', 'danger');
 					}
 				} else {
-					console.log('Withdrow Amount is required!');
+					this.props.handleAlert('Withdrow Amount is required!', 'danger');
 				}
 			}
 		}, {
@@ -26366,11 +26376,12 @@
 						this.setState({
 							value: ''
 						});
+						this.props.handleAlert('Your deposit request has been successfully submited.', 'success');
 					} else {
-						console.log('Withdrow amount must be > 0');
+						this.props.handleAlert('Deposit amount must be > 0', 'danger');
 					}
 				} else {
-					console.log('Deposit Amount is required!');
+					this.props.handleAlert('Deposit Amount is required!', 'danger');
 				}
 			}
 		}, {
@@ -26492,7 +26503,7 @@
 							_react2.default.createElement(
 								'a',
 								{ href: '#' },
-								'\xA0\xA0 Simple Bank Application'
+								'Simple Bank Application'
 							)
 						)
 					),
@@ -26505,7 +26516,8 @@
 							{ bsStyle: 'primary' },
 							this.props.balance,
 							' USD'
-						)
+						),
+						' \xA0\xA0\xA0'
 					)
 				);
 			}
@@ -28378,15 +28390,15 @@
 		function History(props) {
 			_classCallCheck(this, History);
 
-			var _this = _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
-
-			_this.HistoryContent = function () {
-				if (_this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: _this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: 'You have not any Transactions.' });
-			};
-			return _this;
+			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
 		}
 
 		_createClass(History, [{
+			key: 'HistoryContent',
+			value: function HistoryContent() {
+				if (this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: 'You have not any Transactions.' });
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -30400,6 +30412,173 @@
 	}(_react.Component);
 
 	exports.default = EmptyHistory;
+
+/***/ },
+/* 350 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	exports.alertMessage = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Alert = __webpack_require__(351);
+
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var alertMessage = exports.alertMessage = function alertMessage() {
+	   var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+	   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+
+	   if (msg.length > 0) {
+	      return _react2.default.createElement(
+	         _Alert2.default,
+	         { bsStyle: type },
+	         msg
+	      );
+	   } else {
+	      return "";
+	   }
+	};
+
+/***/ },
+/* 351 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _values = __webpack_require__(180);
+
+	var _values2 = _interopRequireDefault(_values);
+
+	var _extends3 = __webpack_require__(216);
+
+	var _extends4 = _interopRequireDefault(_extends3);
+
+	var _objectWithoutProperties2 = __webpack_require__(215);
+
+	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+	var _classCallCheck2 = __webpack_require__(223);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(224);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(260);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _classnames = __webpack_require__(268);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _bootstrapUtils = __webpack_require__(271);
+
+	var _StyleConfig = __webpack_require__(276);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var propTypes = {
+	  onDismiss: _react2['default'].PropTypes.func,
+	  closeLabel: _react2['default'].PropTypes.string
+	};
+
+	var defaultProps = {
+	  closeLabel: 'Close alert'
+	};
+
+	var Alert = function (_React$Component) {
+	  (0, _inherits3['default'])(Alert, _React$Component);
+
+	  function Alert() {
+	    (0, _classCallCheck3['default'])(this, Alert);
+	    return (0, _possibleConstructorReturn3['default'])(this, _React$Component.apply(this, arguments));
+	  }
+
+	  Alert.prototype.renderDismissButton = function renderDismissButton(onDismiss) {
+	    return _react2['default'].createElement(
+	      'button',
+	      {
+	        type: 'button',
+	        className: 'close',
+	        onClick: onDismiss,
+	        'aria-hidden': 'true',
+	        tabIndex: '-1'
+	      },
+	      _react2['default'].createElement(
+	        'span',
+	        null,
+	        '\xD7'
+	      )
+	    );
+	  };
+
+	  Alert.prototype.renderSrOnlyDismissButton = function renderSrOnlyDismissButton(onDismiss, closeLabel) {
+	    return _react2['default'].createElement(
+	      'button',
+	      {
+	        type: 'button',
+	        className: 'close sr-only',
+	        onClick: onDismiss
+	      },
+	      closeLabel
+	    );
+	  };
+
+	  Alert.prototype.render = function render() {
+	    var _extends2;
+
+	    var _props = this.props,
+	        onDismiss = _props.onDismiss,
+	        closeLabel = _props.closeLabel,
+	        className = _props.className,
+	        children = _props.children,
+	        props = (0, _objectWithoutProperties3['default'])(_props, ['onDismiss', 'closeLabel', 'className', 'children']);
+
+	    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
+	        bsProps = _splitBsProps[0],
+	        elementProps = _splitBsProps[1];
+
+	    var dismissable = !!onDismiss;
+	    var classes = (0, _extends4['default'])({}, (0, _bootstrapUtils.getClassSet)(bsProps), (_extends2 = {}, _extends2[(0, _bootstrapUtils.prefix)(bsProps, 'dismissable')] = dismissable, _extends2));
+
+	    return _react2['default'].createElement(
+	      'div',
+	      (0, _extends4['default'])({}, elementProps, {
+	        role: 'alert',
+	        className: (0, _classnames2['default'])(className, classes)
+	      }),
+	      dismissable && this.renderDismissButton(onDismiss),
+	      children,
+	      dismissable && this.renderSrOnlyDismissButton(onDismiss, closeLabel)
+	    );
+	  };
+
+	  return Alert;
+	}(_react2['default'].Component);
+
+	Alert.propTypes = propTypes;
+	Alert.defaultProps = defaultProps;
+
+	exports['default'] = (0, _bootstrapUtils.bsStyles)((0, _values2['default'])(_StyleConfig.State), _StyleConfig.State.INFO, (0, _bootstrapUtils.bsClass)('alert', Alert));
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

@@ -4,6 +4,7 @@ import Widthdraw from './Withdraw/Withdraw'
 import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 import History from './History/History'
+import { alertMessage } from '../services/alerts'
 
 var dateFormat = require('dateformat')
 
@@ -16,10 +17,12 @@ class App extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			transaction: {}
+			transaction: {},
+			alert:[]
 		}
 		this.handleDeposit = this.handleDeposit.bind(this)
 		this.handleWithdraw =this.handleWithdraw.bind(this)
+		this.handleAlert =this.handleAlert.bind(this)
 	}
 
 	createTransaction(amount, desc, mark) {
@@ -29,9 +32,7 @@ class App extends Component {
 			amount: `${mark}${amount}`,
 			description: desc
 		}
-		
 		this.props.onTransaction(obj)
-		
 	}
 
 	handleDeposit(amount, permission){
@@ -46,25 +47,30 @@ class App extends Component {
 			this.createTransaction(amount, "Withdraw from account", "-")
 		}
 	}
+
+	handleAlert(msg,type){
+		this.setState({
+           alert:[msg,type]
+		})
+	}
 	
   render() {
     return (
     	<div>
     		<Header balance={this.props.balance} />
 	        <div className="container">
-	        	<Grid>
+                 { alertMessage(...this.state.alert) }
 		        	<Row>
 			        	<Col lg={6} md={6} sm={12}>
-			        		<Widthdraw handleWithdraw={this.handleWithdraw} balance={this.props.balance} />
+			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} balance={this.props.balance} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
-			        		<Deposit handleDeposit={this.handleDeposit} />
+			        		<Deposit handleAlert={this.handleAlert} handleDeposit={this.handleDeposit} />
 			        	</Col>
 			        	<Col lg={12} md={12} sm={12}>
 			        		<History trans={this.props.transactions} />
 			        	</Col>
-			        </Row>
-			    </Grid>	
+			        </Row>	
 	        </div>
 	    </div>
     )

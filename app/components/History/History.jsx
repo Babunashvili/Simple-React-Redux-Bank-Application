@@ -7,13 +7,15 @@ import EmptyHistory from './EmptyHistory'
 class History extends Component {
 	constructor(props) {
 		super(props)
-		this.HistoryContent = () => {
+	}
+
+	HistoryContent(){
 			if(this.props.trans.length > 0)
 				return <HistoryTable trans={this.props.trans} />
 			else 
                 return <EmptyHistory message="You have not any Transactions." />
-		}
 	}
+
 	render() {
 		return (
 			<div>

@@ -32,14 +32,15 @@ class Withdraw extends Component {
 					this.setState({
 						value: ''
 					})
+					this.props.handleAlert('Your withdraw request has been successfully submited.','success')
 			    }else{
-				  console.log('You dont have enough money for withdraw!')
+			    	this.props.handleAlert('You dont have enough money for withdraw!','danger')
 		     	}
 			}else{
-				console.log('Withdrow amount must be > 0')
+				this.props.handleAlert('Withdrow amount must be > 0','danger')
 			}
 		}else{
-			console.log('Withdrow Amount is required!') 
+			this.props.handleAlert('Withdrow Amount is required!','danger') 
 		}
 		 
 	}
