@@ -28356,6 +28356,14 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
+	var _HistoryTable = __webpack_require__(348);
+
+	var _HistoryTable2 = _interopRequireDefault(_HistoryTable);
+
+	var _EmptyHistory = __webpack_require__(349);
+
+	var _EmptyHistory2 = _interopRequireDefault(_EmptyHistory);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28370,7 +28378,12 @@
 		function History(props) {
 			_classCallCheck(this, History);
 
-			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
+
+			_this.HistoryContent = function () {
+				if (_this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: _this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: 'You have not any Transactions.' });
+			};
+			return _this;
 		}
 
 		_createClass(History, [{
@@ -28382,59 +28395,7 @@
 					_react2.default.createElement(
 						_Panel2.default,
 						{ header: 'Your Transactions History' },
-						_react2.default.createElement(
-							_Table2.default,
-							{ responsive: true },
-							_react2.default.createElement(
-								'thead',
-								null,
-								_react2.default.createElement(
-									'tr',
-									null,
-									_react2.default.createElement(
-										'th',
-										null,
-										'Date'
-									),
-									_react2.default.createElement(
-										'th',
-										null,
-										'Description'
-									),
-									_react2.default.createElement(
-										'th',
-										null,
-										'Amount'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'tbody',
-								null,
-								this.props.trans.map(function (value, key) {
-									return _react2.default.createElement(
-										'tr',
-										{ key: key },
-										_react2.default.createElement(
-											'td',
-											null,
-											value.date
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											value.description
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											value.amount,
-											' USD'
-										)
-									);
-								})
-							)
-						)
+						this.HistoryContent()
 					)
 				);
 			}
@@ -30269,6 +30230,167 @@
 		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
 		ON_TRANSACTION: 'ON_TRANSACTION'
 	};
+
+/***/ },
+/* 348 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Table = __webpack_require__(320);
+
+	var _Table2 = _interopRequireDefault(_Table);
+
+	var _Panel = __webpack_require__(287);
+
+	var _Panel2 = _interopRequireDefault(_Panel);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HistoryTable = function (_Component) {
+		_inherits(HistoryTable, _Component);
+
+		function HistoryTable(props) {
+			_classCallCheck(this, HistoryTable);
+
+			return _possibleConstructorReturn(this, (HistoryTable.__proto__ || Object.getPrototypeOf(HistoryTable)).call(this, props));
+		}
+
+		_createClass(HistoryTable, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					_Table2.default,
+					{ responsive: true },
+					_react2.default.createElement(
+						'thead',
+						null,
+						_react2.default.createElement(
+							'tr',
+							null,
+							_react2.default.createElement(
+								'th',
+								null,
+								'Date'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
+								'Description'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
+								'Amount'
+							)
+						)
+					),
+					_react2.default.createElement(
+						'tbody',
+						null,
+						this.props.trans.map(function (value, key) {
+							return _react2.default.createElement(
+								'tr',
+								{ key: key },
+								_react2.default.createElement(
+									'td',
+									null,
+									value.date
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									value.description
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									value.amount,
+									' USD'
+								)
+							);
+						})
+					)
+				);
+			}
+		}]);
+
+		return HistoryTable;
+	}(_react.Component);
+
+	HistoryTable.propTypes = {
+		trans: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
+			date: _react2.default.PropTypes.string,
+			amount: _react2.default.PropTypes.string,
+			description: _react2.default.PropTypes.string
+		}))
+	};
+	exports.default = HistoryTable;
+
+/***/ },
+/* 349 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EmptyHistory = function (_Component) {
+		_inherits(EmptyHistory, _Component);
+
+		function EmptyHistory(props) {
+			_classCallCheck(this, EmptyHistory);
+
+			return _possibleConstructorReturn(this, (EmptyHistory.__proto__ || Object.getPrototypeOf(EmptyHistory)).call(this, props));
+		}
+
+		_createClass(EmptyHistory, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					null,
+					this.props.message
+				);
+			}
+		}]);
+
+		return EmptyHistory;
+	}(_react.Component);
+
+	exports.default = EmptyHistory;
 
 /***/ }
 /******/ ]);
