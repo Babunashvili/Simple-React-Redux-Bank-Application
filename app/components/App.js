@@ -4,6 +4,13 @@ import Widthdraw from './Withdraw/Withdraw'
 import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 
+
+// bootstrap components
+
+import Col from 'react-bootstrap/lib/Col'
+import Row from 'react-bootstrap/lib/Row'
+import Grid from 'react-bootstrap/lib/Grid'
+
 class App extends Component {
 
   render() {
@@ -11,9 +18,16 @@ class App extends Component {
     	<div>
     		<Header />
 	        <div className="container">
-
-	          	<Widthdraw />
-	          	<Deposit />
+	        	<Grid>
+		        	<Row>
+			        	<Col lg={6} md={6} sm={12}>
+			        		<Widthdraw />
+			        	</Col>
+			          	<Col lg={6} md={6} sm={12}>
+			        		<Deposit />
+			        	</Col>
+			        </Row>
+			    </Grid>	
 	        </div>
 	    </div>
     )
