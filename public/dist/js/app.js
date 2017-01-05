@@ -72,11 +72,15 @@
 
 		_reactDom2.default.render(_react2.default.createElement(_App2.default, {
 			balance: _BankStore2.default.getState().balance,
+			transactions: _BankStore2.default.getState().transactions,
 			onDeposit: function onDeposit(amount) {
 				_BankStore2.default.dispatch({ type: _constants2.default.DEPOSIT_INTO_ACCOUNT, amount: amount });
 			},
 			onWithdraw: function onWithdraw(amount) {
 				_BankStore2.default.dispatch({ type: _constants2.default.WITHDRAW_FROM_ACCOUNT, amount: amount });
+			},
+			onTransaction: function onTransaction(transObj) {
+				_BankStore2.default.dispatch({ transaction: transObj, type: _constants2.default.ON_TRANSACTION });
 			}
 		}), document.getElementById('root'));
 	};
@@ -21564,16 +21568,33 @@
 
 			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+			_this.state = {
+				transaction: {}
+			};
 			_this.handleDeposit = _this.handleDeposit.bind(_this);
 			_this.handleWithdraw = _this.handleWithdraw.bind(_this);
 			return _this;
 		}
 
 		_createClass(App, [{
+			key: 'createTransaction',
+			value: function createTransaction(amount, desc) {
+
+				var obj = {
+					date: 10,
+					amount: '' + amount,
+					description: desc
+				};
+
+				this.props.onTransaction(obj);
+			}
+		}, {
 			key: 'handleDeposit',
 			value: function handleDeposit(amount, permission) {
 				if (permission === true) {
+
 					this.props.onDeposit(amount);
+					this.createTransaction(amount, "Deposit into account");
 				}
 			}
 		}, {
@@ -21581,12 +21602,15 @@
 			value: function handleWithdraw(amount, permission) {
 
 				if (permission === true) {
+
 					this.props.onWithdraw(amount);
+					this.createTransaction(amount, "Withdraw into account");
 				}
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				console.log(this.props.transactions);
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -21613,7 +21637,7 @@
 								_react2.default.createElement(
 									_Col2.default,
 									{ lg: 12, md: 12, sm: 12 },
-									_react2.default.createElement(_History2.default, null)
+									_react2.default.createElement(_History2.default, { transactions: this.props.transactions })
 								)
 							)
 						)
@@ -27917,15 +27941,16 @@
 	var History = function (_Component) {
 		_inherits(History, _Component);
 
-		function History() {
+		function History(props) {
 			_classCallCheck(this, History);
 
-			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).apply(this, arguments));
+			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
 		}
 
 		_createClass(History, [{
 			key: "render",
 			value: function render() {
+
 				return _react2.default.createElement(
 					"div",
 					{ className: "well" },
@@ -27964,25 +27989,28 @@
 						_react2.default.createElement(
 							"tbody",
 							null,
-							_react2.default.createElement(
-								"tr",
-								null,
+							this.props.transactions.map(function (value, key) {
+
 								_react2.default.createElement(
-									"td",
-									null,
-									"rame"
-								),
-								_react2.default.createElement(
-									"td",
-									null,
-									"rame"
-								),
-								_react2.default.createElement(
-									"td",
-									null,
-									"rame"
-								)
-							)
+									"tr",
+									{ key: key },
+									_react2.default.createElement(
+										"td",
+										null,
+										value.date
+									),
+									_react2.default.createElement(
+										"td",
+										null,
+										value.description
+									),
+									_react2.default.createElement(
+										"td",
+										null,
+										value.amount
+									)
+								);
+							})
 						)
 					)
 				);
@@ -29529,8 +29557,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	var InitialState = {
-	    balance: 0
+	    balance: 0,
+	    transactions: []
 	};
 
 	var BankReducer = function BankReducer() {
@@ -29546,6 +29577,13 @@
 	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
 	            return Object.assign({}, state, {
 	                balance: state.balance - parseFloat(action.amount)
+	            });
+
+	        case _constants2.default.ON_TRANSACTION:
+	            var array = [].concat(_toConsumableArray(state.transactions));
+	            array.push(action.transaction);
+	            return Object.assign({}, state, {
+	                transactions: array
 	            });
 
 	        default:
@@ -29566,7 +29604,8 @@
 	});
 	exports.default = {
 		WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
-		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT'
+		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
+		ON_TRANSACTION: 'ON_TRANSACTION'
 	};
 
 /***/ }

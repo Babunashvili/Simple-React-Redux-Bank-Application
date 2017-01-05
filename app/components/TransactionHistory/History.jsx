@@ -4,7 +4,12 @@ import Table from 'react-bootstrap/lib/Table'
 
 
 class History extends Component {
+	constructor(props) {
+		super(props)
+		
+	}
 	render() {
+
 		return (
 			<div className="well">
 				<h3 className="text-center">Transactions History</h3>
@@ -18,11 +23,15 @@ class History extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>rame</td>
-							<td>rame</td>
-							<td>rame</td>
-						</tr>
+						{this.props.transactions.map((value, key) => {
+
+							<tr key={key}>
+								<td>{value.date}</td>
+								<td>{value.description}</td>
+								<td>{value.amount}</td>
+							</tr>
+						})}
+
 					</tbody>
 				</Table>
 			</div>

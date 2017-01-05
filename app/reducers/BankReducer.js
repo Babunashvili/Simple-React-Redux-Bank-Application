@@ -2,7 +2,8 @@ import constants from '../constants'
 
 
 const InitialState = {
-    balance: 0
+    balance: 0,
+    transactions: []
 }
 
 
@@ -16,6 +17,13 @@ const BankReducer = (state = InitialState, action) => {
         case constants.WITHDRAW_FROM_ACCOUNT:
             return Object.assign({}, state, {
                 balance: state.balance - parseFloat(action.amount)
+            })
+
+        case constants.ON_TRANSACTION:
+            let array = [...state.transactions]
+            array.push(action.transaction)
+            return Object.assign({}, state, {
+                transactions: array
             })
 
         default:
