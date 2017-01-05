@@ -5,6 +5,7 @@ import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 import History from './TransactionHistory/History'
 
+
 // bootstrap components
 
 import Col from 'react-bootstrap/lib/Col'
