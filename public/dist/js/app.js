@@ -21505,7 +21505,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21557,53 +21557,72 @@
 	// bootstrap components
 
 	var App = function (_Component) {
-			_inherits(App, _Component);
+		_inherits(App, _Component);
 
-			function App() {
-					_classCallCheck(this, App);
+		function App(props) {
+			_classCallCheck(this, App);
 
-					return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+			_this.handleDeposit = _this.handleDeposit.bind(_this);
+			_this.handleWithdraw = _this.handleWithdraw.bind(_this);
+			return _this;
+		}
+
+		_createClass(App, [{
+			key: 'handleDeposit',
+			value: function handleDeposit(amount, permission) {
+				if (permission === true) {
+					this.props.onDeposit(amount);
+				}
 			}
+		}, {
+			key: 'handleWithdraw',
+			value: function handleWithdraw(amount, permission) {
 
-			_createClass(App, [{
-					key: 'render',
-					value: function render() {
-							return _react2.default.createElement(
-									'div',
-									null,
-									_react2.default.createElement(_Header2.default, null),
-									_react2.default.createElement(
-											'div',
-											{ className: 'container' },
-											_react2.default.createElement(
-													_Grid2.default,
-													null,
-													_react2.default.createElement(
-															_Row2.default,
-															null,
-															_react2.default.createElement(
-																	_Col2.default,
-																	{ lg: 6, md: 6, sm: 12 },
-																	_react2.default.createElement(_Withdraw2.default, null)
-															),
-															_react2.default.createElement(
-																	_Col2.default,
-																	{ lg: 6, md: 6, sm: 12 },
-																	_react2.default.createElement(_Deposit2.default, null)
-															),
-															_react2.default.createElement(
-																	_Col2.default,
-																	{ lg: 12, md: 12, sm: 12 },
-																	_react2.default.createElement(_History2.default, null)
-															)
-													)
-											)
-									)
-							);
-					}
-			}]);
+				if (permission === true) {
+					this.props.onWithdraw(amount);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_Header2.default, { balance: this.props.balance }),
+					_react2.default.createElement(
+						'div',
+						{ className: 'container' },
+						_react2.default.createElement(
+							_Grid2.default,
+							null,
+							_react2.default.createElement(
+								_Row2.default,
+								null,
+								_react2.default.createElement(
+									_Col2.default,
+									{ lg: 6, md: 6, sm: 12 },
+									_react2.default.createElement(_Withdraw2.default, { handleWithdraw: this.handleWithdraw })
+								),
+								_react2.default.createElement(
+									_Col2.default,
+									{ lg: 6, md: 6, sm: 12 },
+									_react2.default.createElement(_Deposit2.default, { handleDeposit: this.handleDeposit })
+								),
+								_react2.default.createElement(
+									_Col2.default,
+									{ lg: 12, md: 12, sm: 12 },
+									_react2.default.createElement(_History2.default, null)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-			return App;
+		return App;
 	}(_react.Component);
 
 	exports.default = App;
@@ -23985,13 +24004,25 @@
 	var Withdraw = function (_Component) {
 		_inherits(Withdraw, _Component);
 
-		function Withdraw() {
+		function Withdraw(props) {
 			_classCallCheck(this, Withdraw);
 
-			return _possibleConstructorReturn(this, (Withdraw.__proto__ || Object.getPrototypeOf(Withdraw)).apply(this, arguments));
+			return _possibleConstructorReturn(this, (Withdraw.__proto__ || Object.getPrototypeOf(Withdraw)).call(this, props));
 		}
 
 		_createClass(Withdraw, [{
+			key: 'onChangeHandle',
+			value: function onChangeHandle(e) {
+
+				this.setState({ value: e.target.value, permission: true });
+			}
+		}, {
+			key: 'getAmount',
+			value: function getAmount(e) {
+				e.preventDefault();
+				this.props.handleWithdraw(this.state.value, this.state.permission);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -24017,7 +24048,8 @@
 							_react2.default.createElement(_FormControl2.default, {
 
 								type: 'number',
-								placeholder: 'Enter amount'
+								placeholder: 'Enter amount',
+								onChange: this.onChangeHandle.bind(this)
 
 							})
 						),
@@ -24026,7 +24058,7 @@
 							null,
 							_react2.default.createElement(
 								_Button2.default,
-								{ type: 'submit', bsStyle: 'primary' },
+								{ onClick: this.getAmount.bind(this), type: 'submit', bsStyle: 'primary' },
 								'Submit'
 							)
 						)
@@ -25000,13 +25032,25 @@
 	var Deposit = function (_Component) {
 		_inherits(Deposit, _Component);
 
-		function Deposit() {
+		function Deposit(props) {
 			_classCallCheck(this, Deposit);
 
-			return _possibleConstructorReturn(this, (Deposit.__proto__ || Object.getPrototypeOf(Deposit)).apply(this, arguments));
+			return _possibleConstructorReturn(this, (Deposit.__proto__ || Object.getPrototypeOf(Deposit)).call(this, props));
 		}
 
 		_createClass(Deposit, [{
+			key: 'onChangeHandle',
+			value: function onChangeHandle(e) {
+
+				this.setState({ value: e.target.value, permission: true });
+			}
+		}, {
+			key: 'getAmount',
+			value: function getAmount(e) {
+				e.preventDefault();
+				this.props.handleDeposit(this.state.value, this.state.permission);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -25032,7 +25076,8 @@
 							_react2.default.createElement(_FormControl2.default, {
 
 								type: 'number',
-								placeholder: 'Enter amount'
+								placeholder: 'Enter amount',
+								onChange: this.onChangeHandle.bind(this)
 
 							})
 						),
@@ -25041,7 +25086,7 @@
 							null,
 							_react2.default.createElement(
 								_Button2.default,
-								{ type: 'submit', bsStyle: 'primary' },
+								{ onClick: this.getAmount.bind(this), type: 'submit', bsStyle: 'primary' },
 								'Submit'
 							)
 						)
@@ -25130,7 +25175,7 @@
 						_react2.default.createElement(
 							'span',
 							null,
-							'0'
+							this.props.balance
 						),
 						' $'
 					)
@@ -29502,7 +29547,7 @@
 		value: true
 	});
 	exports.default = {
-		WITHRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
+		WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
 		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT'
 	};
 

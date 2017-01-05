@@ -6,6 +6,21 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 
 class Deposit extends Component {
+
+	constructor(props) {
+		super(props)
+		
+	}
+	onChangeHandle(e){
+		
+		this.setState({value: e.target.value, permission: true})
+
+	}
+	getAmount(e){
+		e.preventDefault()
+		this.props.handleDeposit(this.state.value, this.state.permission)
+	}
+
 	render() {
 		return (
 
@@ -21,14 +36,14 @@ class Deposit extends Component {
 
 							type="number"
 							placeholder="Enter amount"
-
+							onChange={this.onChangeHandle.bind(this)}
 
 						/>
 
 					</FormGroup>
 
 					<FormGroup>
-						<Button type="submit" bsStyle="primary">Submit</Button>
+						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="primary">Submit</Button>
 					</FormGroup>
 				</form>
 			</div>
