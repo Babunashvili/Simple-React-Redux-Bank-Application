@@ -9,7 +9,6 @@ class History extends Component {
 		
 	}
 	render() {
-		console.log(this.props.trans)
 		return (
 			<div className="well">
 				<h3 className="text-center">Transactions History</h3>

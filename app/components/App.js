@@ -5,6 +5,7 @@ import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 import History from './TransactionHistory/History'
 
+var dateFormat = require('dateformat')
 
 // bootstrap components
 
@@ -25,9 +26,11 @@ class App extends Component {
 
 	createTransaction(amount, desc) {
 		
+		var date = dateFormat(new Date(), "d-mm-yyyy h:MM:ss TT")
+		
 
 		let obj = {
-			date: 10,
+			date: date.toString(),
 			amount: `${amount}`,
 			description: desc
 		}
@@ -50,7 +53,7 @@ class App extends Component {
 		if(permission === true){
 			
 			this.props.onWithdraw(amount)
-			this.createTransaction(amount, "Withdraw into account")
+			this.createTransaction(amount, "Withdraw from account")
 		}
 	}
 	
