@@ -18,7 +18,7 @@ class Withdraw extends Component {
 		this.setState({value: e.target.value, permission: true})
 	}
 	getAmount(e){
-		e.preventDefault()
+		// e.preventDefault()
 		if(checkEmptyAmount(this.state.value)){
 			if(checkAmountQty(this.state.value)){
                 if(checkBalance(this.state.value,this.props.balance)){

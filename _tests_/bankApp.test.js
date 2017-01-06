@@ -1,6 +1,6 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-
+import { shallow, mount } from 'enzyme'
+import sinon from 'sinon'
 import App from '../app/components/App'
 import History from '../app/components/History/History'
 import Header from '../app/components/Header/Header'
@@ -10,7 +10,12 @@ import Withdraw from '../app/components/Withdraw/Withdraw'
 // Bank Store 
 import BankStore from '../app/Store/BankStore'
 
+// constant file
+import constants from '../app/constants'
 
+// Service files
+
+import { alertMessage } from '../app/services/alerts'
 
 describe('App component Testing', () => {
 	const wrapper = shallow(<App balance={BankStore.getState().balance} />)
@@ -27,23 +32,27 @@ describe('App component Testing', () => {
 })
 
 describe('Deposit component Testing', () => {
-	const wrapper = shallow(<Deposit />)
+	var buttonClicked = sinon.spy()
+	const wrapper = mount(<Deposit buttonClicked={buttonClicked} />)
+	wrapper.setProps({
+		handleAlert: alertMessage
+	})
+	BankStore.dispatch({type: constants.DEPOSIT_INTO_ACCOUNT, amount: 10})
 	test('Deposit Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
 	test('Check if value state defined', () => {
 		expect(wrapper.state().value).toBeDefined()
 	})
-	// test('Deposit getState', () => {
-	// 	let state = BankStore.getState()
-	// 	wrapper.setProps({handleAlert: (msg, type) => {
-	// 		wrapper.parent().setState({
-	// 			 alert: [msg,type]
-	// 		})
-	// 	}})
-	// 	wrapper.find('Button').simulate('click')
-	// 	expect(state.balance).toBe(wrapper.state().value)
-	// })
+	test('Deposit checked 10$ add in ', () => {
+		let state = BankStore.getState()
+		expect(state.balance).toEqual(10)
+	})
+	test('Check if button Clicked', () => {
+		wrapper.find('Button').simulate('click')
+		expect(buttonClicked.calledOnce).toEqual(true);
+
+	})
 
 })
 
@@ -55,10 +64,21 @@ describe('Header component Testing', () => {
 })
 
 describe('Withdraw component Testing', () => {
+	const wrapper = mount(<Withdraw />)
+	BankStore.dispatch({type: constants.WITHDRAW_FROM_ACCOUNT, amount: 5})
 	test('Withdraw Component Rendered', () => {
-		const wrapper = shallow(<Withdraw/>)
 		expect(wrapper.length).toBe(1)
 	})
+	test('Check if value state defined', () => {
+		expect(wrapper.state().value).toBeDefined()
+	})
+
+	test('Withdraw checked 10$ withdraw from account', () => {
+		
+		let state = BankStore.getState()
+		expect(state.balance).toEqual(5)
+	})
+
 })
 
 describe('History component Testing', () => {
@@ -69,14 +89,6 @@ describe('History component Testing', () => {
 	// })
 
 })
-describe('Store state Testing', () => {
-	test('Check if get states from store', () => {
-		let state = BankStore.getState()
-		expect(state).toEqual({balance: 0, transactions: []})
-	})
-})
-
-
 
 
 
