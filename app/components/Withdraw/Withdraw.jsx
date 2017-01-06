@@ -25,34 +25,34 @@ class Withdraw extends Component {
 	 */
 	getAmount(e){
 
-		// e.preventDefault()
-		if(checkEmptyAmount(this.state.value)){
-		if(checkEmptyValue(this.state.value)){
-			//If Withdraw Amount Is Not Empty
+			// e.preventDefault()
+			if(checkEmptyAmount(this.state.value)){
+			if(checkEmptyValue(this.state.value)){
+				//If Withdraw Amount Is Not Empty
 
-			if(checkAmountQty(this.state.value)){
-				//If Withdraw Amount > 0
-                if(checkBalance(this.state.value,this.props.balance)){
-                	//If Withdraw Amount <= User Balance
-	                this.props.handleWithdraw(this.state.value, this.state.permission)
-					this.setState({
-						value: ''
-					})
-					this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
-			    }else{
-			    	//If Withdraw Amount > User Balance
-			    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
-		     	}
+				if(checkAmountQty(this.state.value)){
+					//If Withdraw Amount > 0
+	                if(checkBalance(this.state.value,this.props.balance)){
+	                	//If Withdraw Amount <= User Balance
+		                this.props.handleWithdraw(this.state.value, this.state.permission)
+						this.setState({
+							value: ''
+						})
+						this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
+				    }else{
+				    	//If Withdraw Amount > User Balance
+				    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
+			     	}
+				}else{
+					//If Withdraw Amount <= 0
+					this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
+				}
 			}else{
-				//If Withdraw Amount <= 0
-				this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
+				//If Withdraw Amount Is Empty
+				this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 			}
-		}else{
-			//If Withdraw Amount Is Empty
-			this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 		}
 	}
-
 	render() {
 		return (
 			<div>

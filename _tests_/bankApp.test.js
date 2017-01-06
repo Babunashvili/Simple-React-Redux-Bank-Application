@@ -20,7 +20,7 @@ import constants from '../app/constants'
 import { alertMessage } from '../app/services/alerts'
 
 describe('App component Testing', () => {
-	const wrapper = shallow(<App balance={BankStore.getState().balance} />)
+	const wrapper = shallow(<App cards={BankStore.getState().cards} balance={BankStore.getState().balance} />)
 	test('App Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
@@ -35,7 +35,7 @@ describe('App component Testing', () => {
 
 describe('Deposit component Testing', () => {
 	var buttonClicked = sinon.spy()
-	const wrapper = mount(<Deposit buttonClicked={buttonClicked} />)
+	const wrapper = mount(<Deposit cards={BankStore.getState().cards} buttonClicked={buttonClicked} />)
 	wrapper.setProps({
 		handleAlert: alertMessage
 	})
@@ -76,7 +76,7 @@ describe('Withdraw component Testing', () => {
 		expect(wrapper.state().value).toBeDefined()
 	})
 
-	test('Withdraw checked 10$ withdraw from account', () => {
+	test('Withdraw checked 5$ withdraw from account', () => {
 		
 		let state = BankStore.getState()
 		expect(state.balance).toEqual(5)
