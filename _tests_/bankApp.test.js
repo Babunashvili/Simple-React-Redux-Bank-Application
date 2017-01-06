@@ -3,6 +3,8 @@ import { shallow, mount } from 'enzyme'
 import sinon from 'sinon'
 import App from '../app/components/App'
 import History from '../app/components/History/History'
+import HistoryTable from '../app/components/History/HistoryTable'
+import EmptyHistory from '../app/components/History/EmptyHistory'
 import Header from '../app/components/Header/Header'
 import Deposit from '../app/components/Deposit/Deposit'
 import Withdraw from '../app/components/Withdraw/Withdraw'
@@ -88,11 +90,22 @@ describe('Withdraw component Testing', () => {
 })
 
 describe('History component Testing', () => {
+	BankStore.dispatch({transaction: {date: '06-01-2017', amount: '10', description: 'Somthing'}, type:constants.ON_TRANSACTION})
+	const wrapper = shallow(<History trans={BankStore.getState().transactions}/>)
+	
 	test('History Component Rendered', () => {
-		const wrapper = shallow(<History trans={BankStore.getState().transactions}/>)
 		expect(wrapper.length).toBe(1)
-
 	})
+
+	
+})
+
+describe('HistoryTable component Testing', () => {
+	const wrapper = shallow(<HistoryTable trans={BankStore.getState().transactions} />)
+	test('Test if History contain HistoryTable contain', () => {
+		expect(wrapper.length).toBe(1)
+	})
+
 
 })
 
