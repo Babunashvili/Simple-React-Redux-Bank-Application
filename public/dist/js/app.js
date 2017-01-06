@@ -24118,7 +24118,7 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+				if ((0, _validation.checkEmptyValue)(this.state.value)) {
 					//If Withdraw Amount Is Not Empty
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
 						//If Withdraw Amount > 0
@@ -24223,7 +24223,9 @@
 			NULL_WITHDRAW_MSG: 'Withdraw amount must be > 0.',
 			EMPTY_WITHDRAW_MSG: 'Withdraw Amount is required!',
 			NOT_ENOUGH_WITHDRAW_MSG: 'You dont have enough money for withdraw!',
-			NO_TRANSACTIONS_HISTORY: 'You have not any Transactions.'
+			NO_TRANSACTIONS_HISTORY: 'You have not any Transactions.',
+			CARD_NOT_SELECTED: 'Please select credit card for deposit request.',
+			NOT_ENOUGH_BALANCE_ON_CARD_MSG: 'You dont have enough money on credit card for request deposit!'
 		}
 	};
 
@@ -26379,23 +26381,70 @@
 
 /***/ },
 /* 304 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.checkAmountQty = exports.checkEmptyValue = exports.checkCardBalance = exports.checkBalance = undefined;
+
+	var _BankStore = __webpack_require__(329);
+
+	var _BankStore2 = _interopRequireDefault(_BankStore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Check User Balance
+	 *
+	 * @param      {(Number)}  amount   The amount
+	 * @param      {Number}    balance  The balance
+	 * @return     {Boolean}
+	 */
 	var checkBalance = exports.checkBalance = function checkBalance(amount, balance) {
 	    if (amount <= balance) return true;
 	    return false;
 	};
 
-	var checkEmptyAmount = exports.checkEmptyAmount = function checkEmptyAmount(amount) {
+	/**
+	 * Check Credit Card Balance
+	 *
+	 * @param      {Number}  amount  The amount
+	 * @param      {String}    card    The card key
+	 * @return     {Boolean}
+	 */
+	/* ==========================================================================
+	   Form Validations
+	   ========================================================================== */
+
+	var checkCardBalance = exports.checkCardBalance = function checkCardBalance(amount, card) {
+	    var balance = 0;
+	    for (var i = 0; i <= _BankStore2.default.getState().cards.length - 1; i++) {
+	        if (_BankStore2.default.getState().cards[i].key === card) {
+	            balance = _BankStore2.default.getState().cards[i].balance;
+	        }
+	    }
+	    if (amount <= balance) return true;
+	    return false;
+	};
+	/**
+	 * Check If Value Is Empty
+	 *
+	 * @param      {Number}  amount  The amount
+	 * @return     {Boolean}
+	 */
+	var checkEmptyValue = exports.checkEmptyValue = function checkEmptyValue(amount) {
 	    if (amount !== '') return true;
 	    return false;
 	};
-
+	/**
+	 * Check If Amount Is > 0
+	 *
+	 * @param      {Number}   amount  The amount
+	 * @return     {Boolean}
+	 */
 	var checkAmountQty = exports.checkAmountQty = function checkAmountQty(amount) {
 	    if (amount > 0) return true;
 	    return false;
@@ -26492,18 +26541,29 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+				if ((0, _validation.checkEmptyValue)(this.state.value)) {
 					//If Deposit Amount Is Not Empty
-					if ((0, _validation.checkAmountQty)(this.state.value)) {
-						//If Deposit Amount > 0
-						this.props.handleDeposit(this.state.value, this.state.permission);
-						this.setState({
-							value: ''
-						});
-						this.props.handleAlert(_constants2.default.ALERT.SUCCESS_DEPOSIT_MSG, 'success');
+					if ((0, _validation.checkEmptyValue)(this.state.card)) {
+						//If Credit Card Is Selected
+						if ((0, _validation.checkCardBalance)(this.state.value, this.state.card)) {
+							//If Requested Amount <= Credit Card Balance
+							if ((0, _validation.checkAmountQty)(this.state.value)) {
+								//If Deposit Amount > 0
+								this.props.handleDeposit(this.state.value, this.state.permission);
+								this.setState({
+									value: ''
+								});
+								this.props.handleAlert(_constants2.default.ALERT.SUCCESS_DEPOSIT_MSG, 'success');
+							} else {
+								//If Deposit Amount <= 0
+								this.props.handleAlert(_constants2.default.ALERT.NULL_DEPOSIT_MSG, 'danger');
+							}
+						} else {
+							//If Is Not Enough Money On Card
+							this.props.handleAlert(_constants2.default.ALERT.NOT_ENOUGH_BALANCE_ON_CARD_MSG, 'danger');
+						}
 					} else {
-						//If Deposit Amount <= 0
-						this.props.handleAlert(_constants2.default.ALERT.NULL_DEPOSIT_MSG, 'danger');
+						this.props.handleAlert(_constants2.default.ALERT.CARD_NOT_SELECTED, 'danger');
 					}
 				} else {
 					//If Deposit Amount Is Empty

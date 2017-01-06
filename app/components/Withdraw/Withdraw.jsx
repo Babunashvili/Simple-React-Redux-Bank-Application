@@ -5,7 +5,7 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 import Panel from 'react-bootstrap/lib/Panel'
-import { checkBalance, checkEmptyAmount, checkAmountQty } from '../../services/validation'
+import { checkBalance, checkEmptyValue, checkAmountQty } from '../../services/validation'
 
 class Withdraw extends Component {
 	constructor(props) {
@@ -25,7 +25,7 @@ class Withdraw extends Component {
 	 */
 	getAmount(e){
 		e.preventDefault()
-		if(checkEmptyAmount(this.state.value)){
+		if(checkEmptyValue(this.state.value)){
 			//If Withdraw Amount Is Not Empty
 			if(checkAmountQty(this.state.value)){
 				//If Withdraw Amount > 0

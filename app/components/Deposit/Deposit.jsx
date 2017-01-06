@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Panel from 'react-bootstrap/lib/Panel'
-import { checkEmptyAmount, checkAmountQty } from '../../services/validation'
+import { checkEmptyValue, checkAmountQty, checkCardBalance } from '../../services/validation'
 
 class Deposit extends Component {
 	constructor(props) {
@@ -29,18 +29,29 @@ class Deposit extends Component {
 	 */
 	getAmount(e){
 		e.preventDefault()
-		if(checkEmptyAmount(this.state.value)){
+		if(checkEmptyValue(this.state.value)){
 			//If Deposit Amount Is Not Empty
-			if(checkAmountQty(this.state.value)){
-				//If Deposit Amount > 0
-                this.props.handleDeposit(this.state.value, this.state.permission)
-				this.setState({
-					value: ''
-				}) 
-				this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
+			if(checkEmptyValue(this.state.card)){
+	            //If Credit Card Is Selected
+				if(checkCardBalance(this.state.value,this.state.card)){
+				  //If Requested Amount <= Credit Card Balance
+                  if(checkAmountQty(this.state.value)){
+						//If Deposit Amount > 0
+		                this.props.handleDeposit(this.state.value, this.state.permission)
+						this.setState({
+							value: ''
+						}) 
+						this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
+					}else{
+						//If Deposit Amount <= 0
+						this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
+					}
+				}else{
+                   //If Is Not Enough Money On Card
+					this.props.handleAlert(constants.ALERT.NOT_ENOUGH_BALANCE_ON_CARD_MSG,'danger')
+				}
 			}else{
-				//If Deposit Amount <= 0
-				this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
+               this.props.handleAlert(constants.ALERT.CARD_NOT_SELECTED,'danger')
 			}
 		}else{
 			//If Deposit Amount Is Empty
