@@ -1,0 +1,111 @@
+exports[`check components if Match Deposit component Checking 1`] = `
+<div>
+  <div
+    className="panel panel-default"
+    id={undefined}>
+    <div
+      className="panel-heading">
+      Deposit into your Balance
+    </div>
+    <div
+      className="panel-body">
+      <form>
+        <div
+          className="form-group">
+          <label
+            className="control-label"
+            htmlFor={undefined}>
+             Deposit Amount: 
+          </label>
+          <input
+            className="form-control"
+            id={undefined}
+            onChange={[Function]}
+            placeholder="Enter amount"
+            type="number"
+            value="" />
+        </div>
+        <div
+          className="form-group">
+          <button
+            className="btn btn-default"
+            disabled={false}
+            onClick={[Function]}
+            type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`check components if Match Header component Checking 1`] = `
+<nav
+  className="navbar navbar-default">
+  <div
+    className="container">
+    <div
+      className="navbar-header">
+      <a
+        className="navbar-brand"
+        href="#">
+        Simple Bank Application
+      </a>
+    </div>
+    <p
+      className="navbar-text navbar-right">
+      Your balance is 
+      <span
+        className="label label-primary">
+         USD
+      </span>
+          
+    </p>
+  </div>
+</nav>
+`;
+
+exports[`check components if Match Withdraw component Checking 1`] = `
+<div>
+  <div
+    className="panel panel-default"
+    id={undefined}>
+    <div
+      className="panel-heading">
+      Withdraw From Your Balance
+    </div>
+    <div
+      className="panel-body">
+      <form>
+        <div
+          className="form-group">
+          <label
+            className="control-label"
+            htmlFor={undefined}>
+             Withdraw Amount: 
+          </label>
+          <input
+            className="form-control"
+            id={undefined}
+            onChange={[Function]}
+            placeholder="Enter amount"
+            type="number"
+            value="" />
+        </div>
+        <div
+          className="form-group">
+          <button
+            className="btn btn-default"
+            disabled={false}
+            onClick={[Function]}
+            type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
