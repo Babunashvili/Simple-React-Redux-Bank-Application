@@ -102,10 +102,15 @@ describe('History component Testing', () => {
 
 describe('HistoryTable component Testing', () => {
 	const wrapper = shallow(<HistoryTable trans={BankStore.getState().transactions} />)
-	test('Test if History contain HistoryTable contain', () => {
+	test('HistoryTable component exist', () => {
 		expect(wrapper.length).toBe(1)
 	})
 
+	test('Test if History Transaction rendered', () => {
+
+		expect(wrapper.find('tbody').contains('<tr></tr>'))
+
+	})
 
 })
 
