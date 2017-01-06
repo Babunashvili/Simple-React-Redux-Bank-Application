@@ -21,7 +21,7 @@ const InitialState = {
  * Create Bank Reducer
  *
  * @class      BankReducer (state,action)
- * @param      {Onject}  state   The state
+ * @param      {OBject}  state   The state
  * @param      {Object}  action  The action
  * @return     {Object}  { returns updated state object }
  */

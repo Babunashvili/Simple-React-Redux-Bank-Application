@@ -29005,6 +29005,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/* ==========================================================================
+	   Show Alert Messages
+	   ========================================================================== */
 	var alertMessage = exports.alertMessage = function alertMessage() {
 	   var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 	   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
@@ -30834,7 +30837,7 @@
 	 * Create Bank Reducer
 	 *
 	 * @class      BankReducer (state,action)
-	 * @param      {Onject}  state   The state
+	 * @param      {OBject}  state   The state
 	 * @param      {Object}  action  The action
 	 * @return     {Object}  { returns updated state object }
 	 */
