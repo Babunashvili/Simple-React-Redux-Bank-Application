@@ -4,6 +4,8 @@ import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
+import Col from 'react-bootstrap/lib/Col'
+import Row from 'react-bootstrap/lib/Row'
 import Panel from 'react-bootstrap/lib/Panel'
 import { checkEmptyAmount, checkAmountQty } from '../../services/validation'
 
@@ -11,7 +13,8 @@ class Deposit extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			value: ''
+			value: '',
+			card:''
 		}
 	}
 
@@ -26,6 +29,7 @@ class Deposit extends Component {
 	 */
 	getAmount(e){
 		e.preventDefault()
+		console.log(this.state.card)
 		if(checkEmptyAmount(this.state.value)){
 			//If Deposit Amount Is Not Empty
 			if(checkAmountQty(this.state.value)){
@@ -44,21 +48,43 @@ class Deposit extends Component {
 			this.props.handleAlert(constants.ALERT.EMPTY_DEPOSIT_MSG,'danger') 
 		}
 	}
+    /**
+	 * Handle Deposit Card Change
+	 */
+	handleCardChange(e){
+        this.setState({
+        	card:e.target.value
+        })
+	}
 
 	render() {
 		return (
 			<div>
 				<Panel header="Deposit into your Balance">
 			      <form>
-					<FormGroup>
-						<ControlLabel> Deposit Amount: </ControlLabel>
-						<FormControl
-							type="number"
-							placeholder="Enter amount"
-							value={this.state.value}
-							onChange={this.onChangeHandle.bind(this)}
-						/>
-					</FormGroup>
+					<Row>
+	                     <Col md={6}>
+	                       <FormGroup>
+							<ControlLabel> Deposit Amount: </ControlLabel>
+							<FormControl
+								type="number"
+								placeholder="Enter amount"
+								value={this.state.value}
+								onChange={this.onChangeHandle.bind(this)}
+							/>
+						  </FormGroup>
+						</Col>
+						<Col md={6}>
+	                       <FormGroup>
+							<ControlLabel> Choose Credit Card: </ControlLabel>
+							<FormControl componentClass="select" placeholder="Choose Credit Card" onChange={this.handleCardChange.bind(this)}>
+						        <option value=""></option>
+						        <option value="34534343">1234-****-****-**78</option>
+						        <option value="56565665">3252-****-****-**49</option>
+						     </FormControl>
+						  </FormGroup>
+						</Col>
+					</Row>
 					<FormGroup>
 						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="default">Submit</Button>
 					</FormGroup>

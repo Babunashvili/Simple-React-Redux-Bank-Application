@@ -26434,6 +26434,14 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
+	var _Col = __webpack_require__(327);
+
+	var _Col2 = _interopRequireDefault(_Col);
+
+	var _Row = __webpack_require__(328);
+
+	var _Row2 = _interopRequireDefault(_Row);
+
 	var _Panel = __webpack_require__(288);
 
 	var _Panel2 = _interopRequireDefault(_Panel);
@@ -26457,7 +26465,8 @@
 			var _this = _possibleConstructorReturn(this, (Deposit.__proto__ || Object.getPrototypeOf(Deposit)).call(this, props));
 
 			_this.state = {
-				value: ''
+				value: '',
+				card: ''
 			};
 			return _this;
 		}
@@ -26480,6 +26489,7 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
+				console.log(this.state.card);
 				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
 					//If Deposit Amount Is Not Empty
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
@@ -26498,6 +26508,17 @@
 					this.props.handleAlert(_constants2.default.ALERT.EMPTY_DEPOSIT_MSG, 'danger');
 				}
 			}
+			/**
+	  * Handle Deposit Card Change
+	  */
+
+		}, {
+			key: 'handleCardChange',
+			value: function handleCardChange(e) {
+				this.setState({
+					card: e.target.value
+				});
+			}
 		}, {
 			key: 'render',
 			value: function render() {
@@ -26511,19 +26532,55 @@
 							'form',
 							null,
 							_react2.default.createElement(
-								_FormGroup2.default,
+								_Row2.default,
 								null,
 								_react2.default.createElement(
-									_ControlLabel2.default,
-									null,
-									' Deposit Amount: '
+									_Col2.default,
+									{ md: 6 },
+									_react2.default.createElement(
+										_FormGroup2.default,
+										null,
+										_react2.default.createElement(
+											_ControlLabel2.default,
+											null,
+											' Deposit Amount: '
+										),
+										_react2.default.createElement(_FormControl2.default, {
+											type: 'number',
+											placeholder: 'Enter amount',
+											value: this.state.value,
+											onChange: this.onChangeHandle.bind(this)
+										})
+									)
 								),
-								_react2.default.createElement(_FormControl2.default, {
-									type: 'number',
-									placeholder: 'Enter amount',
-									value: this.state.value,
-									onChange: this.onChangeHandle.bind(this)
-								})
+								_react2.default.createElement(
+									_Col2.default,
+									{ md: 6 },
+									_react2.default.createElement(
+										_FormGroup2.default,
+										null,
+										_react2.default.createElement(
+											_ControlLabel2.default,
+											null,
+											' Choose Credit Card: '
+										),
+										_react2.default.createElement(
+											_FormControl2.default,
+											{ componentClass: 'select', placeholder: 'Choose Credit Card', onChange: this.handleCardChange.bind(this) },
+											_react2.default.createElement('option', { value: '' }),
+											_react2.default.createElement(
+												'option',
+												{ value: '34534343' },
+												'1234-****-****-**78'
+											),
+											_react2.default.createElement(
+												'option',
+												{ value: '56565665' },
+												'3252-****-****-**49'
+											)
+										)
+									)
+								)
 							),
 							_react2.default.createElement(
 								_FormGroup2.default,
