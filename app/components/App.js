@@ -47,7 +47,7 @@ class App extends Component {
 
 	handleAlert(msg,type){
 		this.setState({
-           alert:[msg,type]
+           alert: [msg,type]
 		})
 	}
 	
