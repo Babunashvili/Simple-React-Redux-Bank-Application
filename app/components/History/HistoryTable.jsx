@@ -1,17 +1,21 @@
-import React, { Component, PropTypes } from "react"
-
+import React, { Component, PropTypes } from 'react'
 import Table from 'react-bootstrap/lib/Table'
+import Panel from 'react-bootstrap/lib/Panel'
 
-class History extends Component {
+class HistoryTable extends Component {
 	constructor(props) {
 		super(props)
 	}
+    rotate(array){
+	   let temp = []
+		   for (var i = array.length - 1; i >= 0; i--) {
+		   	 temp.push(array[i])
+		   }
+	   return temp
+    }
 	render() {
 		return (
-			<div className="well">
-				<h3 className="text-center">Transactions History</h3>
-				<hr/>
-				<Table responsive>
+			      <Table responsive>
 					<thead>
 						<tr>
 							<th>Date</th>
@@ -20,25 +24,24 @@ class History extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{this.props.trans.map((value, key) => {
+						{this.rotate(this.props.trans).map((value, key) => {
 							return <tr key={key}>
 								<td>{value.date}</td>
 								<td>{value.description}</td>
-								<td>{value.amount}</td>
+								<td>{value.amount} USD</td>
 							</tr>
 						})}
 					</tbody>
 				</Table>
-			</div>
 		)
 	}
 }
 
-History.propTypes = {
+HistoryTable.propTypes = {
 	trans: React.PropTypes.arrayOf(React.PropTypes.shape({
      date: React.PropTypes.string,
      amount: React.PropTypes.string,
      description: React.PropTypes.string  
    }))
 }
-export default History
+export default HistoryTable

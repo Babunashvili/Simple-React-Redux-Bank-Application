@@ -1,13 +1,11 @@
-import React, { Component, PropTypes } from "react"
-
+import React, { Component, PropTypes } from 'react'
+import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
-
-
-import { checkEmptyAmount } from '../../services/validation'
-import { checkAmountQty } from '../../services/validation'
+import Panel from 'react-bootstrap/lib/Panel'
+import { checkEmptyAmount, checkAmountQty } from '../../services/validation'
 
 class Deposit extends Component {
 	constructor(props) {
@@ -19,7 +17,6 @@ class Deposit extends Component {
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
-
 	getAmount(e){
 		e.preventDefault()
 		if(checkEmptyAmount(this.state.value)){
@@ -28,20 +25,20 @@ class Deposit extends Component {
 				this.setState({
 					value: ''
 				}) 
+				this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
 			}else{
-				console.log('Withdrow amount must be > 0')
+				this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
 			}
 		}else{
-			console.log('Deposit Amount is required!') 
+			this.props.handleAlert(constants.ALERT.EMPTY_DEPOSIT_MSG,'danger') 
 		}
 	}
 
 	render() {
 		return (
-			<div className="well">
-				<h3 className="text-center">Deposit</h3>
-				<hr/>
-				<form>
+			<div>
+				<Panel header="Deposit into your Balance">
+			      <form>
 					<FormGroup>
 						<ControlLabel> Deposit Amount: </ControlLabel>
 						<FormControl
@@ -52,16 +49,18 @@ class Deposit extends Component {
 						/>
 					</FormGroup>
 					<FormGroup>
-						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="primary">Submit</Button>
+						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="default">Submit</Button>
 					</FormGroup>
-				</form>
+				 </form>
+			    </Panel>
 			</div>
 		)
 	}
 }
 
 Deposit.propTypes = {
-	handleDeposit: React.PropTypes.func
+	handleDeposit: React.PropTypes.func,
+	handleAlert: React.PropTypes.func
 }
 
 export default Deposit
