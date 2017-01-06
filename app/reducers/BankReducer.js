@@ -17,7 +17,6 @@ const InitialState = {
       }
     ]
 }
-
 /**
  * Create Bank Reducer
  *
@@ -30,7 +29,7 @@ const BankReducer = (state = InitialState, action) => {
 
     switch (action.type) {
         case constants.DEPOSIT_INTO_ACCOUNT:
-        //If Action Is Deposit Request
+            //If Action Is Deposit Request
             for (var i = 0; i <= state.cards.length - 1; i++) {
                 if(state.cards[i].key === action.card){
                    let cardBalance = state.cards[i].balance - action.amount
@@ -48,13 +47,13 @@ const BankReducer = (state = InitialState, action) => {
                 cards:cards
             })
         case constants.WITHDRAW_FROM_ACCOUNT:
-        //If Action Is Withdraw Request
+            //If Action Is Withdraw Request
             return Object.assign({}, state, {
                 balance: state.balance - parseFloat(action.amount)
             })
 
         case constants.ON_TRANSACTION:
-        //If Action Is Transaction
+            //If Action Is Transaction
             let array = [...state.transactions]
             array.push(action.transaction)
             return Object.assign({}, state, {

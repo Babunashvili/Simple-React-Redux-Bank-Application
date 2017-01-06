@@ -30830,7 +30830,6 @@
 	        card: { number: '2456-2246-9524-2252', expires: '08.11.2017', cvc: '785' }
 	    }]
 	};
-
 	/**
 	 * Create Bank Reducer
 	 *
