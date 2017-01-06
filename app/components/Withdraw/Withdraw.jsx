@@ -14,26 +14,38 @@ class Withdraw extends Component {
 			value: ''
 		}
 	}
+	/**
+	 * Handle Withdraw Input Changes
+	 */
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
+	/**
+	 * Handle Deposit Form Submit
+	 */
 	getAmount(e){
 		e.preventDefault()
 		if(checkEmptyAmount(this.state.value)){
+			//If Withdraw Amount Is Not Empty
 			if(checkAmountQty(this.state.value)){
+				//If Withdraw Amount > 0
                 if(checkBalance(this.state.value,this.props.balance)){
+                	//If Withdraw Amount <= User Balance
 	                this.props.handleWithdraw(this.state.value, this.state.permission)
 					this.setState({
 						value: ''
 					})
 					this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
 			    }else{
+			    	//If Withdraw Amount > User Balance
 			    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
 		     	}
 			}else{
+				//If Withdraw Amount <= 0
 				this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
 			}
 		}else{
+			//If Withdraw Amount Is Empty
 			this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 		}
 	}
@@ -61,7 +73,9 @@ class Withdraw extends Component {
 		)
 	}
 }
-
+/**
+ * Add Withdraw Component PropTypes
+ */
 Withdraw.propTypes = {
 	handleWithdraw: React.PropTypes.func,
 	handleAlert: React.PropTypes.func

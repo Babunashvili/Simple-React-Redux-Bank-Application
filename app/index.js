@@ -17,5 +17,9 @@ const render = () => {
 	  document.getElementById('root')
 	)
 }
+/**
+ * Subscribe Store Changes
+ */
 BankStore.subscribe(render)
+
 render()

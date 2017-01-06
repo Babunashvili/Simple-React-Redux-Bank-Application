@@ -83,7 +83,11 @@
 			}
 		}), document.getElementById('root'));
 	};
+	/**
+	 * Subscribe Store Changes
+	 */
 	_BankStore2.default.subscribe(render);
+
 	render();
 
 /***/ },
@@ -21581,6 +21585,15 @@
 			return _this;
 		}
 
+		/**
+	  * Creates a transaction object.
+	  *
+	  * @param      {Int}  amount  The amount
+	  * @param      {String}  desc    The description
+	  * @param      {String}  mark    The mark
+	  */
+
+
 		_createClass(App, [{
 			key: 'createTransaction',
 			value: function createTransaction(amount, desc, mark) {
@@ -21592,6 +21605,13 @@
 				};
 				this.props.onTransaction(obj);
 			}
+			/**
+	   * Handles Deposit Requests
+	   *
+	   * @param      {Int}   amount      The amount
+	   * @param      {Boolean}  permission  The permission
+	   */
+
 		}, {
 			key: 'handleDeposit',
 			value: function handleDeposit(amount, permission) {
@@ -21600,6 +21620,13 @@
 					this.createTransaction(amount, "Deposit into account", "+");
 				}
 			}
+			/**
+	      * Handles Withdraw Requests
+	      *
+	      * @param      {Int}   amount      The amount
+	      * @param      {Boolean}  permission  The permission
+	      */
+
 		}, {
 			key: 'handleWithdraw',
 			value: function handleWithdraw(amount, permission) {
@@ -21608,6 +21635,13 @@
 					this.createTransaction(amount, "Withdraw from account", "-");
 				}
 			}
+			/**
+	   * Handles Alert Messages
+	   *
+	   * @param      {String}  msg     The message
+	   * @param      {Sring}  type    The type
+	   */
+
 		}, {
 			key: 'handleAlert',
 			value: function handleAlert(msg, type) {
@@ -21652,6 +21686,10 @@
 
 		return App;
 	}(_react.Component);
+	/**
+	 * Add App Component PropTypes
+	 */
+
 
 	App.propTypes = {
 		balance: _react2.default.PropTypes.number,
@@ -24056,31 +24094,45 @@
 			};
 			return _this;
 		}
+		/**
+	  * Handle Withdraw Input Changes
+	  */
+
 
 		_createClass(Withdraw, [{
 			key: 'onChangeHandle',
 			value: function onChangeHandle(e) {
 				this.setState({ value: e.target.value, permission: true });
 			}
+			/**
+	   * Handle Deposit Form Submit
+	   */
+
 		}, {
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
 				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+					//If Withdraw Amount Is Not Empty
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
+						//If Withdraw Amount > 0
 						if ((0, _validation.checkBalance)(this.state.value, this.props.balance)) {
+							//If Withdraw Amount <= User Balance
 							this.props.handleWithdraw(this.state.value, this.state.permission);
 							this.setState({
 								value: ''
 							});
 							this.props.handleAlert(_constants2.default.ALERT.SUCCESS_WITHDRAW_MSG, 'success');
 						} else {
+							//If Withdraw Amount > User Balance
 							this.props.handleAlert(_constants2.default.ALERT.NOT_ENOUGH_WITHDRAW_MSG, 'danger');
 						}
 					} else {
+						//If Withdraw Amount <= 0
 						this.props.handleAlert(_constants2.default.ALERT.NULL_WITHDRAW_MSG, 'danger');
 					}
 				} else {
+					//If Withdraw Amount Is Empty
 					this.props.handleAlert(_constants2.default.ALERT.EMPTY_WITHDRAW_MSG, 'danger');
 				}
 			}
@@ -24128,6 +24180,10 @@
 
 		return Withdraw;
 	}(_react.Component);
+	/**
+	 * Add Withdraw Component PropTypes
+	 */
+
 
 	Withdraw.propTypes = {
 		handleWithdraw: _react2.default.PropTypes.func,
@@ -24145,6 +24201,10 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	/* ==========================================================================
+	   List Of Application Constants
+	   ========================================================================== */
+
 	exports.default = {
 		WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
 		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
@@ -26399,26 +26459,39 @@
 			return _this;
 		}
 
+		/**
+	  * Handle Deposit Input Changes
+	  */
+
+
 		_createClass(Deposit, [{
 			key: 'onChangeHandle',
 			value: function onChangeHandle(e) {
 				this.setState({ value: e.target.value, permission: true });
 			}
+			/**
+	   * Handle Deposit Form Submit
+	   */
+
 		}, {
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
 				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+					//If Deposit Amount Is Not Empty
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
+						//If Deposit Amount > 0
 						this.props.handleDeposit(this.state.value, this.state.permission);
 						this.setState({
 							value: ''
 						});
 						this.props.handleAlert(_constants2.default.ALERT.SUCCESS_DEPOSIT_MSG, 'success');
 					} else {
+						//If Deposit Amount <= 0
 						this.props.handleAlert(_constants2.default.ALERT.NULL_DEPOSIT_MSG, 'danger');
 					}
 				} else {
+					//If Deposit Amount Is Empty
 					this.props.handleAlert(_constants2.default.ALERT.EMPTY_DEPOSIT_MSG, 'danger');
 				}
 			}
@@ -26466,6 +26539,11 @@
 
 		return Deposit;
 	}(_react.Component);
+
+	/**
+	 * Add Deposit Component PropTypes
+	 */
+
 
 	Deposit.propTypes = {
 		handleDeposit: _react2.default.PropTypes.func,
@@ -26564,6 +26642,10 @@
 
 		return Header;
 	}(_react.Component);
+	/**
+	 * Add Header Component PropTypes
+	 */
+
 
 	Header.propTypes = {
 		balance: _react2.default.PropTypes.number
@@ -28435,11 +28517,15 @@
 
 			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
 		}
+		/**
+	  * Check transactions history
+	  */
+
 
 		_createClass(History, [{
 			key: 'HistoryContent',
 			value: function HistoryContent() {
-				if (this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: _constants2.default.NO_TRANSACTIONS_HISTORY });
+				if (this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: _constants2.default.ALERT.NO_TRANSACTIONS_HISTORY });
 			}
 		}, {
 			key: 'render',
@@ -28458,6 +28544,10 @@
 
 		return History;
 	}(_react.Component);
+	/**
+	 * Add History Component PropTypes
+	 */
+
 
 	History.propTypes = {
 		trans: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
@@ -28614,6 +28704,13 @@
 
 			return _possibleConstructorReturn(this, (HistoryTable.__proto__ || Object.getPrototypeOf(HistoryTable)).call(this, props));
 		}
+		/**
+	  * Sort transactions history by date
+	  *
+	  * @param      {Array}  The array of transactions
+	  * @return     {Array}  The array of transactions 
+	  */
+
 
 		_createClass(HistoryTable, [{
 			key: 'rotate',
@@ -28685,6 +28782,10 @@
 
 		return HistoryTable;
 	}(_react.Component);
+	/**
+	 * Add HistoryTable Component PropTypes
+	 */
+
 
 	HistoryTable.propTypes = {
 		trans: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
@@ -28741,6 +28842,10 @@
 
 		return EmptyHistory;
 	}(_react.Component);
+	/**
+	 * Add EmptyHistory Component PropTypes
+	 */
+
 
 	EmptyHistory.propTypes = {
 		message: _react2.default.PropTypes.string
@@ -29521,6 +29626,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Create Bank Store
+	 *
+	 * @type       {Function}
+	 */
 	var BankStore = (0, _redux.createStore)(_BankReducer2.default);
 
 	exports.default = BankStore;
@@ -30580,6 +30690,14 @@
 	    transactions: []
 	};
 
+	/**
+	 * Create Bank Reducer
+	 *
+	 * @class      BankReducer (state,action)
+	 * @param      {Onject}  state   The state
+	 * @param      {Object}  action  The action
+	 * @return     {Object}  { returns updated state object }
+	 */
 	var BankReducer = function BankReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : InitialState;
 	    var action = arguments[1];
@@ -30587,15 +30705,18 @@
 
 	    switch (action.type) {
 	        case _constants2.default.DEPOSIT_INTO_ACCOUNT:
+	            //If Action Is Deposit Request
 	            return Object.assign({}, state, {
 	                balance: state.balance + parseFloat(action.amount)
 	            });
 	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
+	            //If Action Is Withdraw Request
 	            return Object.assign({}, state, {
 	                balance: state.balance - parseFloat(action.amount)
 	            });
 
 	        case _constants2.default.ON_TRANSACTION:
+	            //If Action Is Transaction
 	            var array = [].concat(_toConsumableArray(state.transactions));
 	            array.push(action.transaction);
 	            return Object.assign({}, state, {

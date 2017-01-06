@@ -14,22 +14,33 @@ class Deposit extends Component {
 			value: ''
 		}
 	}
+
+	/**
+	 * Handle Deposit Input Changes
+	 */
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
 	}
+	/**
+	 * Handle Deposit Form Submit
+	 */
 	getAmount(e){
 		e.preventDefault()
 		if(checkEmptyAmount(this.state.value)){
+			//If Deposit Amount Is Not Empty
 			if(checkAmountQty(this.state.value)){
+				//If Deposit Amount > 0
                 this.props.handleDeposit(this.state.value, this.state.permission)
 				this.setState({
 					value: ''
 				}) 
 				this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
 			}else{
+				//If Deposit Amount <= 0
 				this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
 			}
 		}else{
+			//If Deposit Amount Is Empty
 			this.props.handleAlert(constants.ALERT.EMPTY_DEPOSIT_MSG,'danger') 
 		}
 	}
@@ -58,6 +69,9 @@ class Deposit extends Component {
 	}
 }
 
+/**
+ * Add Deposit Component PropTypes
+ */
 Deposit.propTypes = {
 	handleDeposit: React.PropTypes.func,
 	handleAlert: React.PropTypes.func

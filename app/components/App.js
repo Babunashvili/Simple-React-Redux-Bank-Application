@@ -21,7 +21,14 @@ class App extends Component {
 		this.handleWithdraw =this.handleWithdraw.bind(this)
 		this.handleAlert =this.handleAlert.bind(this)
 	}
-
+    
+    /**
+     * Creates a transaction object.
+     *
+     * @param      {Int}  amount  The amount
+     * @param      {String}  desc    The description
+     * @param      {String}  mark    The mark
+     */
 	createTransaction(amount, desc, mark) {
 		var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT")
 		let obj = {
@@ -31,20 +38,36 @@ class App extends Component {
 		}
 		this.props.onTransaction(obj)
 	}
-
+    /**
+     * Handles Deposit Requests
+     *
+     * @param      {Int}   amount      The amount
+     * @param      {Boolean}  permission  The permission
+     */
 	handleDeposit(amount, permission){
 		if(permission === true){
 			this.props.onDeposit(amount)
 			this.createTransaction(amount, "Deposit into account", "+") 	
 		}
 	}
+	/**
+     * Handles Withdraw Requests
+     *
+     * @param      {Int}   amount      The amount
+     * @param      {Boolean}  permission  The permission
+     */
 	handleWithdraw(amount, permission){
 		if(permission === true){
 			this.props.onWithdraw(amount)
 			this.createTransaction(amount, "Withdraw from account", "-")
 		}
 	}
-
+    /**
+     * Handles Alert Messages
+     *
+     * @param      {String}  msg     The message
+     * @param      {Sring}  type    The type
+     */
 	handleAlert(msg,type){
 		this.setState({
            alert:[msg,type]
@@ -73,6 +96,9 @@ class App extends Component {
     )
   }
 }
+/**
+ * Add App Component PropTypes
+ */
 App.propTypes = {
 	balance: React.PropTypes.number,
 	transactions: React.PropTypes.array,

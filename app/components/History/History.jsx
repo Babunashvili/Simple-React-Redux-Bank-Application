@@ -9,12 +9,14 @@ class History extends Component {
 	constructor(props) {
 		super(props)
 	}
-
+    /**
+     * Check transactions history
+     */
 	HistoryContent(){
 			if(this.props.trans.length > 0)
 				return <HistoryTable trans={this.props.trans} />
 			else 
-                return <EmptyHistory message={constants.NO_TRANSACTIONS_HISTORY} />
+                return <EmptyHistory message={constants.ALERT.NO_TRANSACTIONS_HISTORY} />
 	}
 
 	render() {
@@ -27,7 +29,9 @@ class History extends Component {
 		)
 	}
 }
-
+/**
+ * Add History Component PropTypes
+ */
 History.propTypes = {
 	trans: React.PropTypes.arrayOf(React.PropTypes.shape({
      date: React.PropTypes.string,

@@ -1,3 +1,7 @@
+/* ==========================================================================
+   List Of Application Constants
+   ========================================================================== */
+
 export default {
 	WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
 	DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
