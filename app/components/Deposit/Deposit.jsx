@@ -29,7 +29,6 @@ class Deposit extends Component {
 	 */
 	getAmount(e){
 		e.preventDefault()
-		console.log(this.state.card)
 		if(checkEmptyAmount(this.state.value)){
 			//If Deposit Amount Is Not Empty
 			if(checkAmountQty(this.state.value)){
@@ -79,8 +78,9 @@ class Deposit extends Component {
 							<ControlLabel> Choose Credit Card: </ControlLabel>
 							<FormControl componentClass="select" placeholder="Choose Credit Card" onChange={this.handleCardChange.bind(this)}>
 						        <option value=""></option>
-						        <option value="34534343">1234-****-****-**78</option>
-						        <option value="56565665">3252-****-****-**49</option>
+						        {this.props.cards.map((value,key) => {
+						        	return <option key={key} value={value.key}>{value.card.number}</option>
+						        })}
 						     </FormControl>
 						  </FormGroup>
 						</Col>

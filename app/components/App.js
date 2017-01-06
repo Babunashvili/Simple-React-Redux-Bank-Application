@@ -10,6 +10,7 @@ import { randomString } from '../services/randomGenerator'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
+import { hiddenCard } from '../services/hideCard'
 
 class App extends Component {
 	constructor(props){
@@ -87,7 +88,7 @@ class App extends Component {
 			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} balance={this.props.balance} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
-			        		<Deposit handleAlert={this.handleAlert} handleDeposit={this.handleDeposit} />
+			        		<Deposit handleAlert={this.handleAlert} handleDeposit={this.handleDeposit} cards={hiddenCard(this.props.cards)} />
 			        	</Col>
 			        	<Col lg={12} md={12} sm={12}>
 			        		<History trans={this.props.transactions} />

@@ -3,7 +3,19 @@ import constants from '../constants'
 
 const InitialState = {
     balance: 0,
-    transactions: []
+    transactions: [],
+    cards:[
+      { 
+        key:'343433434',
+        balance:100,
+        card: {number:'1234-5678-2345-7890',expires:'05.12.2017',cvc:'123'}
+      },
+      { 
+        key:'466433546',
+        balance:1600,
+        card: {number:'2456-2246-9524-2252',expires:'08.11.2017',cvc:'785'}
+      }
+    ]
 }
 
 /**

@@ -72,6 +72,7 @@
 		_reactDom2.default.render(_react2.default.createElement(_App2.default, {
 			balance: _BankStore2.default.getState().balance,
 			transactions: _BankStore2.default.getState().transactions,
+			cards: _BankStore2.default.getState().cards,
 			onDeposit: function onDeposit(amount) {
 				_BankStore2.default.dispatch({ type: _constants2.default.DEPOSIT_INTO_ACCOUNT, amount: amount });
 			},
@@ -21559,6 +21560,8 @@
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
+	var _hideCard = __webpack_require__(355);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -21674,7 +21677,7 @@
 							_react2.default.createElement(
 								_Col2.default,
 								{ lg: 6, md: 6, sm: 12 },
-								_react2.default.createElement(_Deposit2.default, { handleAlert: this.handleAlert, handleDeposit: this.handleDeposit })
+								_react2.default.createElement(_Deposit2.default, { handleAlert: this.handleAlert, handleDeposit: this.handleDeposit, cards: (0, _hideCard.hiddenCard)(this.props.cards) })
 							),
 							_react2.default.createElement(
 								_Col2.default,
@@ -26489,7 +26492,6 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				console.log(this.state.card);
 				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
 					//If Deposit Amount Is Not Empty
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
@@ -26568,16 +26570,13 @@
 											_FormControl2.default,
 											{ componentClass: 'select', placeholder: 'Choose Credit Card', onChange: this.handleCardChange.bind(this) },
 											_react2.default.createElement('option', { value: '' }),
-											_react2.default.createElement(
-												'option',
-												{ value: '34534343' },
-												'1234-****-****-**78'
-											),
-											_react2.default.createElement(
-												'option',
-												{ value: '56565665' },
-												'3252-****-****-**49'
-											)
+											this.props.cards.map(function (value, key) {
+												return _react2.default.createElement(
+													'option',
+													{ key: key, value: value.key },
+													value.card.number
+												);
+											})
 										)
 									)
 								)
@@ -30757,7 +30756,16 @@
 
 	var InitialState = {
 	    balance: 0,
-	    transactions: []
+	    transactions: [],
+	    cards: [{
+	        key: '343433434',
+	        balance: 100,
+	        card: { number: '1234-5678-2345-7890', expires: '05.12.2017', cvc: '123' }
+	    }, {
+	        key: '466433546',
+	        balance: 1600,
+	        card: { number: '2456-2246-9524-2252', expires: '08.11.2017', cvc: '785' }
+	    }]
 	};
 
 	/**
@@ -30821,6 +30829,37 @@
 	        randomString += charSet.substring(randomPoz, randomPoz + 1);
 	    }
 	    return randomString;
+	};
+
+/***/ },
+/* 353 */,
+/* 354 */,
+/* 355 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	/* ==========================================================================
+	   Hide Card Number
+	   ========================================================================== */
+
+	var hiddenCard = exports.hiddenCard = function hiddenCard(cards) {
+	   var newCards = [];
+	   cards.forEach(function (card, key) {
+	      var number = card.card.number.split('-');
+	      var newNumber = '****-****-****-' + number[3];
+	      newCards.push({
+	         key: card.key,
+	         balance: card.card.balance,
+	         card: {
+	            number: newNumber, expires: card.card.expires, cvc: card.card.cvc
+	         }
+	      });
+	   });
+	   return newCards;
 	};
 
 /***/ }
