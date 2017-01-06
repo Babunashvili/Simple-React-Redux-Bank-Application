@@ -47,9 +47,9 @@ class App extends Component {
      * @param      {Int}   amount      The amount
      * @param      {Boolean}  permission  The permission
      */
-	handleDeposit(amount, permission){
+	handleDeposit(amount, permission,card){
 		if(permission === true){
-			this.props.onDeposit(amount)
+			this.props.onDeposit(amount,card)
 			this.createTransaction(amount, "Deposit into account", "+") 	
 		}
 	}

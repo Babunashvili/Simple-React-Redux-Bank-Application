@@ -37,7 +37,7 @@ class Deposit extends Component {
 				  //If Requested Amount <= Credit Card Balance
                   if(checkAmountQty(this.state.value)){
 						//If Deposit Amount > 0
-		                this.props.handleDeposit(this.state.value, this.state.permission)
+		                this.props.handleDeposit(this.state.value, this.state.permission,this.state.card)
 						this.setState({
 							value: ''
 						}) 
@@ -90,7 +90,7 @@ class Deposit extends Component {
 							<FormControl componentClass="select" placeholder="Choose Credit Card" onChange={this.handleCardChange.bind(this)}>
 						        <option value=""></option>
 						        {this.props.cards.map((value,key) => {
-						        	return <option key={key} value={value.key}>{value.card.number}</option>
+						        	return <option key={key} value={value.key}>{value.card.number} ({value.balance} USD)</option>
 						        })}
 						     </FormControl>
 						  </FormGroup>

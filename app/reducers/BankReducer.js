@@ -31,8 +31,21 @@ const BankReducer = (state = InitialState, action) => {
     switch (action.type) {
         case constants.DEPOSIT_INTO_ACCOUNT:
         //If Action Is Deposit Request
+            for (var i = 0; i <= state.cards.length - 1; i++) {
+                if(state.cards[i].key === action.card){
+                   let cardBalance = state.cards[i].balance - action.amount
+                   let newCard = {key:state.cards[i].key,balance:cardBalance,card: {
+                     number:state.cards[i].card.number,
+                     expires:state.cards[i].card.expires,
+                     cvc:state.cards[i].card.cvc
+                   }}
+                   var cards = state.cards
+                   cards[i] = newCard
+                }
+            }
             return Object.assign({}, state, {
-                balance: state.balance + parseFloat(action.amount)
+                balance: state.balance + parseFloat(action.amount),
+                cards:cards
             })
         case constants.WITHDRAW_FROM_ACCOUNT:
         //If Action Is Withdraw Request

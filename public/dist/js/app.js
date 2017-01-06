@@ -73,8 +73,8 @@
 			balance: _BankStore2.default.getState().balance,
 			transactions: _BankStore2.default.getState().transactions,
 			cards: _BankStore2.default.getState().cards,
-			onDeposit: function onDeposit(amount) {
-				_BankStore2.default.dispatch({ type: _constants2.default.DEPOSIT_INTO_ACCOUNT, amount: amount });
+			onDeposit: function onDeposit(amount, card) {
+				_BankStore2.default.dispatch({ type: _constants2.default.DEPOSIT_INTO_ACCOUNT, amount: amount, card: card });
 			},
 			onWithdraw: function onWithdraw(amount) {
 				_BankStore2.default.dispatch({ type: _constants2.default.WITHDRAW_FROM_ACCOUNT, amount: amount });
@@ -21620,9 +21620,9 @@
 
 		}, {
 			key: 'handleDeposit',
-			value: function handleDeposit(amount, permission) {
+			value: function handleDeposit(amount, permission, card) {
 				if (permission === true) {
-					this.props.onDeposit(amount);
+					this.props.onDeposit(amount, card);
 					this.createTransaction(amount, "Deposit into account", "+");
 				}
 			}
@@ -26549,7 +26549,7 @@
 							//If Requested Amount <= Credit Card Balance
 							if ((0, _validation.checkAmountQty)(this.state.value)) {
 								//If Deposit Amount > 0
-								this.props.handleDeposit(this.state.value, this.state.permission);
+								this.props.handleDeposit(this.state.value, this.state.permission, this.state.card);
 								this.setState({
 									value: ''
 								});
@@ -26634,7 +26634,10 @@
 												return _react2.default.createElement(
 													'option',
 													{ key: key, value: value.key },
-													value.card.number
+													value.card.number,
+													' (',
+													value.balance,
+													' USD)'
 												);
 											})
 										)
@@ -30844,8 +30847,21 @@
 	    switch (action.type) {
 	        case _constants2.default.DEPOSIT_INTO_ACCOUNT:
 	            //If Action Is Deposit Request
+	            for (var i = 0; i <= state.cards.length - 1; i++) {
+	                if (state.cards[i].key === action.card) {
+	                    var cardBalance = state.cards[i].balance - action.amount;
+	                    var newCard = { key: state.cards[i].key, balance: cardBalance, card: {
+	                            number: state.cards[i].card.number,
+	                            expires: state.cards[i].card.expires,
+	                            cvc: state.cards[i].card.cvc
+	                        } };
+	                    var cards = state.cards;
+	                    cards[i] = newCard;
+	                }
+	            }
 	            return Object.assign({}, state, {
-	                balance: state.balance + parseFloat(action.amount)
+	                balance: state.balance + parseFloat(action.amount),
+	                cards: cards
 	            });
 	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
 	            //If Action Is Withdraw Request
@@ -30913,7 +30929,7 @@
 	      var newNumber = '****-****-****-' + number[3];
 	      newCards.push({
 	         key: card.key,
-	         balance: card.card.balance,
+	         balance: card.balance,
 	         card: {
 	            number: newNumber, expires: card.card.expires, cvc: card.card.cvc
 	         }

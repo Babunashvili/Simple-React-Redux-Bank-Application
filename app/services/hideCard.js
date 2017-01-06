@@ -9,7 +9,7 @@ export const  hiddenCard = (cards) => {
 	  let newNumber = '****-****-****-'+number[3]
       newCards.push({
       	key:card.key,
-      	balance:card.card.balance,
+      	balance:card.balance,
       	card:{
       		number:newNumber,expires:card.card.expires,cvc:card.card.cvc
       	}
