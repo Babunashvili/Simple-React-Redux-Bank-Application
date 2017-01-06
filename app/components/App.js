@@ -6,6 +6,7 @@ import Header from './Header/Header'
 import History from './History/History'
 import { alertMessage } from '../services/alerts'
 import dateFormat from 'dateformat'
+import { randomString } from '../services/randomGenerator'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
@@ -32,6 +33,7 @@ class App extends Component {
 	createTransaction(amount, desc, mark) {
 		var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT")
 		let obj = {
+			trans_id: randomString(8),
 			date: date.toString(),
 			amount: `${mark}${amount}`,
 			description: desc

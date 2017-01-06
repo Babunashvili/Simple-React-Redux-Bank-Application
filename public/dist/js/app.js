@@ -21545,6 +21545,8 @@
 
 	var _dateformat2 = _interopRequireDefault(_dateformat);
 
+	var _randomGenerator = __webpack_require__(352);
+
 	var _Col = __webpack_require__(327);
 
 	var _Col2 = _interopRequireDefault(_Col);
@@ -21599,6 +21601,7 @@
 			value: function createTransaction(amount, desc, mark) {
 				var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT");
 				var obj = {
+					trans_id: (0, _randomGenerator.randomString)(8),
 					date: date.toString(),
 					amount: '' + mark + amount,
 					description: desc
@@ -28736,6 +28739,11 @@
 							_react2.default.createElement(
 								'th',
 								null,
+								'Transaction ID'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
 								'Date'
 							),
 							_react2.default.createElement(
@@ -28757,6 +28765,11 @@
 							return _react2.default.createElement(
 								'tr',
 								{ key: key },
+								_react2.default.createElement(
+									'td',
+									null,
+									value.trans_id
+								),
 								_react2.default.createElement(
 									'td',
 									null,
@@ -30729,6 +30742,29 @@
 	};
 
 	exports.default = BankReducer;
+
+/***/ },
+/* 352 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/* ==========================================================================
+	   Create Random String Generator
+	   ========================================================================== */
+
+	var randomString = exports.randomString = function randomString(len) {
+	    var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	    var randomString = '';
+	    for (var i = 0; i < len; i++) {
+	        var randomPoz = Math.floor(Math.random() * charSet.length);
+	        randomString += charSet.substring(randomPoz, randomPoz + 1);
+	    }
+	    return randomString;
+	};
 
 /***/ }
 /******/ ]);
