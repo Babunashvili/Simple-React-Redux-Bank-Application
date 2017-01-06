@@ -6,6 +6,12 @@ class HistoryTable extends Component {
 	constructor(props) {
 		super(props)
 	}
+	/**
+	 * Sort transactions history by date
+	 *
+	 * @param      {Array}  The array of transactions
+	 * @return     {Array}  The array of transactions 
+	 */
     rotate(array){
 	   let temp = []
 		   for (var i = array.length - 1; i >= 0; i--) {
@@ -13,11 +19,13 @@ class HistoryTable extends Component {
 		   }
 	   return temp
     }
+    
 	render() {
 		return (
 			      <Table responsive>
 					<thead>
 						<tr>
+							<th>Transaction ID</th>
 							<th>Date</th>
 							<th>Description</th>
 							<th>Amount</th>
@@ -26,6 +34,7 @@ class HistoryTable extends Component {
 					<tbody>
 						{this.rotate(this.props.trans).map((value, key) => {
 							return <tr key={key}>
+								<td>{value.trans_id}</td>
 								<td>{value.date}</td>
 								<td>{value.description}</td>
 								<td>{value.amount} USD</td>
@@ -36,7 +45,9 @@ class HistoryTable extends Component {
 		)
 	}
 }
-
+/**
+ * Add HistoryTable Component PropTypes
+ */
 HistoryTable.propTypes = {
 	trans: React.PropTypes.arrayOf(React.PropTypes.shape({
      date: React.PropTypes.string,

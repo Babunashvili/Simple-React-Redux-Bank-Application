@@ -12,6 +12,9 @@ class EmptyHistory extends Component {
 		)
 	}
 }
+/**
+ * Add EmptyHistory Component PropTypes
+ */
 EmptyHistory.propTypes = {
 	message: React.PropTypes.string,
 }

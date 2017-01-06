@@ -21,7 +21,9 @@ class Header extends Component {
 		)
 	}
 }
-
+/**
+ * Add Header Component PropTypes
+ */
 Header.propTypes = {
 	balance: React.PropTypes.number
 }

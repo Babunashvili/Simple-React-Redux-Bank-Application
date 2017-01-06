@@ -72,8 +72,9 @@
 		_reactDom2.default.render(_react2.default.createElement(_App2.default, {
 			balance: _BankStore2.default.getState().balance,
 			transactions: _BankStore2.default.getState().transactions,
-			onDeposit: function onDeposit(amount) {
-				_BankStore2.default.dispatch({ type: _constants2.default.DEPOSIT_INTO_ACCOUNT, amount: amount });
+			cards: _BankStore2.default.getState().cards,
+			onDeposit: function onDeposit(amount, card) {
+				_BankStore2.default.dispatch({ type: _constants2.default.DEPOSIT_INTO_ACCOUNT, amount: amount, card: card });
 			},
 			onWithdraw: function onWithdraw(amount) {
 				_BankStore2.default.dispatch({ type: _constants2.default.WITHDRAW_FROM_ACCOUNT, amount: amount });
@@ -83,7 +84,11 @@
 			}
 		}), document.getElementById('root'));
 	};
+	/**
+	 * Subscribe Store Changes
+	 */
 	_BankStore2.default.subscribe(render);
+
 	render();
 
 /***/ },
@@ -21541,6 +21546,8 @@
 
 	var _dateformat2 = _interopRequireDefault(_dateformat);
 
+	var _randomGenerator = __webpack_require__(352);
+
 	var _Col = __webpack_require__(327);
 
 	var _Col2 = _interopRequireDefault(_Col);
@@ -21552,6 +21559,8 @@
 	var _Grid = __webpack_require__(311);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
+
+	var _hideCard = __webpack_require__(355);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21581,25 +21590,49 @@
 			return _this;
 		}
 
+		/**
+	  * Creates a transaction object.
+	  *
+	  * @param      {Int}  amount  The amount
+	  * @param      {String}  desc    The description
+	  * @param      {String}  mark    The mark
+	  */
+
+
 		_createClass(App, [{
 			key: 'createTransaction',
 			value: function createTransaction(amount, desc, mark) {
 				var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT");
 				var obj = {
+					trans_id: (0, _randomGenerator.randomString)(8),
 					date: date.toString(),
 					amount: '' + mark + amount,
 					description: desc
 				};
 				this.props.onTransaction(obj);
 			}
+			/**
+	   * Handles Deposit Requests
+	   *
+	   * @param      {Int}   amount      The amount
+	   * @param      {Boolean}  permission  The permission
+	   */
+
 		}, {
 			key: 'handleDeposit',
-			value: function handleDeposit(amount, permission) {
+			value: function handleDeposit(amount, permission, card) {
 				if (permission === true) {
-					this.props.onDeposit(amount);
+					this.props.onDeposit(amount, card);
 					this.createTransaction(amount, "Deposit into account", "+");
 				}
 			}
+			/**
+	      * Handles Withdraw Requests
+	      *
+	      * @param      {Int}   amount      The amount
+	      * @param      {Boolean}  permission  The permission
+	      */
+
 		}, {
 			key: 'handleWithdraw',
 			value: function handleWithdraw(amount, permission) {
@@ -21608,6 +21641,13 @@
 					this.createTransaction(amount, "Withdraw from account", "-");
 				}
 			}
+			/**
+	   * Handles Alert Messages
+	   *
+	   * @param      {String}  msg     The message
+	   * @param      {Sring}  type    The type
+	   */
+
 		}, {
 			key: 'handleAlert',
 			value: function handleAlert(msg, type) {
@@ -21637,7 +21677,7 @@
 							_react2.default.createElement(
 								_Col2.default,
 								{ lg: 6, md: 6, sm: 12 },
-								_react2.default.createElement(_Deposit2.default, { handleAlert: this.handleAlert, handleDeposit: this.handleDeposit })
+								_react2.default.createElement(_Deposit2.default, { handleAlert: this.handleAlert, handleDeposit: this.handleDeposit, cards: (0, _hideCard.hiddenCard)(this.props.cards) })
 							),
 							_react2.default.createElement(
 								_Col2.default,
@@ -21652,6 +21692,10 @@
 
 		return App;
 	}(_react.Component);
+	/**
+	 * Add App Component PropTypes
+	 */
+
 
 	App.propTypes = {
 		balance: _react2.default.PropTypes.number,
@@ -24056,31 +24100,45 @@
 			};
 			return _this;
 		}
+		/**
+	  * Handle Withdraw Input Changes
+	  */
+
 
 		_createClass(Withdraw, [{
 			key: 'onChangeHandle',
 			value: function onChangeHandle(e) {
 				this.setState({ value: e.target.value, permission: true });
 			}
+			/**
+	   * Handle Deposit Form Submit
+	   */
+
 		}, {
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
+				if ((0, _validation.checkEmptyValue)(this.state.value)) {
+					//If Withdraw Amount Is Not Empty
 					if ((0, _validation.checkAmountQty)(this.state.value)) {
+						//If Withdraw Amount > 0
 						if ((0, _validation.checkBalance)(this.state.value, this.props.balance)) {
+							//If Withdraw Amount <= User Balance
 							this.props.handleWithdraw(this.state.value, this.state.permission);
 							this.setState({
 								value: ''
 							});
 							this.props.handleAlert(_constants2.default.ALERT.SUCCESS_WITHDRAW_MSG, 'success');
 						} else {
+							//If Withdraw Amount > User Balance
 							this.props.handleAlert(_constants2.default.ALERT.NOT_ENOUGH_WITHDRAW_MSG, 'danger');
 						}
 					} else {
+						//If Withdraw Amount <= 0
 						this.props.handleAlert(_constants2.default.ALERT.NULL_WITHDRAW_MSG, 'danger');
 					}
 				} else {
+					//If Withdraw Amount Is Empty
 					this.props.handleAlert(_constants2.default.ALERT.EMPTY_WITHDRAW_MSG, 'danger');
 				}
 			}
@@ -24128,6 +24186,10 @@
 
 		return Withdraw;
 	}(_react.Component);
+	/**
+	 * Add Withdraw Component PropTypes
+	 */
+
 
 	Withdraw.propTypes = {
 		handleWithdraw: _react2.default.PropTypes.func,
@@ -24145,6 +24207,10 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	/* ==========================================================================
+	   List Of Application Constants
+	   ========================================================================== */
+
 	exports.default = {
 		WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
 		DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
@@ -24156,7 +24222,10 @@
 			SUCCESS_WITHDRAW_MSG: 'Your withdraw request has been successfully submited.',
 			NULL_WITHDRAW_MSG: 'Withdraw amount must be > 0.',
 			EMPTY_WITHDRAW_MSG: 'Withdraw Amount is required!',
-			NOT_ENOUGH_WITHDRAW_MSG: 'You dont have enough money for withdraw!'
+			NOT_ENOUGH_WITHDRAW_MSG: 'You dont have enough money for withdraw!',
+			NO_TRANSACTIONS_HISTORY: 'You have not any Transactions.',
+			CARD_NOT_SELECTED: 'Please select credit card for deposit request.',
+			NOT_ENOUGH_BALANCE_ON_CARD_MSG: 'You dont have enough money on credit card for request deposit!'
 		}
 	};
 
@@ -26312,23 +26381,70 @@
 
 /***/ },
 /* 304 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.checkAmountQty = exports.checkEmptyValue = exports.checkCardBalance = exports.checkBalance = undefined;
+
+	var _BankStore = __webpack_require__(329);
+
+	var _BankStore2 = _interopRequireDefault(_BankStore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Check User Balance
+	 *
+	 * @param      {(Number)}  amount   The amount
+	 * @param      {Number}    balance  The balance
+	 * @return     {Boolean}
+	 */
 	var checkBalance = exports.checkBalance = function checkBalance(amount, balance) {
 	    if (amount <= balance) return true;
 	    return false;
 	};
 
-	var checkEmptyAmount = exports.checkEmptyAmount = function checkEmptyAmount(amount) {
+	/**
+	 * Check Credit Card Balance
+	 *
+	 * @param      {Number}  amount  The amount
+	 * @param      {String}    card    The card key
+	 * @return     {Boolean}
+	 */
+	/* ==========================================================================
+	   Form Validations
+	   ========================================================================== */
+
+	var checkCardBalance = exports.checkCardBalance = function checkCardBalance(amount, card) {
+	    var balance = 0;
+	    for (var i = 0; i <= _BankStore2.default.getState().cards.length - 1; i++) {
+	        if (_BankStore2.default.getState().cards[i].key === card) {
+	            balance = _BankStore2.default.getState().cards[i].balance;
+	        }
+	    }
+	    if (amount <= balance) return true;
+	    return false;
+	};
+	/**
+	 * Check If Value Is Empty
+	 *
+	 * @param      {Number}  amount  The amount
+	 * @return     {Boolean}
+	 */
+	var checkEmptyValue = exports.checkEmptyValue = function checkEmptyValue(amount) {
 	    if (amount !== '') return true;
 	    return false;
 	};
-
+	/**
+	 * Check If Amount Is > 0
+	 *
+	 * @param      {Number}   amount  The amount
+	 * @return     {Boolean}
+	 */
 	var checkAmountQty = exports.checkAmountQty = function checkAmountQty(amount) {
 	    if (amount > 0) return true;
 	    return false;
@@ -26370,6 +26486,14 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
+	var _Col = __webpack_require__(327);
+
+	var _Col2 = _interopRequireDefault(_Col);
+
+	var _Row = __webpack_require__(328);
+
+	var _Row2 = _interopRequireDefault(_Row);
+
 	var _Panel = __webpack_require__(288);
 
 	var _Panel2 = _interopRequireDefault(_Panel);
@@ -26393,33 +26517,69 @@
 			var _this = _possibleConstructorReturn(this, (Deposit.__proto__ || Object.getPrototypeOf(Deposit)).call(this, props));
 
 			_this.state = {
-				value: ''
+				value: '',
+				card: ''
 			};
 			return _this;
 		}
+
+		/**
+	  * Handle Deposit Input Changes
+	  */
+
 
 		_createClass(Deposit, [{
 			key: 'onChangeHandle',
 			value: function onChangeHandle(e) {
 				this.setState({ value: e.target.value, permission: true });
 			}
+			/**
+	   * Handle Deposit Form Submit
+	   */
+
 		}, {
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				if ((0, _validation.checkEmptyAmount)(this.state.value)) {
-					if ((0, _validation.checkAmountQty)(this.state.value)) {
-						this.props.handleDeposit(this.state.value, this.state.permission);
-						this.setState({
-							value: ''
-						});
-						this.props.handleAlert(_constants2.default.ALERT.SUCCESS_DEPOSIT_MSG, 'success');
+				if ((0, _validation.checkEmptyValue)(this.state.value)) {
+					//If Deposit Amount Is Not Empty
+					if ((0, _validation.checkEmptyValue)(this.state.card)) {
+						//If Credit Card Is Selected
+						if ((0, _validation.checkCardBalance)(this.state.value, this.state.card)) {
+							//If Requested Amount <= Credit Card Balance
+							if ((0, _validation.checkAmountQty)(this.state.value)) {
+								//If Deposit Amount > 0
+								this.props.handleDeposit(this.state.value, this.state.permission, this.state.card);
+								this.setState({
+									value: ''
+								});
+								this.props.handleAlert(_constants2.default.ALERT.SUCCESS_DEPOSIT_MSG, 'success');
+							} else {
+								//If Deposit Amount <= 0
+								this.props.handleAlert(_constants2.default.ALERT.NULL_DEPOSIT_MSG, 'danger');
+							}
+						} else {
+							//If Is Not Enough Money On Card
+							this.props.handleAlert(_constants2.default.ALERT.NOT_ENOUGH_BALANCE_ON_CARD_MSG, 'danger');
+						}
 					} else {
-						this.props.handleAlert(_constants2.default.ALERT.NULL_DEPOSIT_MSG, 'danger');
+						this.props.handleAlert(_constants2.default.ALERT.CARD_NOT_SELECTED, 'danger');
 					}
 				} else {
+					//If Deposit Amount Is Empty
 					this.props.handleAlert(_constants2.default.ALERT.EMPTY_DEPOSIT_MSG, 'danger');
 				}
+			}
+			/**
+	  * Handle Deposit Card Change
+	  */
+
+		}, {
+			key: 'handleCardChange',
+			value: function handleCardChange(e) {
+				this.setState({
+					card: e.target.value
+				});
 			}
 		}, {
 			key: 'render',
@@ -26434,19 +26594,55 @@
 							'form',
 							null,
 							_react2.default.createElement(
-								_FormGroup2.default,
+								_Row2.default,
 								null,
 								_react2.default.createElement(
-									_ControlLabel2.default,
-									null,
-									' Deposit Amount: '
+									_Col2.default,
+									{ md: 6 },
+									_react2.default.createElement(
+										_FormGroup2.default,
+										null,
+										_react2.default.createElement(
+											_ControlLabel2.default,
+											null,
+											' Deposit Amount: '
+										),
+										_react2.default.createElement(_FormControl2.default, {
+											type: 'number',
+											placeholder: 'Enter amount',
+											value: this.state.value,
+											onChange: this.onChangeHandle.bind(this)
+										})
+									)
 								),
-								_react2.default.createElement(_FormControl2.default, {
-									type: 'number',
-									placeholder: 'Enter amount',
-									value: this.state.value,
-									onChange: this.onChangeHandle.bind(this)
-								})
+								_react2.default.createElement(
+									_Col2.default,
+									{ md: 6 },
+									_react2.default.createElement(
+										_FormGroup2.default,
+										null,
+										_react2.default.createElement(
+											_ControlLabel2.default,
+											null,
+											' Choose Credit Card: '
+										),
+										_react2.default.createElement(
+											_FormControl2.default,
+											{ componentClass: 'select', placeholder: 'Choose Credit Card', onChange: this.handleCardChange.bind(this) },
+											_react2.default.createElement('option', { value: '' }),
+											this.props.cards.map(function (value, key) {
+												return _react2.default.createElement(
+													'option',
+													{ key: key, value: value.key },
+													value.card.number,
+													' (',
+													value.balance,
+													' USD)'
+												);
+											})
+										)
+									)
+								)
 							),
 							_react2.default.createElement(
 								_FormGroup2.default,
@@ -26465,6 +26661,11 @@
 
 		return Deposit;
 	}(_react.Component);
+
+	/**
+	 * Add Deposit Component PropTypes
+	 */
+
 
 	Deposit.propTypes = {
 		handleDeposit: _react2.default.PropTypes.func,
@@ -26563,6 +26764,10 @@
 
 		return Header;
 	}(_react.Component);
+	/**
+	 * Add Header Component PropTypes
+	 */
+
 
 	Header.propTypes = {
 		balance: _react2.default.PropTypes.number
@@ -28414,6 +28619,10 @@
 
 	var _EmptyHistory2 = _interopRequireDefault(_EmptyHistory);
 
+	var _constants = __webpack_require__(279);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28430,11 +28639,15 @@
 
 			return _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
 		}
+		/**
+	  * Check transactions history
+	  */
+
 
 		_createClass(History, [{
 			key: 'HistoryContent',
 			value: function HistoryContent() {
-				if (this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: 'You have not any Transactions.' });
+				if (this.props.trans.length > 0) return _react2.default.createElement(_HistoryTable2.default, { trans: this.props.trans });else return _react2.default.createElement(_EmptyHistory2.default, { message: _constants2.default.ALERT.NO_TRANSACTIONS_HISTORY });
 			}
 		}, {
 			key: 'render',
@@ -28453,6 +28666,10 @@
 
 		return History;
 	}(_react.Component);
+	/**
+	 * Add History Component PropTypes
+	 */
+
 
 	History.propTypes = {
 		trans: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
@@ -28609,6 +28826,13 @@
 
 			return _possibleConstructorReturn(this, (HistoryTable.__proto__ || Object.getPrototypeOf(HistoryTable)).call(this, props));
 		}
+		/**
+	  * Sort transactions history by date
+	  *
+	  * @param      {Array}  The array of transactions
+	  * @return     {Array}  The array of transactions 
+	  */
+
 
 		_createClass(HistoryTable, [{
 			key: 'rotate',
@@ -28631,6 +28855,11 @@
 						_react2.default.createElement(
 							'tr',
 							null,
+							_react2.default.createElement(
+								'th',
+								null,
+								'Transaction ID'
+							),
 							_react2.default.createElement(
 								'th',
 								null,
@@ -28658,6 +28887,11 @@
 								_react2.default.createElement(
 									'td',
 									null,
+									value.trans_id
+								),
+								_react2.default.createElement(
+									'td',
+									null,
 									value.date
 								),
 								_react2.default.createElement(
@@ -28680,6 +28914,10 @@
 
 		return HistoryTable;
 	}(_react.Component);
+	/**
+	 * Add HistoryTable Component PropTypes
+	 */
+
 
 	HistoryTable.propTypes = {
 		trans: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
@@ -28736,6 +28974,10 @@
 
 		return EmptyHistory;
 	}(_react.Component);
+	/**
+	 * Add EmptyHistory Component PropTypes
+	 */
+
 
 	EmptyHistory.propTypes = {
 		message: _react2.default.PropTypes.string
@@ -28763,6 +29005,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/* ==========================================================================
+	   Show Alert Messages
+	   ========================================================================== */
 	var alertMessage = exports.alertMessage = function alertMessage() {
 	   var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 	   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
@@ -29516,6 +29761,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Create Bank Store
+	 *
+	 * @type       {Function}
+	 */
 	var BankStore = (0, _redux.createStore)(_BankReducer2.default);
 
 	exports.default = BankStore;
@@ -30572,9 +30822,25 @@
 
 	var InitialState = {
 	    balance: 0,
-	    transactions: []
+	    transactions: [],
+	    cards: [{
+	        key: '343433434',
+	        balance: 100,
+	        card: { number: '1234-5678-2345-7890', expires: '05.12.2017', cvc: '123' }
+	    }, {
+	        key: '466433546',
+	        balance: 1600,
+	        card: { number: '2456-2246-9524-2252', expires: '08.11.2017', cvc: '785' }
+	    }]
 	};
-
+	/**
+	 * Create Bank Reducer
+	 *
+	 * @class      BankReducer (state,action)
+	 * @param      {OBject}  state   The state
+	 * @param      {Object}  action  The action
+	 * @return     {Object}  { returns updated state object }
+	 */
 	var BankReducer = function BankReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : InitialState;
 	    var action = arguments[1];
@@ -30582,15 +30848,31 @@
 
 	    switch (action.type) {
 	        case _constants2.default.DEPOSIT_INTO_ACCOUNT:
+	            //If Action Is Deposit Request
+	            for (var i = 0; i <= state.cards.length - 1; i++) {
+	                if (state.cards[i].key === action.card) {
+	                    var cardBalance = state.cards[i].balance - action.amount;
+	                    var newCard = { key: state.cards[i].key, balance: cardBalance, card: {
+	                            number: state.cards[i].card.number,
+	                            expires: state.cards[i].card.expires,
+	                            cvc: state.cards[i].card.cvc
+	                        } };
+	                    var cards = state.cards;
+	                    cards[i] = newCard;
+	                }
+	            }
 	            return Object.assign({}, state, {
-	                balance: state.balance + parseFloat(action.amount)
+	                balance: state.balance + parseFloat(action.amount),
+	                cards: cards
 	            });
 	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
+	            //If Action Is Withdraw Request
 	            return Object.assign({}, state, {
 	                balance: state.balance - parseFloat(action.amount)
 	            });
 
 	        case _constants2.default.ON_TRANSACTION:
+	            //If Action Is Transaction
 	            var array = [].concat(_toConsumableArray(state.transactions));
 	            array.push(action.transaction);
 	            return Object.assign({}, state, {
@@ -30603,6 +30885,60 @@
 	};
 
 	exports.default = BankReducer;
+
+/***/ },
+/* 352 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/* ==========================================================================
+	   Create Random String Generator
+	   ========================================================================== */
+
+	var randomString = exports.randomString = function randomString(len) {
+	    var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	    var randomString = '';
+	    for (var i = 0; i < len; i++) {
+	        var randomPoz = Math.floor(Math.random() * charSet.length);
+	        randomString += charSet.substring(randomPoz, randomPoz + 1);
+	    }
+	    return randomString;
+	};
+
+/***/ },
+/* 353 */,
+/* 354 */,
+/* 355 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	/* ==========================================================================
+	   Hide Card Number
+	   ========================================================================== */
+
+	var hiddenCard = exports.hiddenCard = function hiddenCard(cards) {
+	   var newCards = [];
+	   cards.forEach(function (card, key) {
+	      var number = card.card.number.split('-');
+	      var newNumber = '****-****-****-' + number[3];
+	      newCards.push({
+	         key: card.key,
+	         balance: card.balance,
+	         card: {
+	            number: newNumber, expires: card.card.expires, cvc: card.card.cvc
+	         }
+	      });
+	   });
+	   return newCards;
+	};
 
 /***/ }
 /******/ ]);
