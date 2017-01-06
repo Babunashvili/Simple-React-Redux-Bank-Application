@@ -55,6 +55,7 @@
     "dateformat": "^2.0.0",
     "debug-log": "^1.0.1",
     "deep-freeze": "0.0.1",
+    "enzyme": "^2.7.0",
     "firebase": "^3.6.4",
     "json-web-token": "^2.0.3",
     "path": "^0.12.7",
