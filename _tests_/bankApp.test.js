@@ -64,7 +64,8 @@ describe('Header component Testing', () => {
 })
 
 describe('Withdraw component Testing', () => {
-	const wrapper = mount(<Withdraw />)
+	var buttonClicked = sinon.spy()
+	const wrapper = mount(<Withdraw buttonClicked={buttonClicked} />)
 	BankStore.dispatch({type: constants.WITHDRAW_FROM_ACCOUNT, amount: 5})
 	test('Withdraw Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
@@ -78,15 +79,20 @@ describe('Withdraw component Testing', () => {
 		let state = BankStore.getState()
 		expect(state.balance).toEqual(5)
 	})
+	test('Check if button Clicked', () => {
+		wrapper.find('Button').simulate('click')
+		expect(buttonClicked.calledOnce).toEqual(true);
+
+	})
 
 })
 
 describe('History component Testing', () => {
-	// test('History Component Rendered', () => {
-	// 	const wrapper = shallow(<History/>)
-	// 	expect(wrapper.length).toBe(1)
+	test('History Component Rendered', () => {
+		const wrapper = shallow(<History trans={BankStore.getState().transactions}/>)
+		expect(wrapper.length).toBe(1)
 
-	// })
+	})
 
 })
 

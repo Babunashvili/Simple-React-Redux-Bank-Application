@@ -53,7 +53,7 @@ class Withdraw extends Component {
 							/>
 						</FormGroup>
 						<FormGroup>
-							<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="default">Submit</Button>
+							<Button onClick={this.getAmount.bind(this)} onClick={this.props.buttonClicked} type="submit" bsStyle="default">Submit</Button>
 						</FormGroup>
 					</form>
 			    </Panel>
