@@ -4,7 +4,7 @@
 
 export const  hiddenCard = (cards) => {
 	let newCards = []
-	cards.forEach((card,key) => {
+	cards.map((card,key) => {
 	  let number = card.card.number.split('-')
 	  let newNumber = '****-****-****-'+number[3]
       newCards.push({
