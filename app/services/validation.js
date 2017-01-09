@@ -26,11 +26,10 @@ export const checkBalance = (amount,balance) => {
  */
 export const checkCardBalance = (amount,card) => {
     let balance = 0
-    for (var i = 0; i <= BankStore.getState().cards.length - 1; i++) {
-    	if(BankStore.getState().cards[i].key === card){
-          balance = BankStore.getState().cards[i].balance
-    	}
-    }
+    BankStore.getState().cards.map((v,i) => {
+         if(v.key === card) 
+            balance = v.balance
+    })
     if (amount <= balance)
         return true
     return false

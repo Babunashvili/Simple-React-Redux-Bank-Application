@@ -26429,11 +26429,9 @@
 
 	var checkCardBalance = exports.checkCardBalance = function checkCardBalance(amount, card) {
 	    var balance = 0;
-	    for (var i = 0; i <= _BankStore2.default.getState().cards.length - 1; i++) {
-	        if (_BankStore2.default.getState().cards[i].key === card) {
-	            balance = _BankStore2.default.getState().cards[i].balance;
-	        }
-	    }
+	    _BankStore2.default.getState().cards.map(function (v, i) {
+	        if (v.key === card) balance = v.balance;
+	    });
 	    if (amount <= balance) return true;
 	    return false;
 	};
@@ -30502,7 +30500,7 @@
 /* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	   value: true
@@ -30523,15 +30521,15 @@
 	   Show Alert Messages
 	   ========================================================================== */
 	var alertMessage = exports.alertMessage = function alertMessage() {
-	   var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-	   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+	   var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
 	   if (msg.length > 0) return _react2.default.createElement(
 	      _Alert2.default,
 	      { bsStyle: type },
-	      " ",
+	      ' ',
 	      msg,
-	      " "
+	      ' '
 	   );else return "";
 	};
 
@@ -30936,7 +30934,7 @@
 
 	var hiddenCard = exports.hiddenCard = function hiddenCard(cards) {
 	   var newCards = [];
-	   cards.forEach(function (card, key) {
+	   cards.map(function (card, key) {
 	      var number = card.card.number.split('-');
 	      var newNumber = '****-****-****-' + number[3];
 	      newCards.push({

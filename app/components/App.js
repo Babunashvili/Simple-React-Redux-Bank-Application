@@ -12,7 +12,7 @@ import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
 import { hiddenCard } from '../services/hideCard'
 
-class App extends Component {
+class App extends Component { 
 	constructor(props){
 		super(props)
 		this.state = {
