@@ -21,9 +21,10 @@ const Withdraw = (state = InitialState, action) => {
 
     switch (action.type) {
         case constants.WITHDRAW_FROM_ACCOUNT:
+            console.log(action)
             //If Action Is Withdraw Request
             return Object.assign({}, state, {
-                balance: state.balance - parseFloat(action.amount)
+                balance: state.balance - parseFloat(action.payload.amount)
             })
         default:
             return state

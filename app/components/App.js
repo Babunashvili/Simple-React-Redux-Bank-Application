@@ -5,8 +5,8 @@ import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 import History from './History/History'
 import { alertMessage } from '../services/alerts'
-import dateFormat from 'dateformat'
-import { randomString } from '../services/randomGenerator'
+
+
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
@@ -23,23 +23,6 @@ class App extends Component {
 		this.handleAlert =this.handleAlert.bind(this)
 	}
     
-    /**
-     * Creates a transaction object.
-     *
-     * @param      {Int}  amount  The amount
-     * @param      {String}  desc    The description
-     * @param      {String}  mark    The mark
-     */
-	createTransaction(amount, desc, mark) {
-		var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT")
-		let obj = {
-			trans_id: randomString(8),
-			date: date.toString(),
-			amount: `${mark}${amount}`,
-			description: desc
-		}
-		this.props.onTransaction(obj)
-	}
 	/**
      * Handles Withdraw Requests
      *
@@ -73,7 +56,7 @@ class App extends Component {
                  { alertMessage(...this.state.alert) }
 		        	<Row>
 			        	<Col lg={6} md={6} sm={12}>
-			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} />
+			        		<Widthdraw handleAlert={this.handleAlert} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
 			        		<Deposit handleAlert={this.handleAlert}  />
