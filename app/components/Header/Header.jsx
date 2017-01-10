@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import Navbar from 'react-bootstrap/lib/Navbar'
 import Nav from 'react-bootstrap/lib/Nav'
 import FormControl from 'react-bootstrap/lib/FormControl'
@@ -27,4 +28,11 @@ class Header extends Component {
 Header.propTypes = {
 	balance: React.PropTypes.number
 }
-export default Header
+
+const stateProps = (state) => {
+	return {
+		balance: state.deposit.balance
+	}
+} 
+
+export default connect(stateProps)(Header)

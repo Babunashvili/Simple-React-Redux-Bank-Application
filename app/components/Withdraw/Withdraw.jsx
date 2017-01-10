@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
@@ -6,6 +8,8 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Button from 'react-bootstrap/lib/Button'
 import Panel from 'react-bootstrap/lib/Panel'
 import { checkBalance, checkEmptyValue, checkAmountQty } from '../../services/validation'
+
+import handleWithdraw from '../../actions/withdrawAction'
 
 class Withdraw extends Component {
 	constructor(props) {
@@ -27,32 +31,49 @@ class Withdraw extends Component {
 
 			// e.preventDefault()
 			if(checkEmptyAmount(this.state.value)){
-			if(checkEmptyValue(this.state.value)){
-				//If Withdraw Amount Is Not Empty
+				if(checkEmptyValue(this.state.value)){
+					//If Withdraw Amount Is Not Empty
 
-				if(checkAmountQty(this.state.value)){
-					//If Withdraw Amount > 0
-	                if(checkBalance(this.state.value,this.props.balance)){
-	                	//If Withdraw Amount <= User Balance
-		                this.props.handleWithdraw(this.state.value, this.state.permission)
-						this.setState({
-							value: ''
-						})
-						this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
-				    }else{
-				    	//If Withdraw Amount > User Balance
-				    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
-			     	}
-				}else{
-					//If Withdraw Amount <= 0
-					this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
+					if(checkAmountQty(this.state.value)){
+						//If Withdraw Amount > 0
+		                if(checkBalance(this.state.value,this.props.balance)){
+		                	//If Withdraw Amount <= User Balance
+			                this.props.handleWithdraw(this.state.value, this.state.permission)
+							this.setState({
+								value: ''
+							})
+							this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
+					    }else{
+					    	//If Withdraw Amount > User Balance
+					    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
+				     	}
+					}else{
+						//If Withdraw Amount <= 0
+						this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
+					}
+				if(checkEmptyValue(this.state.value)){
+					//If Withdraw Amount Is Not Empty
+					if(checkAmountQty(this.state.value)){
+						//If Withdraw Amount > 0
+		                if(checkBalance(this.state.value, this.props.balance)){
+		                	//If Withdraw Amount <= User Balance
+			                this.props.handleWithdraw(this.state.value)
+							this.setState({
+								value: ''
+							})
+							this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
+					    }else{
+					    	//If Withdraw Amount > User Balance
+					    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
+				     	}
+					}else{
+						//If Withdraw Amount Is Empty
+						this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
+					}
 				}
-			}else{
-				//If Withdraw Amount Is Empty
-				this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 			}
 		}
-	}
+	}	
 	render() {
 		return (
 			<div>
@@ -84,4 +105,16 @@ Withdraw.propTypes = {
 	handleAlert: React.PropTypes.func
 }
 
-export default Withdraw
+const stateProps = (state) => {
+	return {
+		balance: state.withdraw.balance
+	}
+}
+
+const dispatchtToProps = (dispatch) => {
+	return bindActionCreators({
+		handleWithdraw: handleWithdraw
+	}, dispatch)
+} 
+
+export default connect(stateProps, dispatchtToProps)(Withdraw)

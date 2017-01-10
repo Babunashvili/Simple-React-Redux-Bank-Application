@@ -2,7 +2,7 @@
    Form Validations
    ========================================================================== */
 
-import BankStore from '../Store/BankStore'
+import store from '../Store/store'
 
 /**
  * Check User Balance
@@ -26,7 +26,8 @@ export const checkBalance = (amount,balance) => {
  */
 export const checkCardBalance = (amount,card) => {
     let balance = 0
-    BankStore.getState().cards.map((v,i) => {
+    let state  = store.getState().deposit
+    state.cards.map((v,i) => {
          if(v.key === card) 
             balance = v.balance
     })

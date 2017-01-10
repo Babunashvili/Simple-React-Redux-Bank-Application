@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
@@ -7,6 +9,9 @@ import Button from 'react-bootstrap/lib/Button'
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Panel from 'react-bootstrap/lib/Panel'
+
+import handleDeposit from '../../actions/depositAction'
+
 import { checkEmptyValue, checkAmountQty, checkCardBalance } from '../../services/validation'
 
 class Deposit extends Component {
@@ -14,7 +19,8 @@ class Deposit extends Component {
 		super(props)
 		this.state = {
 			value: '',
-			card:''
+			card:'',
+			depositObject: {}
 		}
 	}
 
@@ -23,6 +29,7 @@ class Deposit extends Component {
 	 */
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
+		
 	}
 	/**
 	 * Handle Deposit Form Submit
@@ -37,11 +44,12 @@ class Deposit extends Component {
 				  //If Requested Amount <= Credit Card Balance
                   if(checkAmountQty(this.state.value)){
 						//If Deposit Amount > 0
-		                this.props.handleDeposit(this.state.value, this.state.permission,this.state.card)
+						
+		                this.props.handleDeposit(this.state.value, this.state.card)
 						this.setState({
 							value: ''
 						}) 
-						this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
+						// this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
 					}else{
 						//If Deposit Amount <= 0
 						this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
@@ -114,4 +122,17 @@ Deposit.propTypes = {
 	handleAlert: React.PropTypes.func
 }
 
-export default Deposit
+
+const stateProps = (state) => {
+	return {
+		cards: state.deposit.cards
+	}
+}
+
+const dispatchtToProps = (dispatch) => {
+	return bindActionCreators({
+		handleDeposit: handleDeposit
+	}, dispatch)
+} 
+
+export default connect(stateProps, dispatchtToProps)(Deposit)
