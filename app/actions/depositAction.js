@@ -1,6 +1,7 @@
+import transAction from './transAction'
 
 const handleDeposit = (amount, card) => {
-	console.log(amount)
+	transAction(amount, "Deposit into account", "+")
 	return {
 		type: 'DEPOSIT_INTO_ACCOUNT',
 		payload: {

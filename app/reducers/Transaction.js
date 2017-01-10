@@ -30,9 +30,10 @@ const Transaction = (state = InitialState, action) => {
 
     switch (action.type) {
         case constants.ON_TRANSACTION:
+            console.log(action)
             //If Action Is Transaction
             let array = [...state.transactions]
-            array.push(action.transaction)
+            array.push(action.payload.transaction)
             return Object.assign({}, state, {
                 transactions: array
             })

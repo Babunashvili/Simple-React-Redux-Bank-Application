@@ -45,7 +45,6 @@ class Deposit extends Component {
                   if(checkAmountQty(this.state.value)){
 						//If Deposit Amount > 0
 						
-						console.log(this.props.handleDeposit)
 		                this.props.handleDeposit(this.state.value, this.state.card)
 						this.setState({
 							value: ''

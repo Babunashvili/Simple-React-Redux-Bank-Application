@@ -19,7 +19,6 @@ class App extends Component {
 			transaction: {},
 			alert:[]
 		}
-		this.handleDeposit = this.handleDeposit.bind(this)
 		this.handleWithdraw =this.handleWithdraw.bind(this)
 		this.handleAlert =this.handleAlert.bind(this)
 	}
@@ -40,18 +39,6 @@ class App extends Component {
 			description: desc
 		}
 		this.props.onTransaction(obj)
-	}
-    /**
-     * Handles Deposit Requests
-     *
-     * @param      {Int}   amount      The amount
-     * @param      {Boolean}  permission  The permission
-     */
-	handleDeposit(amount, permission,card){
-		if(permission === true){
-			this.props.onDeposit(amount,card)
-			this.createTransaction(amount, "Deposit into account", "+") 	
-		}
 	}
 	/**
      * Handles Withdraw Requests

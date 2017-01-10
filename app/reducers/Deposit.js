@@ -36,7 +36,7 @@ const Deposit = (state = InitialState, action) => {
                 }
             }
             return Object.assign({}, state, {
-                balance: state.balance + parseFloat(action.amount),
+                balance: state.balance + parseFloat(action.payload.amount),
                 cards:cards
             })
         default:

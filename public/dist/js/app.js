@@ -21589,7 +21589,6 @@
 				transaction: {},
 				alert: []
 			};
-			_this.handleDeposit = _this.handleDeposit.bind(_this);
 			_this.handleWithdraw = _this.handleWithdraw.bind(_this);
 			_this.handleAlert = _this.handleAlert.bind(_this);
 			return _this;
@@ -21615,21 +21614,6 @@
 					description: desc
 				};
 				this.props.onTransaction(obj);
-			}
-			/**
-	   * Handles Deposit Requests
-	   *
-	   * @param      {Int}   amount      The amount
-	   * @param      {Boolean}  permission  The permission
-	   */
-
-		}, {
-			key: 'handleDeposit',
-			value: function handleDeposit(amount, permission, card) {
-				if (permission === true) {
-					this.props.onDeposit(amount, card);
-					this.createTransaction(amount, "Deposit into account", "+");
-				}
 			}
 			/**
 	      * Handles Withdraw Requests
@@ -28257,9 +28241,10 @@
 
 	    switch (action.type) {
 	        case _constants2.default.ON_TRANSACTION:
+	            console.log(action);
 	            //If Action Is Transaction
 	            var array = [].concat(_toConsumableArray(state.transactions));
-	            array.push(action.transaction);
+	            array.push(action.payload.transaction);
 	            return Object.assign({}, state, {
 	                transactions: array
 	            });
@@ -28371,7 +28356,7 @@
 	                }
 	            }
 	            return Object.assign({}, state, {
-	                balance: state.balance + parseFloat(action.amount),
+	                balance: state.balance + parseFloat(action.payload.amount),
 	                cards: cards
 	            });
 	        default:
@@ -28490,7 +28475,6 @@
 							if ((0, _validation.checkAmountQty)(this.state.value)) {
 								//If Deposit Amount > 0
 
-								console.log(this.props.handleDeposit);
 								this.props.handleDeposit(this.state.value, this.state.card);
 								this.setState({
 									value: ''
@@ -28989,16 +28973,22 @@
 
 /***/ },
 /* 342 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 
+	var _transAction = __webpack_require__(366);
+
+	var _transAction2 = _interopRequireDefault(_transAction);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var handleDeposit = function handleDeposit(amount, card) {
-		console.log(amount);
+		(0, _transAction2.default)(amount, "Deposit into account", "+");
 		return {
 			type: 'DEPOSIT_INTO_ACCOUNT',
 			payload: {
@@ -30948,6 +30938,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _redux = __webpack_require__(286);
+
 	var _reactRedux = __webpack_require__(279);
 
 	var _Table = __webpack_require__(358);
@@ -30969,6 +30961,10 @@
 	var _constants = __webpack_require__(308);
 
 	var _constants2 = _interopRequireDefault(_constants);
+
+	var _transAction = __webpack_require__(366);
+
+	var _transAction2 = _interopRequireDefault(_transAction);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31032,7 +31028,13 @@
 		};
 	};
 
-	exports.default = (0, _reactRedux.connect)(stateProps)(History);
+	var dispatchProps = function dispatchProps(dispatch) {
+		return (0, _redux.bindActionCreators)({
+			handleTransaction: _transAction2.default
+		}, dispatch);
+	};
+
+	exports.default = (0, _reactRedux.connect)(stateProps, dispatchProps)(History);
 
 /***/ },
 /* 358 */
@@ -31789,6 +31791,40 @@
 	   });
 	   return newCards;
 	};
+
+/***/ },
+/* 366 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _dateformat = __webpack_require__(363);
+
+	var _dateformat2 = _interopRequireDefault(_dateformat);
+
+	var _randomGenerator = __webpack_require__(364);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var transAction = function transAction(amount, desc, mark) {
+		var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT");
+		var obj = {
+			trans_id: (0, _randomGenerator.randomString)(8),
+			date: date.toString(),
+			amount: '' + mark + amount,
+			description: desc
+		};
+		return {
+			type: 'ON_TRANSACTION',
+			payload: obj
+		};
+	};
+
+	exports.default = transAction;
 
 /***/ }
 /******/ ]);
