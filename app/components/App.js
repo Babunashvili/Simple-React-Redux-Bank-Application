@@ -23,18 +23,6 @@ class App extends Component {
 		this.handleAlert =this.handleAlert.bind(this)
 	}
     
-	/**
-     * Handles Withdraw Requests
-     *
-     * @param      {Int}   amount      The amount
-     * @param      {Boolean}  permission  The permission
-     */
-	handleWithdraw(amount, permission){
-		if(permission === true){
-			this.props.onWithdraw(amount)
-			this.createTransaction(amount, "Withdraw from account", "-")
-		}
-	}
     /**
      * Handles Alert Messages
      *
