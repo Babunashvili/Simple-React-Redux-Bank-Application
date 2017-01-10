@@ -22,6 +22,7 @@ const Deposit = (state = InitialState, action) => {
     switch (action.type) {
         case constants.DEPOSIT_INTO_ACCOUNT:
             //If Action Is Deposit Request
+            console.log(action.amount)
             for (var i = 0; i <= state.cards.length - 1; i++) {
                 if(state.cards[i].key === action.card){
                    let cardBalance = state.cards[i].balance - action.amount

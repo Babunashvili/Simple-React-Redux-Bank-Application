@@ -89,7 +89,7 @@ class App extends Component {
 			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
-			        		<Deposit />
+			        		<Deposit handleAlert={this.handleAlert}  />
 			        	</Col>
 			        	<Col lg={12} md={12} sm={12}>
 			        		<History />
