@@ -79,19 +79,20 @@ class App extends Component {
 	
   render() {
     return (
+
     	<div>
-    		<Header balance={this.props.balance} />
+    		<Header />
 	        <div className="container">
                  { alertMessage(...this.state.alert) }
 		        	<Row>
 			        	<Col lg={6} md={6} sm={12}>
-			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} balance={this.props.balance} />
+			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
-			        		<Deposit handleAlert={this.handleAlert} handleDeposit={this.handleDeposit} cards={hiddenCard(this.props.cards)} />
+			        		<Deposit />
 			        	</Col>
 			        	<Col lg={12} md={12} sm={12}>
-			        		<History trans={this.props.transactions} />
+			        		<History />
 			        	</Col>
 			        </Row>	
 	        </div>

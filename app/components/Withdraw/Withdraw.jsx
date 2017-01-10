@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
@@ -81,4 +82,10 @@ Withdraw.propTypes = {
 	handleAlert: React.PropTypes.func
 }
 
-export default Withdraw
+const stateProps = (state) => {
+	return {
+		balance: state.withdraw.balance
+	}
+} 
+
+export default connect(stateProps)(Withdraw)

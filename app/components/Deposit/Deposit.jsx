@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import constants from '../../constants'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
@@ -114,4 +115,11 @@ Deposit.propTypes = {
 	handleAlert: React.PropTypes.func
 }
 
-export default Deposit
+
+const stateProps = (state) => {
+	return {
+		cards: state.deposit.cards
+	}
+} 
+
+export default connect(stateProps)(Deposit)

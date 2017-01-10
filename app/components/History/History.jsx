@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import Table from 'react-bootstrap/lib/Table'
 import Panel from 'react-bootstrap/lib/Panel'
 import HistoryTable from './HistoryTable'
@@ -39,4 +40,11 @@ History.propTypes = {
      description: React.PropTypes.string  
    }))
 }
-export default History
+
+const stateProps = (state) => {
+	return {
+		trans: state.transaction.transactions
+	}
+}
+
+export default connect(stateProps)(History)
