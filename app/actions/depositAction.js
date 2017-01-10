@@ -1,10 +1,12 @@
 
-const handleDeposit = (obj) => {
-
-	console.log(obj.amount)
+const handleDeposit = (amount, card) => {
+	console.log(amount)
 	return {
 		type: 'DEPOSIT_INTO_ACCOUNT',
-		payload: obj
+		payload: {
+			amount: amount,
+			card: card
+		}
 	}
 
 

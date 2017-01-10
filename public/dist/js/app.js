@@ -21537,35 +21537,35 @@
 
 	var _Deposit2 = _interopRequireDefault(_Deposit);
 
-	var _Header = __webpack_require__(340);
+	var _Header = __webpack_require__(343);
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _History = __webpack_require__(354);
+	var _History = __webpack_require__(357);
 
 	var _History2 = _interopRequireDefault(_History);
 
-	var _alerts = __webpack_require__(358);
+	var _alerts = __webpack_require__(361);
 
-	var _dateformat = __webpack_require__(360);
+	var _dateformat = __webpack_require__(363);
 
 	var _dateformat2 = _interopRequireDefault(_dateformat);
 
-	var _randomGenerator = __webpack_require__(361);
+	var _randomGenerator = __webpack_require__(364);
 
-	var _Col = __webpack_require__(362);
+	var _Col = __webpack_require__(340);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(363);
+	var _Row = __webpack_require__(341);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
-	var _Grid = __webpack_require__(345);
+	var _Grid = __webpack_require__(348);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
-	var _hideCard = __webpack_require__(364);
+	var _hideCard = __webpack_require__(365);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28357,10 +28357,10 @@
 	    switch (action.type) {
 	        case _constants2.default.DEPOSIT_INTO_ACCOUNT:
 	            //If Action Is Deposit Request
-	            console.log(action.amount);
+
 	            for (var i = 0; i <= state.cards.length - 1; i++) {
-	                if (state.cards[i].key === action.card) {
-	                    var cardBalance = state.cards[i].balance - action.amount;
+	                if (state.cards[i].key === action.payload.card) {
+	                    var cardBalance = state.cards[i].balance - action.payload.amount;
 	                    var newCard = { key: state.cards[i].key, balance: cardBalance, card: {
 	                            number: state.cards[i].card.number,
 	                            expires: state.cards[i].card.expires,
@@ -28421,11 +28421,11 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Col = __webpack_require__(362);
+	var _Col = __webpack_require__(340);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(363);
+	var _Row = __webpack_require__(341);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
@@ -28433,7 +28433,7 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _depositAction = __webpack_require__(365);
+	var _depositAction = __webpack_require__(342);
 
 	var _depositAction2 = _interopRequireDefault(_depositAction);
 
@@ -28489,14 +28489,9 @@
 							//If Requested Amount <= Credit Card Balance
 							if ((0, _validation.checkAmountQty)(this.state.value)) {
 								//If Deposit Amount > 0
-								this.setState({
-									depositObject: {
-										amount: this.state.value,
-										card: this.state.cards
-									}
-								});
 
-								this.props.handleDeposit(this.state.depositObject);
+								console.log(this.props.handleDeposit);
+								this.props.handleDeposit(this.state.value, this.state.card);
 								this.setState({
 									value: ''
 								});
@@ -28531,7 +28526,6 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				console.log(this.props.cards);
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -28640,6 +28634,388 @@
 
 	'use strict';
 
+	exports.__esModule = true;
+
+	var _extends2 = __webpack_require__(216);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _objectWithoutProperties2 = __webpack_require__(215);
+
+	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+	var _classCallCheck2 = __webpack_require__(223);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(224);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(260);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _classnames = __webpack_require__(268);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _elementType = __webpack_require__(269);
+
+	var _elementType2 = _interopRequireDefault(_elementType);
+
+	var _bootstrapUtils = __webpack_require__(271);
+
+	var _StyleConfig = __webpack_require__(276);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var propTypes = {
+	  componentClass: _elementType2['default'],
+
+	  /**
+	   * The number of columns you wish to span
+	   *
+	   * for Extra small devices Phones (<768px)
+	   *
+	   * class-prefix `col-xs-`
+	   */
+	  xs: _react2['default'].PropTypes.number,
+	  /**
+	   * The number of columns you wish to span
+	   *
+	   * for Small devices Tablets (≥768px)
+	   *
+	   * class-prefix `col-sm-`
+	   */
+	  sm: _react2['default'].PropTypes.number,
+	  /**
+	   * The number of columns you wish to span
+	   *
+	   * for Medium devices Desktops (≥992px)
+	   *
+	   * class-prefix `col-md-`
+	   */
+	  md: _react2['default'].PropTypes.number,
+	  /**
+	   * The number of columns you wish to span
+	   *
+	   * for Large devices Desktops (≥1200px)
+	   *
+	   * class-prefix `col-lg-`
+	   */
+	  lg: _react2['default'].PropTypes.number,
+	  /**
+	   * Hide column
+	   *
+	   * on Extra small devices Phones
+	   *
+	   * adds class `hidden-xs`
+	   */
+	  xsHidden: _react2['default'].PropTypes.bool,
+	  /**
+	   * Hide column
+	   *
+	   * on Small devices Tablets
+	   *
+	   * adds class `hidden-sm`
+	   */
+	  smHidden: _react2['default'].PropTypes.bool,
+	  /**
+	   * Hide column
+	   *
+	   * on Medium devices Desktops
+	   *
+	   * adds class `hidden-md`
+	   */
+	  mdHidden: _react2['default'].PropTypes.bool,
+	  /**
+	   * Hide column
+	   *
+	   * on Large devices Desktops
+	   *
+	   * adds class `hidden-lg`
+	   */
+	  lgHidden: _react2['default'].PropTypes.bool,
+	  /**
+	   * Move columns to the right
+	   *
+	   * for Extra small devices Phones
+	   *
+	   * class-prefix `col-xs-offset-`
+	   */
+	  xsOffset: _react2['default'].PropTypes.number,
+	  /**
+	   * Move columns to the right
+	   *
+	   * for Small devices Tablets
+	   *
+	   * class-prefix `col-sm-offset-`
+	   */
+	  smOffset: _react2['default'].PropTypes.number,
+	  /**
+	   * Move columns to the right
+	   *
+	   * for Medium devices Desktops
+	   *
+	   * class-prefix `col-md-offset-`
+	   */
+	  mdOffset: _react2['default'].PropTypes.number,
+	  /**
+	   * Move columns to the right
+	   *
+	   * for Large devices Desktops
+	   *
+	   * class-prefix `col-lg-offset-`
+	   */
+	  lgOffset: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the right
+	   *
+	   * for Extra small devices Phones
+	   *
+	   * class-prefix `col-xs-push-`
+	   */
+	  xsPush: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the right
+	   *
+	   * for Small devices Tablets
+	   *
+	   * class-prefix `col-sm-push-`
+	   */
+	  smPush: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the right
+	   *
+	   * for Medium devices Desktops
+	   *
+	   * class-prefix `col-md-push-`
+	   */
+	  mdPush: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the right
+	   *
+	   * for Large devices Desktops
+	   *
+	   * class-prefix `col-lg-push-`
+	   */
+	  lgPush: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the left
+	   *
+	   * for Extra small devices Phones
+	   *
+	   * class-prefix `col-xs-pull-`
+	   */
+	  xsPull: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the left
+	   *
+	   * for Small devices Tablets
+	   *
+	   * class-prefix `col-sm-pull-`
+	   */
+	  smPull: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the left
+	   *
+	   * for Medium devices Desktops
+	   *
+	   * class-prefix `col-md-pull-`
+	   */
+	  mdPull: _react2['default'].PropTypes.number,
+	  /**
+	   * Change the order of grid columns to the left
+	   *
+	   * for Large devices Desktops
+	   *
+	   * class-prefix `col-lg-pull-`
+	   */
+	  lgPull: _react2['default'].PropTypes.number
+	};
+
+	var defaultProps = {
+	  componentClass: 'div'
+	};
+
+	var Col = function (_React$Component) {
+	  (0, _inherits3['default'])(Col, _React$Component);
+
+	  function Col() {
+	    (0, _classCallCheck3['default'])(this, Col);
+	    return (0, _possibleConstructorReturn3['default'])(this, _React$Component.apply(this, arguments));
+	  }
+
+	  Col.prototype.render = function render() {
+	    var _props = this.props,
+	        Component = _props.componentClass,
+	        className = _props.className,
+	        props = (0, _objectWithoutProperties3['default'])(_props, ['componentClass', 'className']);
+
+	    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
+	        bsProps = _splitBsProps[0],
+	        elementProps = _splitBsProps[1];
+
+	    var classes = [];
+
+	    _StyleConfig.DEVICE_SIZES.forEach(function (size) {
+	      function popProp(propSuffix, modifier) {
+	        var propName = '' + size + propSuffix;
+	        var propValue = elementProps[propName];
+
+	        if (propValue != null) {
+	          classes.push((0, _bootstrapUtils.prefix)(bsProps, '' + size + modifier + '-' + propValue));
+	        }
+
+	        delete elementProps[propName];
+	      }
+
+	      popProp('', '');
+	      popProp('Offset', '-offset');
+	      popProp('Push', '-push');
+	      popProp('Pull', '-pull');
+
+	      var hiddenPropName = size + 'Hidden';
+	      if (elementProps[hiddenPropName]) {
+	        classes.push('hidden-' + size);
+	      }
+	      delete elementProps[hiddenPropName];
+	    });
+
+	    return _react2['default'].createElement(Component, (0, _extends3['default'])({}, elementProps, {
+	      className: (0, _classnames2['default'])(className, classes)
+	    }));
+	  };
+
+	  return Col;
+	}(_react2['default'].Component);
+
+	Col.propTypes = propTypes;
+	Col.defaultProps = defaultProps;
+
+	exports['default'] = (0, _bootstrapUtils.bsClass)('col', Col);
+	module.exports = exports['default'];
+
+/***/ },
+/* 341 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends2 = __webpack_require__(216);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _objectWithoutProperties2 = __webpack_require__(215);
+
+	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+	var _classCallCheck2 = __webpack_require__(223);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(224);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(260);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _classnames = __webpack_require__(268);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _elementType = __webpack_require__(269);
+
+	var _elementType2 = _interopRequireDefault(_elementType);
+
+	var _bootstrapUtils = __webpack_require__(271);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var propTypes = {
+	  componentClass: _elementType2['default']
+	};
+
+	var defaultProps = {
+	  componentClass: 'div'
+	};
+
+	var Row = function (_React$Component) {
+	  (0, _inherits3['default'])(Row, _React$Component);
+
+	  function Row() {
+	    (0, _classCallCheck3['default'])(this, Row);
+	    return (0, _possibleConstructorReturn3['default'])(this, _React$Component.apply(this, arguments));
+	  }
+
+	  Row.prototype.render = function render() {
+	    var _props = this.props,
+	        Component = _props.componentClass,
+	        className = _props.className,
+	        props = (0, _objectWithoutProperties3['default'])(_props, ['componentClass', 'className']);
+
+	    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
+	        bsProps = _splitBsProps[0],
+	        elementProps = _splitBsProps[1];
+
+	    var classes = (0, _bootstrapUtils.getClassSet)(bsProps);
+
+	    return _react2['default'].createElement(Component, (0, _extends3['default'])({}, elementProps, {
+	      className: (0, _classnames2['default'])(className, classes)
+	    }));
+	  };
+
+	  return Row;
+	}(_react2['default'].Component);
+
+	Row.propTypes = propTypes;
+	Row.defaultProps = defaultProps;
+
+	exports['default'] = (0, _bootstrapUtils.bsClass)('row', Row);
+	module.exports = exports['default'];
+
+/***/ },
+/* 342 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var handleDeposit = function handleDeposit(amount, card) {
+		console.log(amount);
+		return {
+			type: 'DEPOSIT_INTO_ACCOUNT',
+			payload: {
+				amount: amount,
+				card: card
+			}
+		};
+	};
+
+	exports.default = handleDeposit;
+
+/***/ },
+/* 343 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
@@ -28652,11 +29028,11 @@
 
 	var _reactRedux = __webpack_require__(279);
 
-	var _Navbar = __webpack_require__(341);
+	var _Navbar = __webpack_require__(344);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _Nav = __webpack_require__(350);
+	var _Nav = __webpack_require__(353);
 
 	var _Nav2 = _interopRequireDefault(_Nav);
 
@@ -28668,7 +29044,7 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Label = __webpack_require__(353);
+	var _Label = __webpack_require__(356);
 
 	var _Label2 = _interopRequireDefault(_Label);
 
@@ -28744,7 +29120,7 @@
 	exports.default = (0, _reactRedux.connect)(stateProps)(Header);
 
 /***/ },
-/* 341 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28783,27 +29159,27 @@
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _uncontrollable = __webpack_require__(342);
+	var _uncontrollable = __webpack_require__(345);
 
 	var _uncontrollable2 = _interopRequireDefault(_uncontrollable);
 
-	var _Grid = __webpack_require__(345);
+	var _Grid = __webpack_require__(348);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
-	var _NavbarBrand = __webpack_require__(346);
+	var _NavbarBrand = __webpack_require__(349);
 
 	var _NavbarBrand2 = _interopRequireDefault(_NavbarBrand);
 
-	var _NavbarCollapse = __webpack_require__(347);
+	var _NavbarCollapse = __webpack_require__(350);
 
 	var _NavbarCollapse2 = _interopRequireDefault(_NavbarCollapse);
 
-	var _NavbarHeader = __webpack_require__(348);
+	var _NavbarHeader = __webpack_require__(351);
 
 	var _NavbarHeader2 = _interopRequireDefault(_NavbarHeader);
 
-	var _NavbarToggle = __webpack_require__(349);
+	var _NavbarToggle = __webpack_require__(352);
 
 	var _NavbarToggle2 = _interopRequireDefault(_NavbarToggle);
 
@@ -29075,14 +29451,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 342 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _createUncontrollable = __webpack_require__(343);
+	var _createUncontrollable = __webpack_require__(346);
 
 	var _createUncontrollable2 = _interopRequireDefault(_createUncontrollable);
 
@@ -29111,7 +29487,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 343 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29130,7 +29506,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _utils = __webpack_require__(344);
+	var _utils = __webpack_require__(347);
 
 	var utils = _interopRequireWildcard(_utils);
 
@@ -29280,7 +29656,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 344 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -29402,7 +29778,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 345 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29499,7 +29875,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 346 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29584,7 +29960,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 347 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29667,7 +30043,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 348 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29741,7 +30117,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 349 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29856,7 +30232,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 350 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -29887,7 +30263,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _keycode = __webpack_require__(351);
+	var _keycode = __webpack_require__(354);
 
 	var _keycode2 = _interopRequireDefault(_keycode);
 
@@ -29899,7 +30275,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _all = __webpack_require__(352);
+	var _all = __webpack_require__(355);
 
 	var _all2 = _interopRequireDefault(_all);
 
@@ -30260,7 +30636,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 351 */
+/* 354 */
 /***/ function(module, exports) {
 
 	// Source: http://jsfiddle.net/vWx8V/
@@ -30412,7 +30788,7 @@
 
 
 /***/ },
-/* 352 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30456,7 +30832,7 @@
 	}
 
 /***/ },
-/* 353 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30557,7 +30933,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 354 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30574,7 +30950,7 @@
 
 	var _reactRedux = __webpack_require__(279);
 
-	var _Table = __webpack_require__(355);
+	var _Table = __webpack_require__(358);
 
 	var _Table2 = _interopRequireDefault(_Table);
 
@@ -30582,11 +30958,11 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _HistoryTable = __webpack_require__(356);
+	var _HistoryTable = __webpack_require__(359);
 
 	var _HistoryTable2 = _interopRequireDefault(_HistoryTable);
 
-	var _EmptyHistory = __webpack_require__(357);
+	var _EmptyHistory = __webpack_require__(360);
 
 	var _EmptyHistory2 = _interopRequireDefault(_EmptyHistory);
 
@@ -30659,7 +31035,7 @@
 	exports.default = (0, _reactRedux.connect)(stateProps)(History);
 
 /***/ },
-/* 355 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30765,7 +31141,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 356 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30780,7 +31156,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Table = __webpack_require__(355);
+	var _Table = __webpack_require__(358);
 
 	var _Table2 = _interopRequireDefault(_Table);
 
@@ -30907,7 +31283,7 @@
 	exports.default = HistoryTable;
 
 /***/ },
-/* 357 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30963,7 +31339,7 @@
 	exports.default = EmptyHistory;
 
 /***/ },
-/* 358 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30977,7 +31353,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Alert = __webpack_require__(359);
+	var _Alert = __webpack_require__(362);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -31000,7 +31376,7 @@
 	};
 
 /***/ },
-/* 359 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31131,7 +31507,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 360 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -31363,7 +31739,7 @@
 
 
 /***/ },
-/* 361 */
+/* 364 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31386,366 +31762,7 @@
 	};
 
 /***/ },
-/* 362 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends2 = __webpack_require__(216);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _objectWithoutProperties2 = __webpack_require__(215);
-
-	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-	var _classCallCheck2 = __webpack_require__(223);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(224);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(260);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _classnames = __webpack_require__(268);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _elementType = __webpack_require__(269);
-
-	var _elementType2 = _interopRequireDefault(_elementType);
-
-	var _bootstrapUtils = __webpack_require__(271);
-
-	var _StyleConfig = __webpack_require__(276);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var propTypes = {
-	  componentClass: _elementType2['default'],
-
-	  /**
-	   * The number of columns you wish to span
-	   *
-	   * for Extra small devices Phones (<768px)
-	   *
-	   * class-prefix `col-xs-`
-	   */
-	  xs: _react2['default'].PropTypes.number,
-	  /**
-	   * The number of columns you wish to span
-	   *
-	   * for Small devices Tablets (≥768px)
-	   *
-	   * class-prefix `col-sm-`
-	   */
-	  sm: _react2['default'].PropTypes.number,
-	  /**
-	   * The number of columns you wish to span
-	   *
-	   * for Medium devices Desktops (≥992px)
-	   *
-	   * class-prefix `col-md-`
-	   */
-	  md: _react2['default'].PropTypes.number,
-	  /**
-	   * The number of columns you wish to span
-	   *
-	   * for Large devices Desktops (≥1200px)
-	   *
-	   * class-prefix `col-lg-`
-	   */
-	  lg: _react2['default'].PropTypes.number,
-	  /**
-	   * Hide column
-	   *
-	   * on Extra small devices Phones
-	   *
-	   * adds class `hidden-xs`
-	   */
-	  xsHidden: _react2['default'].PropTypes.bool,
-	  /**
-	   * Hide column
-	   *
-	   * on Small devices Tablets
-	   *
-	   * adds class `hidden-sm`
-	   */
-	  smHidden: _react2['default'].PropTypes.bool,
-	  /**
-	   * Hide column
-	   *
-	   * on Medium devices Desktops
-	   *
-	   * adds class `hidden-md`
-	   */
-	  mdHidden: _react2['default'].PropTypes.bool,
-	  /**
-	   * Hide column
-	   *
-	   * on Large devices Desktops
-	   *
-	   * adds class `hidden-lg`
-	   */
-	  lgHidden: _react2['default'].PropTypes.bool,
-	  /**
-	   * Move columns to the right
-	   *
-	   * for Extra small devices Phones
-	   *
-	   * class-prefix `col-xs-offset-`
-	   */
-	  xsOffset: _react2['default'].PropTypes.number,
-	  /**
-	   * Move columns to the right
-	   *
-	   * for Small devices Tablets
-	   *
-	   * class-prefix `col-sm-offset-`
-	   */
-	  smOffset: _react2['default'].PropTypes.number,
-	  /**
-	   * Move columns to the right
-	   *
-	   * for Medium devices Desktops
-	   *
-	   * class-prefix `col-md-offset-`
-	   */
-	  mdOffset: _react2['default'].PropTypes.number,
-	  /**
-	   * Move columns to the right
-	   *
-	   * for Large devices Desktops
-	   *
-	   * class-prefix `col-lg-offset-`
-	   */
-	  lgOffset: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the right
-	   *
-	   * for Extra small devices Phones
-	   *
-	   * class-prefix `col-xs-push-`
-	   */
-	  xsPush: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the right
-	   *
-	   * for Small devices Tablets
-	   *
-	   * class-prefix `col-sm-push-`
-	   */
-	  smPush: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the right
-	   *
-	   * for Medium devices Desktops
-	   *
-	   * class-prefix `col-md-push-`
-	   */
-	  mdPush: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the right
-	   *
-	   * for Large devices Desktops
-	   *
-	   * class-prefix `col-lg-push-`
-	   */
-	  lgPush: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the left
-	   *
-	   * for Extra small devices Phones
-	   *
-	   * class-prefix `col-xs-pull-`
-	   */
-	  xsPull: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the left
-	   *
-	   * for Small devices Tablets
-	   *
-	   * class-prefix `col-sm-pull-`
-	   */
-	  smPull: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the left
-	   *
-	   * for Medium devices Desktops
-	   *
-	   * class-prefix `col-md-pull-`
-	   */
-	  mdPull: _react2['default'].PropTypes.number,
-	  /**
-	   * Change the order of grid columns to the left
-	   *
-	   * for Large devices Desktops
-	   *
-	   * class-prefix `col-lg-pull-`
-	   */
-	  lgPull: _react2['default'].PropTypes.number
-	};
-
-	var defaultProps = {
-	  componentClass: 'div'
-	};
-
-	var Col = function (_React$Component) {
-	  (0, _inherits3['default'])(Col, _React$Component);
-
-	  function Col() {
-	    (0, _classCallCheck3['default'])(this, Col);
-	    return (0, _possibleConstructorReturn3['default'])(this, _React$Component.apply(this, arguments));
-	  }
-
-	  Col.prototype.render = function render() {
-	    var _props = this.props,
-	        Component = _props.componentClass,
-	        className = _props.className,
-	        props = (0, _objectWithoutProperties3['default'])(_props, ['componentClass', 'className']);
-
-	    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
-	        bsProps = _splitBsProps[0],
-	        elementProps = _splitBsProps[1];
-
-	    var classes = [];
-
-	    _StyleConfig.DEVICE_SIZES.forEach(function (size) {
-	      function popProp(propSuffix, modifier) {
-	        var propName = '' + size + propSuffix;
-	        var propValue = elementProps[propName];
-
-	        if (propValue != null) {
-	          classes.push((0, _bootstrapUtils.prefix)(bsProps, '' + size + modifier + '-' + propValue));
-	        }
-
-	        delete elementProps[propName];
-	      }
-
-	      popProp('', '');
-	      popProp('Offset', '-offset');
-	      popProp('Push', '-push');
-	      popProp('Pull', '-pull');
-
-	      var hiddenPropName = size + 'Hidden';
-	      if (elementProps[hiddenPropName]) {
-	        classes.push('hidden-' + size);
-	      }
-	      delete elementProps[hiddenPropName];
-	    });
-
-	    return _react2['default'].createElement(Component, (0, _extends3['default'])({}, elementProps, {
-	      className: (0, _classnames2['default'])(className, classes)
-	    }));
-	  };
-
-	  return Col;
-	}(_react2['default'].Component);
-
-	Col.propTypes = propTypes;
-	Col.defaultProps = defaultProps;
-
-	exports['default'] = (0, _bootstrapUtils.bsClass)('col', Col);
-	module.exports = exports['default'];
-
-/***/ },
-/* 363 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends2 = __webpack_require__(216);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _objectWithoutProperties2 = __webpack_require__(215);
-
-	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-	var _classCallCheck2 = __webpack_require__(223);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(224);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(260);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _classnames = __webpack_require__(268);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _elementType = __webpack_require__(269);
-
-	var _elementType2 = _interopRequireDefault(_elementType);
-
-	var _bootstrapUtils = __webpack_require__(271);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var propTypes = {
-	  componentClass: _elementType2['default']
-	};
-
-	var defaultProps = {
-	  componentClass: 'div'
-	};
-
-	var Row = function (_React$Component) {
-	  (0, _inherits3['default'])(Row, _React$Component);
-
-	  function Row() {
-	    (0, _classCallCheck3['default'])(this, Row);
-	    return (0, _possibleConstructorReturn3['default'])(this, _React$Component.apply(this, arguments));
-	  }
-
-	  Row.prototype.render = function render() {
-	    var _props = this.props,
-	        Component = _props.componentClass,
-	        className = _props.className,
-	        props = (0, _objectWithoutProperties3['default'])(_props, ['componentClass', 'className']);
-
-	    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
-	        bsProps = _splitBsProps[0],
-	        elementProps = _splitBsProps[1];
-
-	    var classes = (0, _bootstrapUtils.getClassSet)(bsProps);
-
-	    return _react2['default'].createElement(Component, (0, _extends3['default'])({}, elementProps, {
-	      className: (0, _classnames2['default'])(className, classes)
-	    }));
-	  };
-
-	  return Row;
-	}(_react2['default'].Component);
-
-	Row.propTypes = propTypes;
-	Row.defaultProps = defaultProps;
-
-	exports['default'] = (0, _bootstrapUtils.bsClass)('row', Row);
-	module.exports = exports['default'];
-
-/***/ },
-/* 364 */
+/* 365 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31772,27 +31789,6 @@
 	   });
 	   return newCards;
 	};
-
-/***/ },
-/* 365 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var handleDeposit = function handleDeposit(obj) {
-
-		console.log(obj.amount);
-		return {
-			type: 'DEPOSIT_INTO_ACCOUNT',
-			payload: obj
-		};
-	};
-
-	exports.default = handleDeposit;
 
 /***/ }
 /******/ ]);

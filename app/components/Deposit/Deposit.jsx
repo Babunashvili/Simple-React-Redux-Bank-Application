@@ -29,6 +29,7 @@ class Deposit extends Component {
 	 */
 	onChangeHandle(e){
 		this.setState({value: e.target.value, permission: true})
+		
 	}
 	/**
 	 * Handle Deposit Form Submit
@@ -43,14 +44,9 @@ class Deposit extends Component {
 				  //If Requested Amount <= Credit Card Balance
                   if(checkAmountQty(this.state.value)){
 						//If Deposit Amount > 0
-						this.setState({
-							depositObject: {
-								amount: this.state.value,
-								card: this.state.cards
-							}
-						})
 						
-		                this.props.handleDeposit(this.state.depositObject)
+						console.log(this.props.handleDeposit)
+		                this.props.handleDeposit(this.state.value, this.state.card)
 						this.setState({
 							value: ''
 						}) 
@@ -81,7 +77,6 @@ class Deposit extends Component {
 	}
 
 	render() {
-		console.log(this.props.cards)
 		return (
 			<div>
 				<Panel header="Deposit into your Balance">
