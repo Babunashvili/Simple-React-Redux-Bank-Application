@@ -30,7 +30,6 @@ describe('Withdraw component Testing', () => {
 	test('Withdraw checked 5$ withdraw from account', () => {
 		
 		let state = BankStore.getState()
-
 		expect(state.balance).toEqual(5)
 	})
 	test('Check if button Clicked', () => {

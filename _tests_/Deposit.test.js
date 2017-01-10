@@ -29,6 +29,9 @@ describe('Deposit component Testing', () => {
 	test('Check if value state defined', () => {
 		expect(wrapper.state().value).toBeDefined()
 	})
+	test('Check if card state defined', () => {
+		expect(wrapper.state().card).toBeDefined()
+	})
 	test('Deposit checked 10$ add in ', () => {
 		let state = BankStore.getState()
 		expect(state.balance).toEqual(10)
