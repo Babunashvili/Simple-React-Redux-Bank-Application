@@ -49,7 +49,7 @@ class Deposit extends Component {
 						this.setState({
 							value: ''
 						}) 
-						// this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
+						this.props.handleAlert(constants.ALERT.SUCCESS_DEPOSIT_MSG,'success')
 					}else{
 						//If Deposit Amount <= 0
 						this.props.handleAlert(constants.ALERT.NULL_DEPOSIT_MSG,'danger')
@@ -71,7 +71,7 @@ class Deposit extends Component {
 	 */
 	handleCardChange(e){
         this.setState({
-        	card:e.target.value
+        	card: parseInt(e.target.value)
         })
 	}
 

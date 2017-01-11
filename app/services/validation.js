@@ -25,12 +25,15 @@ export const checkBalance = (amount,balance) => {
  * @return     {Boolean}
  */
 export const checkCardBalance = (amount,card) => {
+
     let balance = 0
     let state  = store.getState().transactions
     state.cards.map((v,i) => {
-         if(v.key === card) 
+         if(v.key === card) {
             balance = v.balance
+         }
     })
+
     if (amount <= balance)
         return true
     return false
