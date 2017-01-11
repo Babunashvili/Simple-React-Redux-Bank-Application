@@ -31,7 +31,7 @@ Header.propTypes = {
 
 const stateProps = (state) => {
 	return {
-		balance: state.deposit.balance
+		balance: state.transactions.balance
 	}
 } 
 

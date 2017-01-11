@@ -3,7 +3,7 @@
    ========================================================================== */
 
 export default {
-	WITHDRAW_FROM_ACCOUNT: 'WITHRAW_FROM_ACCOUNT',
+	WITHDRAW_FROM_ACCOUNT: 'WITHDRAW_FROM_ACCOUNT',
 	DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
 	ON_TRANSACTION: 'ON_TRANSACTION',
 	ALERT:{

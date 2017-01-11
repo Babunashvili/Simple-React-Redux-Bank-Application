@@ -39,6 +39,11 @@ const Deposit = (state = InitialState, action) => {
                 balance: state.balance + parseFloat(action.payload.amount),
                 cards:cards
             })
+        case constants.WITHDRAW_FROM_ACCOUNT:
+            //If Action Is Withdraw Request
+            return Object.assign({}, state, {
+                balance: state.balance - parseFloat(action.payload.amount)
+            })
         default:
             return state
     }

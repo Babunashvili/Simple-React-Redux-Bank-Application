@@ -87,7 +87,7 @@ Withdraw.propTypes = {
 
 const stateProps = (state) => {
 	return {
-		balance: state.withdraw.balance
+		balance: state.transactions.balance
 	}
 }
 

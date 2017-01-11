@@ -19,7 +19,6 @@ class App extends Component {
 			transaction: {},
 			alert:[]
 		}
-		this.handleWithdraw =this.handleWithdraw.bind(this)
 		this.handleAlert =this.handleAlert.bind(this)
 	}
     

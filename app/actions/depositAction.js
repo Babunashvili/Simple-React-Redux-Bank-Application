@@ -1,4 +1,5 @@
 import transAction from './transAction'
+import store from '../Store/store'
 
 const handleDeposit = (amount, card) => {
 	transAction(amount, "Deposit into account", "+")

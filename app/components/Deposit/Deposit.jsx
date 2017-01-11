@@ -125,7 +125,7 @@ Deposit.propTypes = {
 
 const stateProps = (state) => {
 	return {
-		cards: state.deposit.cards
+		cards: state.transactions.cards
 	}
 }
 
