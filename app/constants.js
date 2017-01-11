@@ -6,6 +6,7 @@ export default {
 	WITHDRAW_FROM_ACCOUNT: 'WITHDRAW_FROM_ACCOUNT',
 	DEPOSIT_INTO_ACCOUNT: 'DEPOSIT_INTO_ACCOUNT',
 	ON_TRANSACTION: 'ON_TRANSACTION',
+	FETCH_DATA: 'FETCH_DATA',
 	ALERT:{
 		SUCCESS_DEPOSIT_MSG: 'Your deposit request has been successfully submited.',
 		NULL_DEPOSIT_MSG: 'Deposit amount must be > 0.',

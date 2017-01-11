@@ -33,7 +33,8 @@ const Transaction = (state = InitialState, action) => {
             console.log(action)
             //If Action Is Transaction
             let array = [...state.transactions]
-            array.push(action.payload.transaction)
+            array.push(action.payload)
+            console.log(array)
             return Object.assign({}, state, {
                 transactions: array
             })
