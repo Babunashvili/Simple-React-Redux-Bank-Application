@@ -39,7 +39,7 @@ class App extends Component {
 	}
 
 	componentWillMount() {
-		this.props.fetchData()
+		
 	}
 	
   render() {
