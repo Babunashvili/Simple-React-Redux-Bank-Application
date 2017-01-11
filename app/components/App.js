@@ -14,7 +14,6 @@ import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
 import { hiddenCard } from '../services/hideCard'
 
-import fetchAction from '../actions/fetchAction'
 
 class App extends Component { 
 	constructor(props){
@@ -37,11 +36,6 @@ class App extends Component {
            alert:[msg,type]
 		})
 	}
-
-	componentWillMount() {
-		
-	}
-	
   render() {
     return (
 

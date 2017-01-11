@@ -6,9 +6,7 @@ import axios from 'axios'
 const InitialState = {
     balance: 0,
     transactions: [],
-    cards:[
-     
-    ]
+    cards:[]
 }
 
 const Deposit = (state = InitialState, action) => {
@@ -39,11 +37,14 @@ const Deposit = (state = InitialState, action) => {
                 balance: state.balance - parseFloat(action.payload.amount)
             })
         case constants.FETCH_DATA:
+            
             return Object.assign({}, state, action.payload)
+
         default:
             return state
     }
 
 }
 
+ 
 export default Deposit
