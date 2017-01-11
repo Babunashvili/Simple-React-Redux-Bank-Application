@@ -36,7 +36,6 @@ class App extends Component {
            alert:[msg,type]
 		})
 	}
-
   render() {
     return (
 
