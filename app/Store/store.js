@@ -2,6 +2,7 @@ import { applyMiddleware, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import reducers from '../reducers/index'
 import axios from 'axios'
+import promise from 'redux-promise'
 
 /**
  * Create Bank Store
@@ -9,7 +10,7 @@ import axios from 'axios'
  * @type       {Function}
  */
 const middleware = applyMiddleware(thunk)
-const store = createStore(reducers,middleware)
+const store = createStore(reducers, middleware)
 
 //Fetch Data From API
 store.dispatch((dispatch) => {

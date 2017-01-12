@@ -21517,33 +21517,33 @@
 
 	var _Withdraw2 = _interopRequireDefault(_Withdraw);
 
-	var _Deposit = __webpack_require__(367);
+	var _Deposit = __webpack_require__(374);
 
 	var _Deposit2 = _interopRequireDefault(_Deposit);
 
-	var _Header = __webpack_require__(372);
+	var _Header = __webpack_require__(379);
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _History = __webpack_require__(386);
+	var _History = __webpack_require__(393);
 
 	var _History2 = _interopRequireDefault(_History);
 
-	var _alerts = __webpack_require__(390);
+	var _alerts = __webpack_require__(397);
 
-	var _Col = __webpack_require__(368);
+	var _Col = __webpack_require__(375);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(369);
+	var _Row = __webpack_require__(376);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
-	var _Grid = __webpack_require__(377);
+	var _Grid = __webpack_require__(384);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
-	var _hideCard = __webpack_require__(392);
+	var _hideCard = __webpack_require__(399);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25714,7 +25714,7 @@
 
 	var _validation = __webpack_require__(333);
 
-	var _withdrawAction = __webpack_require__(366);
+	var _withdrawAction = __webpack_require__(373);
 
 	var _withdrawAction2 = _interopRequireDefault(_withdrawAction);
 
@@ -28129,6 +28129,10 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _reduxPromise = __webpack_require__(366);
+
+	var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
@@ -30126,6 +30130,796 @@
 
 /***/ },
 /* 366 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports['default'] = promiseMiddleware;
+
+	var _fluxStandardAction = __webpack_require__(367);
+
+	function isPromise(val) {
+	  return val && typeof val.then === 'function';
+	}
+
+	function promiseMiddleware(_ref) {
+	  var dispatch = _ref.dispatch;
+
+	  return function (next) {
+	    return function (action) {
+	      if (!_fluxStandardAction.isFSA(action)) {
+	        return isPromise(action) ? action.then(dispatch) : next(action);
+	      }
+
+	      return isPromise(action.payload) ? action.payload.then(function (result) {
+	        return dispatch(_extends({}, action, { payload: result }));
+	      }, function (error) {
+	        return dispatch(_extends({}, action, { payload: error, error: true }));
+	      }) : next(action);
+	    };
+	  };
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 367 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.isFSA = isFSA;
+	exports.isError = isError;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _lodashIsplainobject = __webpack_require__(368);
+
+	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
+
+	var validKeys = ['type', 'payload', 'error', 'meta'];
+
+	function isValidKey(key) {
+	  return validKeys.indexOf(key) > -1;
+	}
+
+	function isFSA(action) {
+	  return _lodashIsplainobject2['default'](action) && typeof action.type !== 'undefined' && Object.keys(action).every(isValidKey);
+	}
+
+	function isError(action) {
+	  return action.error === true;
+	}
+
+/***/ },
+/* 368 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseFor = __webpack_require__(369),
+	    isArguments = __webpack_require__(370),
+	    keysIn = __webpack_require__(371);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+
+	/**
+	 * The base implementation of `_.forIn` without support for callback
+	 * shorthands and `this` binding.
+	 *
+	 * @private
+	 * @param {Object} object The object to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseForIn(object, iteratee) {
+	  return baseFor(object, iteratee, keysIn);
+	}
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * **Note:** This method assumes objects created by the `Object` constructor
+	 * have no inherited enumerable properties.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  var Ctor;
+
+	  // Exit early for non `Object` objects.
+	  if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
+	      (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
+	    return false;
+	  }
+	  // IE < 9 iterates inherited properties before own properties. If the first
+	  // iterated property is an object's own property then there are no inherited
+	  // enumerable properties.
+	  var result;
+	  // In most environments an object's own properties are iterated before
+	  // its inherited properties. If the last iterated property is an object's
+	  // own property then there are no inherited enumerable properties.
+	  baseForIn(value, function(subValue, key) {
+	    result = key;
+	  });
+	  return result === undefined || hasOwnProperty.call(value, result);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ },
+/* 369 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/**
+	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
+	 * over `object` properties returned by `keysFunc` invoking `iteratee` for
+	 * each property. Iteratee functions may exit iteration early by explicitly
+	 * returning `false`.
+	 *
+	 * @private
+	 * @param {Object} object The object to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @param {Function} keysFunc The function to get the keys of `object`.
+	 * @returns {Object} Returns `object`.
+	 */
+	var baseFor = createBaseFor();
+
+	/**
+	 * Creates a base function for methods like `_.forIn`.
+	 *
+	 * @private
+	 * @param {boolean} [fromRight] Specify iterating from right to left.
+	 * @returns {Function} Returns the new base function.
+	 */
+	function createBaseFor(fromRight) {
+	  return function(object, iteratee, keysFunc) {
+	    var index = -1,
+	        iterable = Object(object),
+	        props = keysFunc(object),
+	        length = props.length;
+
+	    while (length--) {
+	      var key = props[fromRight ? length : ++index];
+	      if (iteratee(iterable[key], key, iterable) === false) {
+	        break;
+	      }
+	    }
+	    return object;
+	  };
+	}
+
+	module.exports = baseFor;
+
+
+/***/ },
+/* 370 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+	 * Released under MIT license <https://lodash.com/license>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 */
+
+	/** Used as references for various `Number` constants. */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/** `Object#toString` result references. */
+	var argsTag = '[object Arguments]',
+	    funcTag = '[object Function]',
+	    genTag = '[object GeneratorFunction]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/** Built-in value references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+	/**
+	 * Checks if `value` is likely an `arguments` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArguments(function() { return arguments; }());
+	 * // => true
+	 *
+	 * _.isArguments([1, 2, 3]);
+	 * // => false
+	 */
+	function isArguments(value) {
+	  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+	}
+
+	/**
+	 * Checks if `value` is array-like. A value is considered array-like if it's
+	 * not a function and has a `value.length` that's an integer greater than or
+	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 * @example
+	 *
+	 * _.isArrayLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLike(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLike('abc');
+	 * // => true
+	 *
+	 * _.isArrayLike(_.noop);
+	 * // => false
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(value.length) && !isFunction(value);
+	}
+
+	/**
+	 * This method is like `_.isArrayLike` except that it also checks if `value`
+	 * is an object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an array-like object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArrayLikeObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject('abc');
+	 * // => false
+	 *
+	 * _.isArrayLikeObject(_.noop);
+	 * // => false
+	 */
+	function isArrayLikeObject(value) {
+	  return isObjectLike(value) && isArrayLike(value);
+	}
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+	  var tag = isObject(value) ? objectToString.call(value) : '';
+	  return tag == funcTag || tag == genTag;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This method is loosely based on
+	 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 * @example
+	 *
+	 * _.isLength(3);
+	 * // => true
+	 *
+	 * _.isLength(Number.MIN_VALUE);
+	 * // => false
+	 *
+	 * _.isLength(Infinity);
+	 * // => false
+	 *
+	 * _.isLength('3');
+	 * // => false
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' &&
+	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is the
+	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(_.noop);
+	 * // => true
+	 *
+	 * _.isObject(null);
+	 * // => false
+	 */
+	function isObject(value) {
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isArguments;
+
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var isArguments = __webpack_require__(370),
+	    isArray = __webpack_require__(372);
+
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Creates an array of the own and inherited enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keysIn(new Foo);
+	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+	 */
+	function keysIn(object) {
+	  if (object == null) {
+	    return [];
+	  }
+	  if (!isObject(object)) {
+	    object = Object(object);
+	  }
+	  var length = object.length;
+	  length = (length && isLength(length) &&
+	    (isArray(object) || isArguments(object)) && length) || 0;
+
+	  var Ctor = object.constructor,
+	      index = -1,
+	      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+	      result = Array(length),
+	      skipIndexes = length > 0;
+
+	  while (++index < length) {
+	    result[index] = (index + '');
+	  }
+	  for (var key in object) {
+	    if (!(skipIndexes && isIndex(key, length)) &&
+	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+
+	module.exports = keysIn;
+
+
+/***/ },
+/* 372 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/** `Object#toString` result references. */
+	var arrayTag = '[object Array]',
+	    funcTag = '[object Function]';
+
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeIsArray = getNative(Array, 'isArray');
+
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(function() { return arguments; }());
+	 * // => false
+	 */
+	var isArray = nativeIsArray || function(value) {
+	  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+	};
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+
+	module.exports = isArray;
+
+
+/***/ },
+/* 373 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30147,7 +30941,7 @@
 	exports.default = handleWithdraw;
 
 /***/ },
-/* 367 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30186,11 +30980,11 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Col = __webpack_require__(368);
+	var _Col = __webpack_require__(375);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(369);
+	var _Row = __webpack_require__(376);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
@@ -30198,7 +30992,7 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _depositAction = __webpack_require__(370);
+	var _depositAction = __webpack_require__(377);
 
 	var _depositAction2 = _interopRequireDefault(_depositAction);
 
@@ -30393,7 +31187,7 @@
 	exports.default = (0, _reactRedux.connect)(stateProps, dispatchtToProps)(Deposit);
 
 /***/ },
-/* 368 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30666,7 +31460,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 369 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30752,7 +31546,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 370 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30761,7 +31555,7 @@
 		value: true
 	});
 
-	var _transAction = __webpack_require__(371);
+	var _transAction = __webpack_require__(378);
 
 	var _transAction2 = _interopRequireDefault(_transAction);
 
@@ -30790,7 +31584,7 @@
 	exports.default = handleDeposit;
 
 /***/ },
-/* 371 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30825,7 +31619,7 @@
 	exports.default = transAction;
 
 /***/ },
-/* 372 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30842,11 +31636,11 @@
 
 	var _reactRedux = __webpack_require__(200);
 
-	var _Navbar = __webpack_require__(373);
+	var _Navbar = __webpack_require__(380);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _Nav = __webpack_require__(382);
+	var _Nav = __webpack_require__(389);
 
 	var _Nav2 = _interopRequireDefault(_Nav);
 
@@ -30858,7 +31652,7 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Label = __webpack_require__(385);
+	var _Label = __webpack_require__(392);
 
 	var _Label2 = _interopRequireDefault(_Label);
 
@@ -30934,7 +31728,7 @@
 	exports.default = (0, _reactRedux.connect)(stateProps)(Header);
 
 /***/ },
-/* 373 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30973,27 +31767,27 @@
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _uncontrollable = __webpack_require__(374);
+	var _uncontrollable = __webpack_require__(381);
 
 	var _uncontrollable2 = _interopRequireDefault(_uncontrollable);
 
-	var _Grid = __webpack_require__(377);
+	var _Grid = __webpack_require__(384);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
-	var _NavbarBrand = __webpack_require__(378);
+	var _NavbarBrand = __webpack_require__(385);
 
 	var _NavbarBrand2 = _interopRequireDefault(_NavbarBrand);
 
-	var _NavbarCollapse = __webpack_require__(379);
+	var _NavbarCollapse = __webpack_require__(386);
 
 	var _NavbarCollapse2 = _interopRequireDefault(_NavbarCollapse);
 
-	var _NavbarHeader = __webpack_require__(380);
+	var _NavbarHeader = __webpack_require__(387);
 
 	var _NavbarHeader2 = _interopRequireDefault(_NavbarHeader);
 
-	var _NavbarToggle = __webpack_require__(381);
+	var _NavbarToggle = __webpack_require__(388);
 
 	var _NavbarToggle2 = _interopRequireDefault(_NavbarToggle);
 
@@ -31265,14 +32059,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 374 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _createUncontrollable = __webpack_require__(375);
+	var _createUncontrollable = __webpack_require__(382);
 
 	var _createUncontrollable2 = _interopRequireDefault(_createUncontrollable);
 
@@ -31301,7 +32095,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 375 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31320,7 +32114,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _utils = __webpack_require__(376);
+	var _utils = __webpack_require__(383);
 
 	var utils = _interopRequireWildcard(_utils);
 
@@ -31470,7 +32264,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 376 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -31592,7 +32386,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 377 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31689,7 +32483,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 378 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31774,7 +32568,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 379 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31857,7 +32651,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 380 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31931,7 +32725,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 381 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32046,7 +32840,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 382 */
+/* 389 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -32077,7 +32871,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _keycode = __webpack_require__(383);
+	var _keycode = __webpack_require__(390);
 
 	var _keycode2 = _interopRequireDefault(_keycode);
 
@@ -32089,7 +32883,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _all = __webpack_require__(384);
+	var _all = __webpack_require__(391);
 
 	var _all2 = _interopRequireDefault(_all);
 
@@ -32450,7 +33244,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 383 */
+/* 390 */
 /***/ function(module, exports) {
 
 	// Source: http://jsfiddle.net/vWx8V/
@@ -32602,7 +33396,7 @@
 
 
 /***/ },
-/* 384 */
+/* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32646,7 +33440,7 @@
 	}
 
 /***/ },
-/* 385 */
+/* 392 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32747,7 +33541,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 386 */
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32766,7 +33560,7 @@
 
 	var _reactRedux = __webpack_require__(200);
 
-	var _Table = __webpack_require__(387);
+	var _Table = __webpack_require__(394);
 
 	var _Table2 = _interopRequireDefault(_Table);
 
@@ -32774,11 +33568,11 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _HistoryTable = __webpack_require__(388);
+	var _HistoryTable = __webpack_require__(395);
 
 	var _HistoryTable2 = _interopRequireDefault(_HistoryTable);
 
-	var _EmptyHistory = __webpack_require__(389);
+	var _EmptyHistory = __webpack_require__(396);
 
 	var _EmptyHistory2 = _interopRequireDefault(_EmptyHistory);
 
@@ -32786,7 +33580,7 @@
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _transAction = __webpack_require__(371);
+	var _transAction = __webpack_require__(378);
 
 	var _transAction2 = _interopRequireDefault(_transAction);
 
@@ -32863,7 +33657,7 @@
 	exports.default = (0, _reactRedux.connect)(stateProps, dispatchProps)(History);
 
 /***/ },
-/* 387 */
+/* 394 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32969,7 +33763,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 388 */
+/* 395 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32984,7 +33778,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Table = __webpack_require__(387);
+	var _Table = __webpack_require__(394);
 
 	var _Table2 = _interopRequireDefault(_Table);
 
@@ -33111,7 +33905,7 @@
 	exports.default = HistoryTable;
 
 /***/ },
-/* 389 */
+/* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33167,7 +33961,7 @@
 	exports.default = EmptyHistory;
 
 /***/ },
-/* 390 */
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33181,7 +33975,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Alert = __webpack_require__(391);
+	var _Alert = __webpack_require__(398);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -33204,7 +33998,7 @@
 	};
 
 /***/ },
-/* 391 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33335,7 +34129,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 392 */
+/* 399 */
 /***/ function(module, exports) {
 
 	'use strict';
