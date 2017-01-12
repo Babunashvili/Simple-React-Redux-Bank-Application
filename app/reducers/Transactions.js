@@ -10,11 +10,12 @@ const InitialState = {
     cards:[]
 }
 
-const Deposit = (state = InitialState, action) => {
+const Transactions = (state = InitialState, action) => {
 
     switch (action.type) {
         case constants.DEPOSIT_INTO_ACCOUNT:
             //If Action Is Deposit Request
+
             console.log('Call Deposit Action...')
             var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT").toString()
             for (var i = 0; i <= state.cards.length - 1; i++) {
@@ -32,14 +33,15 @@ const Deposit = (state = InitialState, action) => {
             store.dispatch((dispatch) => {
                axios.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then((response) => {
                   var data = response.data
+                  console.log(action)
                   var transactions = (response.data.transactions === "NULL") ? [] : response.data.transactions
                   data.transactions = transactions
                   data.balance = parseInt(data.balance) + parseInt(action.payload.amount)
                   transactions.push({
-                     amount: '+'+action.payload.amount,
-                     date:date,
+                     amount: '+' + action.payload.amount,
+                     date: date,
                      description:'Deposit Into Balance.',
-                     trans_id:'PAY-'+randomString(8)
+                     trans_id: 'PAY-'+randomString(8)
                   })
 
                   data.cards = cards
@@ -49,8 +51,10 @@ const Deposit = (state = InitialState, action) => {
                   })
                })
             })
+            break
              
         case constants.WITHDRAW_FROM_ACCOUNT:
+
             // If Action Is Withdraw Request
             console.log('Call Withdraw Action...')
             var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT").toString()
@@ -62,10 +66,10 @@ const Deposit = (state = InitialState, action) => {
                   data.balance = data.balance-action.payload.amount
 
                   transactions.push({
-                     amount: '-'+action.payload.amount,
-                     date:date,
-                     description:'Withdraw From Balance.',
-                     trans_id:'PAY-'+randomString(8)
+                     amount: '-' + action.payload.amount,
+                     date: date,
+                     description: 'Withdraw From Balance.',
+                     trans_id: 'PAY-'+randomString(8)
                   })
 
                   axios.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json',data).then((res) => {
@@ -74,6 +78,7 @@ const Deposit = (state = InitialState, action) => {
                   })
                })
             })
+            break
         case constants.FETCH_DATA:
             
             return Object.assign({}, state, action.payload)
@@ -84,4 +89,4 @@ const Deposit = (state = InitialState, action) => {
 
 }
  
-export default Deposit
+export default Transactions
