@@ -23,9 +23,4 @@ const handleDeposit = (amount, card) => {
 
 	})
 
-		
-
-
 }
-
-export default handleDeposit 

@@ -11,8 +11,11 @@ import axios from 'axios'
 const middleware = applyMiddleware(thunk)
 const store = createStore(reducers,middleware)
 
+//Fetch Data From API
 store.dispatch((dispatch) => {
-   axios.post('http://192.168.0.150:2304/bank-api/public/fetch').then((response) => {
+   axios.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then((response) => {
+   	  var transactions = (response.data.transactions === "NULL") ? [] : response.data.transactions
+      response.data.transactions = transactions
    	  dispatch({type:'FETCH_DATA',payload:response.data})
    })
 })

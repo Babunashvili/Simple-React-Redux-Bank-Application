@@ -36,6 +36,13 @@ class App extends Component {
            alert:[msg,type]
 		})
 	}
+	componentWillMount(){
+       console.log('Loading...')
+	}
+
+	componentDidMount(){
+		console.log('Loaded!')
+	}
   render() {
     return (
 
