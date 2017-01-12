@@ -25878,7 +25878,10 @@
 			NO_TRANSACTIONS_HISTORY: 'You have not any Transactions.',
 			CARD_NOT_SELECTED: 'Please select credit card for deposit request.',
 			NOT_ENOUGH_BALANCE_ON_CARD_MSG: 'You dont have enough money on credit card for request deposit!'
-		}
+		},
+		FETCH_POST_REQUEST: 'FETCH_POST_REQUEST',
+		FETCH_POST_FAILURE: 'FETCH_POST_FAILURE',
+		FETCH_POST_SUCCESS: 'FETCH_POST_SUCCESS'
 	};
 
 /***/ },
