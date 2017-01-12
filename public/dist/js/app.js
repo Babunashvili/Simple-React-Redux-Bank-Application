@@ -21587,6 +21587,16 @@
 				});
 			}
 		}, {
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				console.log('Loading...');
+			}
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				console.log('Loaded!');
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -28102,7 +28112,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	   value: true
 	});
 
 	var _redux = __webpack_require__(179);
@@ -28129,10 +28139,13 @@
 	var middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default);
 	var store = (0, _redux.createStore)(_index2.default, middleware);
 
+	//Fetch Data From API
 	store.dispatch(function (dispatch) {
-	  _axios2.default.post('http://192.168.0.150:2304/bank-api/public/fetch').then(function (response) {
-	    dispatch({ type: 'FETCH_DATA', payload: response.data });
-	  });
+	   _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	      var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	      response.data.transactions = transactions;
+	      dispatch({ type: 'FETCH_DATA', payload: response.data });
+	   });
 	});
 
 	exports.default = store;
@@ -28171,62 +28184,109 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	   value: true
 	});
 
 	var _constants = __webpack_require__(308);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
+	var _store = __webpack_require__(334);
+
+	var _store2 = _interopRequireDefault(_store);
+
 	var _axios = __webpack_require__(337);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _randomGenerator = __webpack_require__(366);
+
+	var _dateformat = __webpack_require__(365);
+
+	var _dateformat2 = _interopRequireDefault(_dateformat);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var InitialState = {
-	    balance: 0,
-	    transactions: [],
-	    cards: []
+	   balance: 0,
+	   transactions: [],
+	   cards: []
 	};
 
 	var Deposit = function Deposit() {
-	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : InitialState;
-	    var action = arguments[1];
+	   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : InitialState;
+	   var action = arguments[1];
 
 
-	    switch (action.type) {
-	        case _constants2.default.DEPOSIT_INTO_ACCOUNT:
-	            //If Action Is Deposit Request
-
-	            for (var i = 0; i <= state.cards.length - 1; i++) {
-	                if (state.cards[i].key === action.payload.card) {
-	                    var cardBalance = state.cards[i].balance - action.payload.amount;
-	                    var newCard = { key: state.cards[i].key, balance: cardBalance, card: {
-	                            number: state.cards[i].card.number,
-	                            expires: state.cards[i].card.expires,
-	                            cvc: state.cards[i].card.cvc
-	                        } };
-	                    var cards = state.cards;
-	                    cards[i] = newCard;
-	                }
+	   switch (action.type) {
+	      case _constants2.default.DEPOSIT_INTO_ACCOUNT:
+	         //If Action Is Deposit Request
+	         console.log('Call Deposit Action...');
+	         var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
+	         for (var i = 0; i <= state.cards.length - 1; i++) {
+	            if (state.cards[i].key === action.payload.card) {
+	               var cardBalance = state.cards[i].balance - action.payload.amount;
+	               var newCard = { key: state.cards[i].key, balance: cardBalance, card: {
+	                     number: state.cards[i].card.number,
+	                     expires: state.cards[i].card.expires,
+	                     cvc: state.cards[i].card.cvc
+	                  } };
+	               var cards = state.cards;
+	               cards[i] = newCard;
 	            }
-	            return Object.assign({}, state, {
-	                balance: state.balance + parseFloat(action.payload.amount),
-	                cards: cards
-	            });
-	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
-	            //If Action Is Withdraw Request
-	            return Object.assign({}, state, {
-	                balance: state.balance - parseFloat(action.payload.amount)
-	            });
-	        case _constants2.default.FETCH_DATA:
+	         }
+	         _store2.default.dispatch(function (dispatch) {
+	            _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	               var data = response.data;
+	               var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	               data.transactions = transactions;
+	               data.balance = parseInt(data.balance) + parseInt(action.payload.amount);
+	               transactions.push({
+	                  amount: '+' + action.payload.amount,
+	                  date: date,
+	                  description: 'Deposit Into Balance.',
+	                  trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
+	               });
 
-	            return Object.assign({}, state, action.payload);
+	               data.cards = cards;
+	               _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
+	                  console.log('Call Deposit Action POST...');
+	                  dispatch({ type: 'FETCH_DATA', payload: res.data });
+	               });
+	            });
+	         });
 
-	        default:
-	            return state;
-	    }
+	      case _constants2.default.WITHDRAW_FROM_ACCOUNT:
+	         // If Action Is Withdraw Request
+	         console.log('Call Withdraw Action...');
+	         var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
+	         _store2.default.dispatch(function (dispatch) {
+	            _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	               var data = response.data;
+	               var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	               data.transactions = transactions;
+	               data.balance = data.balance - action.payload.amount;
+
+	               transactions.push({
+	                  amount: '-' + action.payload.amount,
+	                  date: date,
+	                  description: 'Withdraw From Balance.',
+	                  trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
+	               });
+
+	               _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
+	                  console.log('Call Withdraw Action POST...');
+	                  dispatch({ type: 'FETCH_DATA', payload: res.data });
+	               });
+	            });
+	         });
+	      case _constants2.default.FETCH_DATA:
+
+	         return Object.assign({}, state, action.payload);
+
+	      default:
+	         return state;
+	   }
 	};
 
 	exports.default = Deposit;
@@ -30712,10 +30772,13 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
+	var _axios = __webpack_require__(337);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var handleDeposit = function handleDeposit(amount, card) {
-		// transAction(amount, "Deposit into account", "+")
 		return {
 			type: 'DEPOSIT_INTO_ACCOUNT',
 			payload: {

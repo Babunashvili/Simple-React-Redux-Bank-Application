@@ -1,7 +1,8 @@
 import constants from '../constants'
-
+import store from '../Store/store'
 import axios from 'axios'
-
+import { randomString } from '../services/randomGenerator'
+import dateFormat from 'dateformat'
 
 const InitialState = {
     balance: 0,
@@ -14,7 +15,8 @@ const Deposit = (state = InitialState, action) => {
     switch (action.type) {
         case constants.DEPOSIT_INTO_ACCOUNT:
             //If Action Is Deposit Request
-            
+            console.log('Call Deposit Action...')
+            var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT").toString()
             for (var i = 0; i <= state.cards.length - 1; i++) {
                 if(state.cards[i].key === action.payload.card){
                    let cardBalance = state.cards[i].balance - action.payload.amount
@@ -27,14 +29,50 @@ const Deposit = (state = InitialState, action) => {
                    cards[i] = newCard
                 }
             }
-            return Object.assign({}, state, {
-                balance: state.balance + parseFloat(action.payload.amount),
-                cards:cards
+            store.dispatch((dispatch) => {
+               axios.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then((response) => {
+                  var data = response.data
+                  var transactions = (response.data.transactions === "NULL") ? [] : response.data.transactions
+                  data.transactions = transactions
+                  data.balance = parseInt(data.balance) + parseInt(action.payload.amount)
+                  transactions.push({
+                     amount: '+'+action.payload.amount,
+                     date:date,
+                     description:'Deposit Into Balance.',
+                     trans_id:'PAY-'+randomString(8)
+                  })
+
+                  data.cards = cards
+                  axios.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json',data).then((res) => {
+                     console.log('Call Deposit Action POST...')
+                     dispatch({type:'FETCH_DATA',payload:res.data})
+                  })
+               })
             })
+             
         case constants.WITHDRAW_FROM_ACCOUNT:
-            //If Action Is Withdraw Request
-            return Object.assign({}, state, {
-                balance: state.balance - parseFloat(action.payload.amount)
+            // If Action Is Withdraw Request
+            console.log('Call Withdraw Action...')
+            var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT").toString()
+            store.dispatch((dispatch) => {
+               axios.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then((response) => {
+                  var data = response.data
+                  var transactions = (response.data.transactions === "NULL") ? [] : response.data.transactions
+                  data.transactions = transactions
+                  data.balance = data.balance-action.payload.amount
+
+                  transactions.push({
+                     amount: '-'+action.payload.amount,
+                     date:date,
+                     description:'Withdraw From Balance.',
+                     trans_id:'PAY-'+randomString(8)
+                  })
+
+                  axios.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json',data).then((res) => {
+                     console.log('Call Withdraw Action POST...')
+                     dispatch({type:'FETCH_DATA',payload:res.data})
+                  })
+               })
             })
         case constants.FETCH_DATA:
             
@@ -45,6 +83,5 @@ const Deposit = (state = InitialState, action) => {
     }
 
 }
-
  
 export default Deposit
