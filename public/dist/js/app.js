@@ -28219,7 +28219,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	   value: true
+	    value: true
 	});
 
 	var _constants = __webpack_require__(308);
@@ -28243,90 +28243,58 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var InitialState = {
-	   balance: 0,
-	   transactions: [],
-	   cards: []
+	    balance: 0,
+	    transactions: [],
+	    cards: []
 	};
 
 	var Transactions = function Transactions() {
-	   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : InitialState;
-	   var action = arguments[1];
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : InitialState;
+	    var action = arguments[1];
 
 
-	   switch (action.type) {
-	      case _constants2.default.DEPOSIT_INTO_ACCOUNT:
-	         //If Action Is Deposit Request
+	    switch (action.type) {
+	        case _constants2.default.DEPOSIT_INTO_ACCOUNT:
+	            //If Action Is Deposit Request
 
-	         console.log('Call Deposit Action...');
-	         var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
-	         for (var i = 0; i <= state.cards.length - 1; i++) {
-	            if (state.cards[i].key === action.payload.card) {
-	               var cardBalance = state.cards[i].balance - action.payload.amount;
-	               var newCard = { key: state.cards[i].key, balance: cardBalance, card: {
-	                     number: state.cards[i].card.number,
-	                     expires: state.cards[i].card.expires,
-	                     cvc: state.cards[i].card.cvc
-	                  } };
-	               var cards = state.cards;
-	               cards[i] = newCard;
-	            }
-	         }
-	         _store2.default.dispatch(function (dispatch) {
-	            _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
-	               var data = response.data;
-	               console.log(action);
-	               var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
-	               data.transactions = transactions;
-	               data.balance = parseInt(data.balance) + parseInt(action.payload.amount);
-	               transactions.push({
-	                  amount: '+' + action.payload.amount,
-	                  date: date,
-	                  description: 'Deposit Into Balance.',
-	                  trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
-	               });
+	            console.log('Call Deposit Action...');
+	            return Object.assign({}, state, action.payload);
 
-	               data.cards = cards;
-	               _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
-	                  console.log('Call Deposit Action POST...');
-	                  dispatch({ type: 'FETCH_DATA', payload: res.data });
-	               });
+	            break;
+
+	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
+
+	            // If Action Is Withdraw Request
+	            console.log('Call Withdraw Action...');
+	            var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
+	            _store2.default.dispatch(function (dispatch) {
+	                _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	                    var data = response.data;
+	                    var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	                    data.transactions = transactions;
+	                    data.balance = data.balance - action.payload.amount;
+
+	                    transactions.push({
+	                        amount: '-' + action.payload.amount,
+	                        date: date,
+	                        description: 'Withdraw From Balance.',
+	                        trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
+	                    });
+
+	                    _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
+	                        console.log('Call Withdraw Action POST...');
+	                        dispatch({ type: 'FETCH_DATA', payload: res.data });
+	                    });
+	                });
 	            });
-	         });
-	         break;
+	            break;
+	        case _constants2.default.FETCH_DATA:
 
-	      case _constants2.default.WITHDRAW_FROM_ACCOUNT:
+	            return Object.assign({}, state, action.payload);
 
-	         // If Action Is Withdraw Request
-	         console.log('Call Withdraw Action...');
-	         var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
-	         _store2.default.dispatch(function (dispatch) {
-	            _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
-	               var data = response.data;
-	               var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
-	               data.transactions = transactions;
-	               data.balance = data.balance - action.payload.amount;
-
-	               transactions.push({
-	                  amount: '-' + action.payload.amount,
-	                  date: date,
-	                  description: 'Withdraw From Balance.',
-	                  trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
-	               });
-
-	               _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
-	                  console.log('Call Withdraw Action POST...');
-	                  dispatch({ type: 'FETCH_DATA', payload: res.data });
-	               });
-	            });
-	         });
-	         break;
-	      case _constants2.default.FETCH_DATA:
-
-	         return Object.assign({}, state, action.payload);
-
-	      default:
-	         return state;
-	   }
+	        default:
+	            return state;
+	    }
 	};
 
 	exports.default = Transactions;
@@ -31052,7 +31020,7 @@
 							if ((0, _validation.checkAmountQty)(this.state.value)) {
 								//If Deposit Amount > 0
 
-								this.props.handleDeposit(this.state.value, this.state.card);
+								(0, _depositAction2.default)(this.state.value, this.state.card);
 								this.setState({
 									value: ''
 								});
@@ -31181,13 +31149,13 @@
 		};
 	};
 
-	var dispatchtToProps = function dispatchtToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({
-			handleDeposit: _depositAction2.default
-		}, dispatch);
-	};
+	// const dispatchtToProps = (dispatch) => {
+	// 	return bindActionCreators({
+	// 		handleDeposit: handleDeposit
+	// 	}, dispatch)
+	// } 
 
-	exports.default = (0, _reactRedux.connect)(stateProps, dispatchtToProps)(Deposit);
+	exports.default = (0, _reactRedux.connect)(stateProps)(Deposit);
 
 /***/ },
 /* 375 */
@@ -31555,7 +31523,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
 
 	var _transAction = __webpack_require__(378);
@@ -31570,21 +31538,79 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _randomGenerator = __webpack_require__(363);
+
+	var _dateformat = __webpack_require__(364);
+
+	var _dateformat2 = _interopRequireDefault(_dateformat);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var handleDeposit = function handleDeposit(amount, card) {
-		// transAction(amount, "Deposit into account", "+")
+	// const handleDeposit = (amount, card) => {
+	//     // transAction(amount, "Deposit into account", "+")
 
-		return {
-			type: 'DEPOSIT_INTO_ACCOUNT',
-			payload: {
-				amount: amount,
-				card: card
-			}
-		};
+	//     return {
+	//         type: 'DEPOSIT_INTO_ACCOUNT',
+	//         payload: {
+	//             amount: amount,
+	//             card: card
+	//         }
+	//     }
+
+	// }
+
+	// export default handleDeposit
+
+
+	var depositAction = function depositAction(amount, card) {
+	    var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
+
+	    _store2.default.dispatch(function (dispatch) {
+
+	        _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	            var data = response.data;
+
+	            for (var i = 0; i <= data.cards.length - 1; i++) {
+	                if (data.cards[i].key === card) {
+	                    var cardBalance = data.cards[i].balance - amount;
+	                    var newCard = {
+	                        key: data.cards[i].key,
+	                        balance: cardBalance,
+	                        card: {
+	                            number: data.cards[i].card.number,
+	                            expires: data.cards[i].card.expires,
+	                            cvc: data.cards[i].card.cvc
+	                        }
+	                    };
+	                    var cards = data.cards;
+	                    cards[i] = newCard;
+	                }
+	            }
+
+	            console.log(data);
+	            console.log(cards);
+	            var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	            data.transactions = transactions;
+	            data.balance = parseInt(data.balance) + parseInt(amount);
+	            transactions.push({
+	                amount: '+' + amount,
+	                date: date,
+	                description: 'Deposit Into Balance.',
+	                trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
+	            });
+	            data.cards = cards;
+	            _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
+	                console.log('Call Deposit Action POST...');
+	                dispatch({
+	                    type: 'DEPOSIT_INTO_ACCOUNT',
+	                    payload: res.data
+	                });
+	            });
+	        });
+	    });
 	};
 
-	exports.default = handleDeposit;
+	exports.default = depositAction;
 
 /***/ },
 /* 378 */

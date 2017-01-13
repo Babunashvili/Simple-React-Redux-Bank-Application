@@ -45,7 +45,7 @@ class Deposit extends Component {
                   if(checkAmountQty(this.state.value)){
 						//If Deposit Amount > 0
 						
-		                this.props.handleDeposit(this.state.value, this.state.card)
+		                handleDeposit(this.state.value, this.state.card)
 						this.setState({
 							value: ''
 						}) 
@@ -129,10 +129,10 @@ const stateProps = (state) => {
 	}
 }
 
-const dispatchtToProps = (dispatch) => {
-	return bindActionCreators({
-		handleDeposit: handleDeposit
-	}, dispatch)
-} 
+// const dispatchtToProps = (dispatch) => {
+// 	return bindActionCreators({
+// 		handleDeposit: handleDeposit
+// 	}, dispatch)
+// } 
 
-export default connect(stateProps, dispatchtToProps)(Deposit)
+export default connect(stateProps)(Deposit)
