@@ -1,10 +1,11 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import { shallow, mount } from 'enzyme'
 import sinon from 'sinon'
 import App from '../app/components/App'
 
 // Bank Store 
-import BankStore from '../app/Store/BankStore'
+import BankStore from '../app/Store/store'
 
 // constant file
 import constants from '../app/constants'
@@ -16,15 +17,14 @@ import { alertMessage } from '../app/services/alerts'
 
 
 describe('App component Testing', () => {
-	const wrapper = shallow(<App cards={BankStore.getState().cards} balance={BankStore.getState().balance} />)
+	const wrapper = shallow(<Provider store={BankStore}>
+				<App store={BankStore} cards={BankStore.getState().cards} />
+			</Provider>	
+		)
 	test('App Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
-	test('Check if transactions state defined', () => {
-		expect(wrapper.state().transaction).toBeDefined()
-	})
-	test('Check if balance props exist', () => {
-		expect(wrapper.instance().props.balance).toEqual(0)
-	})
+	
+	
 	
 })

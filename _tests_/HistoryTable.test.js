@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import HistoryTable from '../app/components/History/HistoryTable'
 
 // Bank Store 
-import BankStore from '../app/Store/BankStore'
+import BankStore from '../app/Store/store'
 
 // constant file
 import constants from '../app/constants'
@@ -17,7 +17,7 @@ import { alertMessage } from '../app/services/alerts'
 
 
 describe('HistoryTable component Testing', () => {
-	const wrapper = shallow(<HistoryTable trans={BankStore.getState().transactions} />)
+	const wrapper = shallow(<HistoryTable trans={BankStore.getState().history.transactions} />)
 	test('HistoryTable component exist', () => {
 		expect(wrapper.length).toBe(1)
 	})
