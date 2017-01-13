@@ -35,7 +35,7 @@ class Withdraw extends Component {
 				//If Withdraw Amount > 0
                 if(checkBalance(this.state.value, this.props.balance)){
                 	//If Withdraw Amount <= User Balance
-	                this.props.handleWithdraw(this.state.value)
+	                handleWithdraw(this.state.value)
 					this.setState({
 						value: ''
 					})
@@ -91,10 +91,10 @@ const stateProps = (state) => {
 	}
 }
 
-const dispatchtToProps = (dispatch) => {
-	return bindActionCreators({
-		handleWithdraw: handleWithdraw
-	}, dispatch)
-} 
+// const dispatchtToProps = (dispatch) => {
+// 	return bindActionCreators({
+// 		handleWithdraw: handleWithdraw
+// 	}, dispatch)
+// } 
 
-export default connect(stateProps, dispatchtToProps)(Withdraw)
+export default connect(stateProps)(Withdraw)

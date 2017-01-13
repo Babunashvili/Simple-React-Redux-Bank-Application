@@ -21517,7 +21517,7 @@
 
 	var _Withdraw2 = _interopRequireDefault(_Withdraw);
 
-	var _Deposit = __webpack_require__(374);
+	var _Deposit = __webpack_require__(375);
 
 	var _Deposit2 = _interopRequireDefault(_Deposit);
 
@@ -21531,11 +21531,11 @@
 
 	var _alerts = __webpack_require__(397);
 
-	var _Col = __webpack_require__(375);
+	var _Col = __webpack_require__(376);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(376);
+	var _Row = __webpack_require__(377);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
@@ -25763,7 +25763,7 @@
 						//If Withdraw Amount > 0
 						if ((0, _validation.checkBalance)(this.state.value, this.props.balance)) {
 							//If Withdraw Amount <= User Balance
-							this.props.handleWithdraw(this.state.value);
+							(0, _withdrawAction2.default)(this.state.value);
 							this.setState({
 								value: ''
 							});
@@ -25841,13 +25841,13 @@
 		};
 	};
 
-	var dispatchtToProps = function dispatchtToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({
-			handleWithdraw: _withdrawAction2.default
-		}, dispatch);
-	};
+	// const dispatchtToProps = (dispatch) => {
+	// 	return bindActionCreators({
+	// 		handleWithdraw: handleWithdraw
+	// 	}, dispatch)
+	// } 
 
-	exports.default = (0, _reactRedux.connect)(stateProps, dispatchtToProps)(Withdraw);
+	exports.default = (0, _reactRedux.connect)(stateProps)(Withdraw);
 
 /***/ },
 /* 308 */
@@ -28260,34 +28260,12 @@
 	            console.log('Call Deposit Action...');
 	            return Object.assign({}, state, action.payload);
 
-	            break;
-
 	        case _constants2.default.WITHDRAW_FROM_ACCOUNT:
 
 	            // If Action Is Withdraw Request
 	            console.log('Call Withdraw Action...');
-	            var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
-	            _store2.default.dispatch(function (dispatch) {
-	                _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
-	                    var data = response.data;
-	                    var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
-	                    data.transactions = transactions;
-	                    data.balance = data.balance - action.payload.amount;
+	            return Object.assign({}, state, action.payload);
 
-	                    transactions.push({
-	                        amount: '-' + action.payload.amount,
-	                        date: date,
-	                        description: 'Withdraw From Balance.',
-	                        trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
-	                    });
-
-	                    _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
-	                        console.log('Call Withdraw Action POST...');
-	                        dispatch({ type: 'FETCH_DATA', payload: res.data });
-	                    });
-	                });
-	            });
-	            break;
 	        case _constants2.default.FETCH_DATA:
 
 	            return Object.assign({}, state, action.payload);
@@ -30891,7 +30869,67 @@
 
 /***/ },
 /* 373 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _transAction = __webpack_require__(374);
+
+	var _transAction2 = _interopRequireDefault(_transAction);
+
+	var _store = __webpack_require__(334);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _axios = __webpack_require__(338);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _randomGenerator = __webpack_require__(363);
+
+	var _dateformat = __webpack_require__(364);
+
+	var _dateformat2 = _interopRequireDefault(_dateformat);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var withdrawAction = function withdrawAction(amount) {
+	    var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
+
+	    _store2.default.dispatch(function (dispatch) {
+	        _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	            var data = response.data;
+	            var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	            data.transactions = transactions;
+	            data.balance = data.balance - amount;
+
+	            transactions.push({
+	                amount: '-' + amount,
+	                date: date,
+	                description: 'Withdraw From Balance.',
+	                trans_id: 'PAY-' + (0, _randomGenerator.randomString)(8)
+	            });
+
+	            _axios2.default.put('https://react-redux-api-bd6df.firebaseio.com/react-redux.json', data).then(function (res) {
+	                console.log('Call Withdraw Action POST...');
+	                dispatch({
+	                    type: 'WITHDRAW_FROM_ACCOUNT',
+	                    payload: res.data
+	                });
+	            });
+	        });
+	    });
+	};
+
+	exports.default = withdrawAction;
+
+/***/ },
+/* 374 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -30899,20 +30937,33 @@
 		value: true
 	});
 
+	var _dateformat = __webpack_require__(364);
 
-	var handleWithdraw = function handleWithdraw(amount) {
+	var _dateformat2 = _interopRequireDefault(_dateformat);
+
+	var _randomGenerator = __webpack_require__(363);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var transAction = function transAction(amount, desc, mark) {
+		console.log(amount);
+		var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT");
+		var obj = {
+			trans_id: (0, _randomGenerator.randomString)(8),
+			date: date.toString(),
+			amount: '' + mark + amount,
+			description: desc
+		};
 		return {
-			type: 'WITHDRAW_FROM_ACCOUNT',
-			payload: {
-				amount: amount
-			}
+			type: 'ON_TRANSACTION',
+			payload: obj
 		};
 	};
 
-	exports.default = handleWithdraw;
+	exports.default = transAction;
 
 /***/ },
-/* 374 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30951,11 +31002,11 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Col = __webpack_require__(375);
+	var _Col = __webpack_require__(376);
 
 	var _Col2 = _interopRequireDefault(_Col);
 
-	var _Row = __webpack_require__(376);
+	var _Row = __webpack_require__(377);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
@@ -30963,7 +31014,7 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _depositAction = __webpack_require__(377);
+	var _depositAction = __webpack_require__(378);
 
 	var _depositAction2 = _interopRequireDefault(_depositAction);
 
@@ -31158,7 +31209,7 @@
 	exports.default = (0, _reactRedux.connect)(stateProps)(Deposit);
 
 /***/ },
-/* 375 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31431,7 +31482,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 376 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31517,7 +31568,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 377 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31526,7 +31577,7 @@
 	    value: true
 	});
 
-	var _transAction = __webpack_require__(378);
+	var _transAction = __webpack_require__(374);
 
 	var _transAction2 = _interopRequireDefault(_transAction);
 
@@ -31611,41 +31662,6 @@
 	};
 
 	exports.default = depositAction;
-
-/***/ },
-/* 378 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _dateformat = __webpack_require__(364);
-
-	var _dateformat2 = _interopRequireDefault(_dateformat);
-
-	var _randomGenerator = __webpack_require__(363);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var transAction = function transAction(amount, desc, mark) {
-		console.log(amount);
-		var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT");
-		var obj = {
-			trans_id: (0, _randomGenerator.randomString)(8),
-			date: date.toString(),
-			amount: '' + mark + amount,
-			description: desc
-		};
-		return {
-			type: 'ON_TRANSACTION',
-			payload: obj
-		};
-	};
-
-	exports.default = transAction;
 
 /***/ },
 /* 379 */
@@ -33609,7 +33625,7 @@
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _transAction = __webpack_require__(378);
+	var _transAction = __webpack_require__(374);
 
 	var _transAction2 = _interopRequireDefault(_transAction);
 
