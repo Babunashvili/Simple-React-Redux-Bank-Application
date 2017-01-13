@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Widthdraw from './Withdraw/Withdraw'
 import Deposit from './Deposit/Deposit'
@@ -12,6 +14,7 @@ import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
 import { hiddenCard } from '../services/hideCard'
 
+
 class App extends Component { 
 	constructor(props){
 		super(props)
@@ -19,7 +22,6 @@ class App extends Component {
 			transaction: {},
 			alert:[]
 		}
-		this.handleWithdraw =this.handleWithdraw.bind(this)
 		this.handleAlert =this.handleAlert.bind(this)
 	}
     
@@ -34,7 +36,13 @@ class App extends Component {
            alert: [msg,type]
 		})
 	}
-	
+	componentWillMount(){
+       console.log('Loading...')
+	}
+
+	componentDidMount(){
+		console.log('Loaded!')
+	}
   render() {
     return (
 
@@ -65,4 +73,7 @@ App.propTypes = {
 	balance: React.PropTypes.number,
 	transactions: React.PropTypes.array,
 }
+
+
+
 export default App;

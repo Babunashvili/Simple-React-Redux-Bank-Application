@@ -29,6 +29,7 @@ class Withdraw extends Component {
 	 */
 	getAmount(e){
 
+
 			// e.preventDefault()
 			if(checkEmptyAmount(this.state.value)){
 				if(checkEmptyValue(this.state.value)){
@@ -71,6 +72,27 @@ class Withdraw extends Component {
 						this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 					}
 				}
+
+		e.preventDefault()
+		if(checkEmptyValue(this.state.value)){
+			//If Withdraw Amount Is Not Empty
+			if(checkAmountQty(this.state.value)){
+				//If Withdraw Amount > 0
+                if(checkBalance(this.state.value, this.props.balance)){
+                	//If Withdraw Amount <= User Balance
+	                handleWithdraw(this.state.value)
+					this.setState({
+						value: ''
+					})
+					this.props.handleAlert(constants.ALERT.SUCCESS_WITHDRAW_MSG,'success')
+			    }else{
+			    	//If Withdraw Amount > User Balance
+			    	this.props.handleAlert(constants.ALERT.NOT_ENOUGH_WITHDRAW_MSG,'danger')
+		     	}
+			}else{
+				//If Withdraw Amount <= 0
+				this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
+
 			}
 		}
 	}	
@@ -107,14 +129,14 @@ Withdraw.propTypes = {
 
 const stateProps = (state) => {
 	return {
-		balance: state.withdraw.balance
+		balance: state.transactions.balance
 	}
 }
 
-const dispatchtToProps = (dispatch) => {
-	return bindActionCreators({
-		handleWithdraw: handleWithdraw
-	}, dispatch)
-} 
+// const dispatchtToProps = (dispatch) => {
+// 	return bindActionCreators({
+// 		handleWithdraw: handleWithdraw
+// 	}, dispatch)
+// } 
 
-export default connect(stateProps, dispatchtToProps)(Withdraw)
+export default connect(stateProps)(Withdraw)

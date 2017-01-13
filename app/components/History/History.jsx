@@ -19,6 +19,7 @@ class History extends Component {
      * Check transactions history
      */
 	HistoryContent(){
+
 			if(this.props.trans.length > 0)
 				return <HistoryTable trans={this.props.trans} />
 			else 
@@ -48,8 +49,9 @@ History.propTypes = {
 }
 
 const stateProps = (state) => {
+
 	return {
-		trans: state.transaction.transactions
+		trans: state.history.transactions
 	}
 }
 
