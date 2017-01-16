@@ -32,15 +32,32 @@ describe('Deposit component Testing', () => {
 	wrapper.setProps({
 		handleAlert: alertMessage
 	})
+
 	test('Deposit Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
+
 	test('Check if Deposit Contain forms', () => {
 		expect(wrapper.find('FormGroup').length).toBe(3)
 	})
+
 	test('Check if deposit state is defined', () => {	
 		expect(wrapper.state).toBeDefined()	
 	})
+
+	test('hasComponent ControlLabel', () => {
+		expect(wrapper.find('ControlLabel').length).toBe(2)
+	})
+
+	test('Withdraw Label Text', () => {
+		expect(wrapper.find('ControlLabel').at(0).text()).toBe(' Deposit Amount: ')
+		expect(wrapper.find('ControlLabel').at(1).text()).toBe(' Choose Credit Card: ')
+	})
+
+	test('hasComponent FormControl', () => {
+		expect(wrapper.find('FormControl').length).toBe(2)
+	})
+
 	test('Check if button Clicked', () => {
 		wrapper.find('Button').simulate('click')
 		expect(buttonClicked.calledOnce).toEqual(true);

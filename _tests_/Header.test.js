@@ -23,17 +23,17 @@ import {
 
 
 describe('Header component Testing', () => {
-    const wrapper = shallow( <
-        Provider store = {
-            BankStore
-        } >
-        <
-        Header / >
-        <
-        /Provider>
+    const wrapper = mount( <
+        Provider store = { BankStore } >
+            <Header />
+        </Provider>
     )
     test('Header Component Rendered', () => {
         expect(wrapper.length).toBe(1)
+    })
+
+    test('hasComponent Navbar', () => {
+        expect(wrapper.find('Navbar').length).toBe(1)
     })
     
 })
