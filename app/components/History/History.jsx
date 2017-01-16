@@ -51,7 +51,7 @@ History.propTypes = {
 const stateProps = (state) => {
 
 	return {
-		trans: state.transactions.transactions
+		trans: state.history.transactions
 	}
 }
 
