@@ -27,15 +27,27 @@ describe('Withdraw component Testing', () => {
 	test('Withdraw Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
+
 	test('Check if Deposit Contain forms', () => {
 		expect(wrapper.find('FormGroup').length).toBe(2)
 	})
+
 	test('Check if deposit state is defined', () => {
 		expect(wrapper.state).toBeDefined()
 	})
+
 	test('hasComponent ControlLabel', () => {
 		expect(wrapper.find('ControlLabel').length).toBe(1)
 	})
+
+	test('Withdraw Label Text', () => {
+		expect(wrapper.find('ControlLabel').text()).toBe(' Withdraw Amount: ')
+	})
+
+	test('hasComponent FormControl', () => {
+		expect(wrapper.find('FormControl').length).toBe(1)
+	})
+
 	test('Check if button Clicked', () => {
 		wrapper.find('Button').simulate('click')
 		expect(buttonClicked.calledOnce).toEqual(true);
