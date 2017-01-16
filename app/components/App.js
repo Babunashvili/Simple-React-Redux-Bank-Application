@@ -1,71 +1,64 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Widthdraw from './Withdraw/Withdraw'
 import Deposit from './Deposit/Deposit'
 import Header from './Header/Header'
 import History from './History/History'
 import { alertMessage } from '../services/alerts'
-import dateFormat from 'dateformat'
+
+
 import Col from 'react-bootstrap/lib/Col'
 import Row from 'react-bootstrap/lib/Row'
 import Grid from 'react-bootstrap/lib/Grid'
+import { hiddenCard } from '../services/hideCard'
 
-class App extends Component {
+
+class App extends Component { 
 	constructor(props){
 		super(props)
 		this.state = {
 			transaction: {},
 			alert:[]
 		}
-		this.handleDeposit = this.handleDeposit.bind(this)
-		this.handleWithdraw =this.handleWithdraw.bind(this)
 		this.handleAlert =this.handleAlert.bind(this)
 	}
-
-	createTransaction(amount, desc, mark) {
-		var date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT")
-		let obj = {
-			date: date.toString(),
-			amount: `${mark}${amount}`,
-			description: desc
-		}
-		this.props.onTransaction(obj)
-	}
-
-	handleDeposit(amount, permission){
-		if(permission === true){
-			this.props.onDeposit(amount)
-			this.createTransaction(amount, "Deposit into account", "+") 	
-		}
-	}
-	handleWithdraw(amount, permission){
-		if(permission === true){
-			this.props.onWithdraw(amount)
-			this.createTransaction(amount, "Withdraw from account", "-")
-		}
-	}
-
+    
+    /**
+     * Handles Alert Messages
+     *
+     * @param      {String}  msg     The message
+     * @param      {Sring}  type    The type
+     */
 	handleAlert(msg,type){
 		this.setState({
-           alert:[msg,type]
+           alert: [msg,type]
 		})
 	}
-	
+	componentWillMount(){
+       console.log('Loading...')
+	}
+
+	componentDidMount(){
+		console.log('Loaded!')
+	}
   render() {
     return (
+
     	<div>
-    		<Header balance={this.props.balance} />
+    		<Header />
 	        <div className="container">
                  { alertMessage(...this.state.alert) }
 		        	<Row>
 			        	<Col lg={6} md={6} sm={12}>
-			        		<Widthdraw handleAlert={this.handleAlert} handleWithdraw={this.handleWithdraw} balance={this.props.balance} />
+			        		<Widthdraw handleAlert={this.handleAlert} />
 			        	</Col>
 			          	<Col lg={6} md={6} sm={12}>
-			        		<Deposit handleAlert={this.handleAlert} handleDeposit={this.handleDeposit} />
+			        		<Deposit handleAlert={this.handleAlert}  />
 			        	</Col>
 			        	<Col lg={12} md={12} sm={12}>
-			        		<History trans={this.props.transactions} />
+			        		<History />
 			        	</Col>
 			        </Row>	
 	        </div>
@@ -73,8 +66,14 @@ class App extends Component {
     )
   }
 }
+/**
+ * Add App Component PropTypes
+ */
 App.propTypes = {
 	balance: React.PropTypes.number,
 	transactions: React.PropTypes.array,
 }
+
+
+
 export default App;
