@@ -21,7 +21,9 @@ describe('HistoryTable component Testing', () => {
 	test('HistoryTable component exist', () => {
 		expect(wrapper.length).toBe(1)
 	})
-
+	test('Table Contain', () => {
+		expect(wrapper.find('Table').length).toBe(1)
+	})
 	test('Test if History Transaction rendered', () => {
 
 		expect(wrapper.find('tbody').contains('<tr></tr>'))

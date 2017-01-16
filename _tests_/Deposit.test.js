@@ -10,6 +10,10 @@ import BankStore from '../app/Store/store'
 // constant file
 import constants from '../app/constants'
 
+// Deposit Action 
+
+import depositAction from '../app/actions/depositAction'
+
 // Service files
 
 import { alertMessage } from '../app/services/alerts'
@@ -19,6 +23,7 @@ import { alertMessage } from '../app/services/alerts'
 
 describe('Deposit component Testing', () => {
 	var buttonClicked = sinon.spy()
+	depositAction(12, 466433546)
 	const wrapper = mount(
 		<Provider store={BankStore}>
 			<Deposit cards={BankStore.getState().cards} buttonClicked={buttonClicked} />
@@ -30,16 +35,12 @@ describe('Deposit component Testing', () => {
 	test('Deposit Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
-	// test('Check if value state defined', () => {
-	// 	expect(wrapper.state().value).toBeDefined()
-	// })
-	// test('Check if card state defined', () => {
-	// 	expect(wrapper.state().card).toBeDefined()
-	// })
-	// test('Deposit checked 10$ add in ', () => {
-	// 	let state = BankStore.getState()
-	// 	expect(state.balance).toEqual(10)
-	// })
+	test('Check if Deposit Contain forms', () => {
+		expect(wrapper.find('FormGroup').length).toBe(3)
+	})
+	test('Check if deposit state is defined', () => {	
+		expect(wrapper.state).toBeDefined()	
+	})
 	test('Check if button Clicked', () => {
 		wrapper.find('Button').simulate('click')
 		expect(buttonClicked.calledOnce).toEqual(true);

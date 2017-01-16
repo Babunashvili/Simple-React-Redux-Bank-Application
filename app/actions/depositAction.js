@@ -32,6 +32,7 @@ const depositAction = (amount, card) => {
         	var data = response.data
 
             for (var i = 0; i <= data.cards.length - 1; i++) {
+               
                 if (data.cards[i].key === card) {
                     let cardBalance = data.cards[i].balance - amount
                     let newCard = {
@@ -47,9 +48,6 @@ const depositAction = (amount, card) => {
                     cards[i] = newCard
                 }
             }
-            
-            console.log(data)
-            console.log(cards)
             var transactions = (response.data.transactions === "NULL") ? [] : response.data.transactions
             data.transactions = transactions
             data.balance = parseInt(data.balance) + parseInt(amount)

@@ -27,16 +27,12 @@ describe('Withdraw component Testing', () => {
 	test('Withdraw Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
-	// test('Check if value state defined', () => {
-	// 	console.log(wrapper.state())
-	// 	expect(wrapper.state().value).toBeDefined()
-	// })
-
-	// test('Withdraw checked 5$ withdraw from account', () => {
-		
-	// 	let state = BankStore.getState().transactions
-	// 	expect(state.balance).toEqual(5)
-	// })
+	test('Check if Deposit Contain forms', () => {
+		expect(wrapper.find('FormGroup').length).toBe(2)
+	})
+	test('Check if deposit state is defined', () => {
+		expect(wrapper.state).toBeDefined()
+	})
 	test('Check if button Clicked', () => {
 		wrapper.find('Button').simulate('click')
 		expect(buttonClicked.calledOnce).toEqual(true);

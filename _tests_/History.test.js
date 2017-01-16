@@ -27,6 +27,5 @@ describe('History component Testing', () => {
 	test('History Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
 	})
-
 	
 })
