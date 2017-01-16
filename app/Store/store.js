@@ -21,4 +21,10 @@ store.dispatch((dispatch) => {
    })
 })
 
+
+store.subscribe(() => {
+	let state = store.getState()
+})
+
+
 export default store

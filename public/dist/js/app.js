@@ -28117,7 +28117,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	   value: true
+	  value: true
 	});
 
 	var _redux = __webpack_require__(179);
@@ -28150,11 +28150,15 @@
 
 	//Fetch Data From API
 	store.dispatch(function (dispatch) {
-	   _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
-	      var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
-	      response.data.transactions = transactions;
-	      dispatch({ type: 'FETCH_DATA', payload: response.data });
-	   });
+	  _axios2.default.get('https://react-redux-api-bd6df.firebaseio.com/react-redux.json').then(function (response) {
+	    var transactions = response.data.transactions === "NULL" ? [] : response.data.transactions;
+	    response.data.transactions = transactions;
+	    dispatch({ type: 'FETCH_DATA', payload: response.data });
+	  });
+	});
+
+	store.subscribe(function () {
+	  var state = store.getState();
 	});
 
 	exports.default = store;
