@@ -31,5 +31,6 @@ describe('History component Testing', () => {
 	test('hasComponent Panel', () => {
 		expect(wrapper.find('Panel').length).toBe(1)
 	})
+
 	
 })
