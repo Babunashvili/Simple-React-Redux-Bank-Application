@@ -30952,7 +30952,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var transAction = function transAction(amount, desc, mark) {
-		console.log(amount);
 		var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT");
 		var obj = {
 			trans_id: (0, _randomGenerator.randomString)(8),

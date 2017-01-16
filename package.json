@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "webpack -w & gulp"
+    "dev": "webpack -w & gulp & jest --watch -a"
   },
   "keywords": [],
   "author": "",
