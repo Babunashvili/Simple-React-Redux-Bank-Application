@@ -58,6 +58,10 @@ describe('Deposit component Testing', () => {
 		expect(wrapper.find('FormControl').length).toBe(2)
 	})
 
+	test('hasComponent Panel', () => {
+		expect(wrapper.find('Panel').length).toBe(1)
+	})
+	
 	test('Check if button Clicked', () => {
 		wrapper.find('Button').simulate('click')
 		expect(buttonClicked.calledOnce).toEqual(true);

@@ -18,7 +18,7 @@ import { alertMessage } from '../app/services/alerts'
 
 describe('History component Testing', () => {
 	// BankStore.dispatch({transaction: {date: '06-01-2017', amount: '10', description: 'Somthing'}, type:constants.ON_TRANSACTION})
-	const wrapper = shallow(
+	const wrapper = mount(
 		<Provider store={BankStore}>
 			<History trans={BankStore.getState().history.transactions}/>
 		</Provider>	
@@ -26,6 +26,10 @@ describe('History component Testing', () => {
 	
 	test('History Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
+	})
+
+	test('hasComponent Panel', () => {
+		expect(wrapper.find('Panel').length).toBe(1)
 	})
 	
 })
