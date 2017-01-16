@@ -33,10 +33,14 @@ describe('Withdraw component Testing', () => {
 	test('Check if deposit state is defined', () => {
 		expect(wrapper.state).toBeDefined()
 	})
+	test('hasComponent ControlLabel', () => {
+		expect(wrapper.find('ControlLabel').length).toBe(1)
+	})
 	test('Check if button Clicked', () => {
 		wrapper.find('Button').simulate('click')
 		expect(buttonClicked.calledOnce).toEqual(true);
 
 	})
+
 
 })
