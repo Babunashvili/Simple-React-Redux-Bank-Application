@@ -36,7 +36,6 @@ class Deposit extends Component {
 	 */
 	getAmount(e){
 		e.preventDefault()
-		alert('ok')
 		if(checkEmptyValue(this.state.value)){
 			//If Deposit Amount Is Not Empty
 			if(checkEmptyValue(this.state.card)){

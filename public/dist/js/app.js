@@ -31063,7 +31063,6 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
-				alert('ok');
 				if ((0, _validation.checkEmptyValue)(this.state.value)) {
 					//If Deposit Amount Is Not Empty
 					if ((0, _validation.checkEmptyValue)(this.state.card)) {
@@ -33673,7 +33672,7 @@
 	var stateProps = function stateProps(state) {
 
 		return {
-			trans: state.history.transactions
+			trans: state.transactions.transactions
 		};
 	};
 
