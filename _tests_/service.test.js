@@ -18,9 +18,6 @@ import {
 
 import { alertMessage } from '../app/services/alerts'
 
-// hideCard function
-
-import { hiddenCard } from '../app/services/hideCard'
 
 describe('Service Testing functions ', () => {
 	test('CheckBalance beewten current balance and amount', () => {

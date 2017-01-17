@@ -51,11 +51,29 @@ describe('Withdraw component Testing', () => {
 		expect(wrapper.find('Panel').length).toBe(1)
 	})
 
-	// test('Check if button Clicked', () => {
-	// 	wrapper.find('Button').simulate('click')
-	// 	expect(buttonClicked.calledOnce).toEqual(true);
+	test('Check if Transation data return from store', () => {
+		
+		expect(BankStore.getState().transactions).toEqual({balance: 0, cards:[], transactions: []})
+	})
 
-	// })
+	test('Check if button Clicked', () => {
+		BankStore.dispatch({
+			type: 'DEPOSIT_INTO_ACCOUNT',
+			payload: {
+				balance: 20
+			}
+		})
+
+		wrapper.find('Button').simulate('click', wrapper.setState({value: 12, card: 466433546}))
+
+		BankStore.dispatch({
+			type: 'WITHDRAW_FROM_ACCOUNT',
+			payload: {
+				balance: BankStore.getState().transactions.balance - wrapper.state().value
+			}
+		})
+		expect(BankStore.getState().transactions.balance).toEqual(8)
+	})
 
 
 })
