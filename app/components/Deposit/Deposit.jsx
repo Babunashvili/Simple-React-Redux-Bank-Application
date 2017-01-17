@@ -36,6 +36,7 @@ class Deposit extends Component {
 	 */
 	getAmount(e){
 		e.preventDefault()
+		alert('ok')
 		if(checkEmptyValue(this.state.value)){
 			//If Deposit Amount Is Not Empty
 			if(checkEmptyValue(this.state.card)){
@@ -105,7 +106,7 @@ class Deposit extends Component {
 						</Col>
 					</Row>
 					<FormGroup>
-						<Button onClick={this.getAmount.bind(this)} onClick={this.props.buttonClicked} type="submit" bsStyle="default">Submit</Button>
+						<Button onClick={this.getAmount.bind(this)} type="submit" bsStyle="default">Submit</Button>
 					</FormGroup>
 				 </form>
 			    </Panel>

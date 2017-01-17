@@ -51,11 +51,11 @@ describe('Withdraw component Testing', () => {
 		expect(wrapper.find('Panel').length).toBe(1)
 	})
 
-	test('Check if button Clicked', () => {
-		wrapper.find('Button').simulate('click')
-		expect(buttonClicked.calledOnce).toEqual(true);
+	// test('Check if button Clicked', () => {
+	// 	wrapper.find('Button').simulate('click')
+	// 	expect(buttonClicked.calledOnce).toEqual(true);
 
-	})
+	// })
 
 
 })

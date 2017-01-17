@@ -25720,8 +25720,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -25784,8 +25782,6 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var _React$createElement;
-
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -25815,7 +25811,7 @@
 								null,
 								_react2.default.createElement(
 									_Button2.default,
-									(_React$createElement = { onClick: this.getAmount.bind(this) }, _defineProperty(_React$createElement, 'onClick', this.props.buttonClicked), _defineProperty(_React$createElement, 'type', 'submit'), _defineProperty(_React$createElement, 'bsStyle', 'default'), _React$createElement),
+									{ onClick: this.getAmount.bind(this), type: 'submit', bsStyle: 'default' },
 									'Submit'
 								)
 							)
@@ -31027,8 +31023,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -31069,6 +31063,7 @@
 			key: 'getAmount',
 			value: function getAmount(e) {
 				e.preventDefault();
+				alert('ok');
 				if ((0, _validation.checkEmptyValue)(this.state.value)) {
 					//If Deposit Amount Is Not Empty
 					if ((0, _validation.checkEmptyValue)(this.state.card)) {
@@ -31113,8 +31108,6 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var _React$createElement;
-
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -31180,7 +31173,7 @@
 								null,
 								_react2.default.createElement(
 									_Button2.default,
-									(_React$createElement = { onClick: this.getAmount.bind(this) }, _defineProperty(_React$createElement, 'onClick', this.props.buttonClicked), _defineProperty(_React$createElement, 'type', 'submit'), _defineProperty(_React$createElement, 'bsStyle', 'default'), _React$createElement),
+									{ onClick: this.getAmount.bind(this), type: 'submit', bsStyle: 'default' },
 									'Submit'
 								)
 							)
@@ -31605,22 +31598,6 @@
 	var _dateformat2 = _interopRequireDefault(_dateformat);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// const handleDeposit = (amount, card) => {
-	//     // transAction(amount, "Deposit into account", "+")
-
-	//     return {
-	//         type: 'DEPOSIT_INTO_ACCOUNT',
-	//         payload: {
-	//             amount: amount,
-	//             card: card
-	//         }
-	//     }
-
-	// }
-
-	// export default handleDeposit
-
 
 	var depositAction = function depositAction(amount, card) {
 	    var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();

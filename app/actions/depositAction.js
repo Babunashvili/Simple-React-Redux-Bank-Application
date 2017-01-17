@@ -6,21 +6,6 @@ import {
     randomString
 } from '../services/randomGenerator'
 import dateFormat from 'dateformat'
-// const handleDeposit = (amount, card) => {
-//     // transAction(amount, "Deposit into account", "+")
-
-//     return {
-//         type: 'DEPOSIT_INTO_ACCOUNT',
-//         payload: {
-//             amount: amount,
-//             card: card
-//         }
-//     }
-
-// }
-
-// export default handleDeposit
-
 
 const depositAction = (amount, card) => {
     let date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT").toString()
