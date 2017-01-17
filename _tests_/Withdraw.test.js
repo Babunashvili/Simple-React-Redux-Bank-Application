@@ -75,5 +75,4 @@ describe('Withdraw component Testing', () => {
 		expect(BankStore.getState().transactions.balance).toEqual(8)
 	})
 
-
 })
