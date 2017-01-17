@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import { shallow, mount } from 'enzyme'
 import sinon from 'sinon'
 import Deposit from '../app/components/Deposit/Deposit'
+import axios from 'axios'
 
 // Bank Store 
 import BankStore from '../app/Store/store'
@@ -20,18 +21,13 @@ import { alertMessage } from '../app/services/alerts'
 
 
 
-
 describe('Deposit component Testing', () => {
 	var buttonClicked = sinon.spy()
-	depositAction(12, 466433546)
 	const wrapper = mount(
 		<Provider store={BankStore}>
-			<Deposit cards={BankStore.getState().cards} buttonClicked={buttonClicked} />
+			<Deposit cards={BankStore.getState().cards} handleAlert={alertMessage}/>
 		</Provider>
 		)
-	wrapper.setProps({
-		handleAlert: alertMessage
-	})
 
 	test('Deposit Component Rendered', () => {
 		expect(wrapper.length).toBe(1)
@@ -61,11 +57,21 @@ describe('Deposit component Testing', () => {
 	test('hasComponent Panel', () => {
 		expect(wrapper.find('Panel').length).toBe(1)
 	})
-	
-	// test('Check if button Clicked', () => {
-	// 	wrapper.find('Button').simulate('click')
-	// 	expect(buttonClicked.calledOnce).toEqual(true);
+	test('Check if Transation data return from store', () => {
+		
+		expect(BankStore.getState().transactions).toEqual({balance: 0, cards:[], transactions: []})
+	})
+	test('Check if button Clicked', () => {
+		wrapper.find('Button').simulate('click', wrapper.setState({value: 12, card: 466433546}))
+		BankStore.dispatch({
+			type: 'DEPOSIT_INTO_ACCOUNT',
+			payload: {
+				balance: BankStore.getState().transactions.balance + wrapper.state().value
+			}
+		}) 
+		expect(BankStore.getState().transactions.balance).toEqual(12)
+	})
 
-	// })
+	
 
 })

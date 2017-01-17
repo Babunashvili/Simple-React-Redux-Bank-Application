@@ -31600,6 +31600,7 @@
 
 	var depositAction = function depositAction(amount, card) {
 	    var date = (0, _dateformat2.default)(new Date(), "dd-mm-yyyy h:MM:ss TT").toString();
+	    console.log('jute');
 
 	    _store2.default.dispatch(function (dispatch) {
 

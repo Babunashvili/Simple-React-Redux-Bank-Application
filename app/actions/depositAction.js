@@ -9,7 +9,7 @@ import dateFormat from 'dateformat'
 
 const depositAction = (amount, card) => {
     let date = dateFormat(new Date(), "dd-mm-yyyy h:MM:ss TT").toString()
-
+    console.log('jute')
     
     store.dispatch((dispatch) => {
 
