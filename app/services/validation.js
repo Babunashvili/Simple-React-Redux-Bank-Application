@@ -33,7 +33,6 @@ export const checkCardBalance = (amount,card) => {
             balance = v.balance
          }
     })
-
     if (amount <= balance)
         return true
     return false

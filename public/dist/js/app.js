@@ -28081,7 +28081,6 @@
 	            balance = v.balance;
 	        }
 	    });
-
 	    if (amount <= balance) return true;
 	    return false;
 	};
