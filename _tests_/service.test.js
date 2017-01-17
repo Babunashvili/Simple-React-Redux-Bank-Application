@@ -6,7 +6,7 @@ import sinon from 'sinon'
 // Bank Store 
 import BankStore from '../app/Store/store'
 
-
+//  service/validation functions
 import { 
 	checkBalance, 
 	checkCardBalance, 
@@ -14,6 +14,13 @@ import {
 	checkAmountQty, 
 } from '../app/services/validation'
 
+// alert fucntion
+
+import { alertMessage } from '../app/services/alerts'
+
+// hideCard function
+
+import { hiddenCard } from '../app/services/hideCard'
 
 describe('Service Testing functions ', () => {
 	test('CheckBalance beewten current balance and amount', () => {
@@ -37,6 +44,14 @@ describe('Service Testing functions ', () => {
 
 	test('Check amount ', () => {
 		expect(checkAmountQty(12)).toBeTruthy()
+	})
+
+	test(' if exist alert component', () => {
+		let alert = shallow(alertMessage('hello', 'success'))
+
+		expect(alert.length).toBe(1)
+		expect(alert.text()).toBe(' hello ')
+
 	})
 
 
