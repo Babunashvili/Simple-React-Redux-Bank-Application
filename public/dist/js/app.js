@@ -25777,6 +25777,10 @@
 						//If Withdraw Amount <= 0
 						this.props.handleAlert(_constants2.default.ALERT.NULL_WITHDRAW_MSG, 'danger');
 					}
+				} else {
+					console.log((0, _validation.checkEmptyValue)(this.state.value));
+					//If Deposit Amount Is Empty
+					this.props.handleAlert(_constants2.default.ALERT.EMPTY_WITHDRAW_MSG, 'danger');
 				}
 			}
 		}, {
@@ -28091,6 +28095,7 @@
 	 * @return     {Boolean}
 	 */
 	var checkEmptyValue = exports.checkEmptyValue = function checkEmptyValue(amount) {
+	    console.log(amount);
 	    if (amount !== '') return true;
 	    return false;
 	};

@@ -44,6 +44,7 @@ export const checkCardBalance = (amount,card) => {
  * @return     {Boolean}
  */
 export const checkEmptyValue = (amount) => {
+    console.log(amount)
     if (amount !== '')
         return true
     return false

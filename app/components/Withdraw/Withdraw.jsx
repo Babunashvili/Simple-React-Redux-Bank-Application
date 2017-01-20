@@ -50,6 +50,10 @@ class Withdraw extends Component {
 				this.props.handleAlert(constants.ALERT.NULL_WITHDRAW_MSG,'danger')
 
 			}
+		}else{
+			console.log(checkEmptyValue(this.state.value))
+			//If Deposit Amount Is Empty
+			this.props.handleAlert(constants.ALERT.EMPTY_WITHDRAW_MSG,'danger') 
 		}
 	}	
 	render() {
